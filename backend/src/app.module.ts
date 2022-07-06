@@ -4,7 +4,8 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import 'dotenv/config';
 
-console.log(process.env);
+import { AppController } from './app.controller';
+import { AppResolver } from './app.resolver';
 
 @Module({
     imports: [
@@ -26,5 +27,7 @@ console.log(process.env);
             logging: true,
         }),
     ],
+    controllers: [AppController],
+    providers: [AppResolver],
 })
 export class AppModule {}
