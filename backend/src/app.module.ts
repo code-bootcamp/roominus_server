@@ -13,7 +13,6 @@ import { AppResolver } from './app.resolver';
 @Module({
     imports: [
         CafeModule,
-
         ThemeModule,
         ////////GraphQL
         GraphQLModule.forRoot<ApolloDriverConfig>({

@@ -60,7 +60,6 @@ export class CafeService {
     async delete({ name }) {
         const result = await this.cafeRepository.softDelete({ name });
 
-        console.log(result);
         if (result.affected) {
             return true;
         } else {
