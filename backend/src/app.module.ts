@@ -5,11 +5,14 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import 'dotenv/config';
 import { UserModule } from './apis/user/user.module';
 
+import { CafeModule } from './apis/cafe/cafe.module';
+
 import { AppController } from './app.controller';
 import { AppResolver } from './app.resolver';
 
 @Module({
     imports: [
+        CafeModule,
         UserModule,
         ////////GraphQL
         GraphQLModule.forRoot<ApolloDriverConfig>({
