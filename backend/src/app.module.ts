@@ -15,6 +15,7 @@ import { AppResolver } from './app.resolver';
     imports: [
         CafeModule,
         ThemeModule,
+        UserModule,
         ////////GraphQL
         GraphQLModule.forRoot<ApolloDriverConfig>({
             driver: ApolloDriver,
