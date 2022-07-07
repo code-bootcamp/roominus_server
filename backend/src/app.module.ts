@@ -3,7 +3,7 @@ import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import 'dotenv/config';
-import { UserModule } from './apis/users/user.module';
+import { UserModule } from './apis/user/user.module';
 
 import { CafeModule } from './apis/cafe/cafe.module';
 

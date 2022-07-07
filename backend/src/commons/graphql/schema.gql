@@ -2,6 +2,15 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+
+type User {
+  id: String!
+  isserviceprovider: Boolean!
+  name: String!
+  phone: String!
+  email: String!
+  point: Int!
+
 type Cafe {
   id: String!
   name: String!
@@ -14,6 +23,12 @@ type Cafe {
 
 type Query {
   test: String!
+  fetchUser(email: String!): User!
+}
+
+type Mutation {
+  createUser(email: String!, password: String!, name: String!, phone: String!): User!
+  deleteUser(email: String!): Boolean!
   fetchCafes: [Cafe!]!
   fetchCafe(name: String!): Cafe!
 }

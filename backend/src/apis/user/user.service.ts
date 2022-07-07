@@ -14,10 +14,15 @@ export class UserService {
         return await this.userRepository.findOne({ email });
     }
 
-    async create({ email, hashedPassword: password, name }) {
+    async create({ email, hashedPassword: password, name, phone }) {
         const user = await this.userRepository.findOne({ email });
         if (user) throw new ConflictException('이미 등록된 유저입니다.');
 
-        return await this.userRepository.save({ email, password, name });
+        return await this.userRepository.save({ email, password, name, phone });
+    }
+
+    async delete({ email }) {
+        const result = await this.userRepository.softDelete({ email });
+        return result.affected ? true : false;
     }
 }
