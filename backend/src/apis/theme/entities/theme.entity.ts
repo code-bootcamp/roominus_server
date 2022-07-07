@@ -27,19 +27,19 @@ export class Theme {
     @Field(() => Int)
     rank: number;
 
-    @Column()
-    @Field(() => String)
+    @Column({ nullable: true })
+    @Field(() => String, { nullable: true })
     intro_title: string;
 
-    @Column()
-    @Field(() => String)
+    @Column({ nullable: true })
+    @Field(() => String, { nullable: true })
     intro_content: string;
 
     @Column()
     @Field(() => Int)
     agelimit: number;
 
-    @Column()
+    @Column({ default: 0 })
     @Field(() => Int)
     like: number;
 
