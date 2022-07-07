@@ -3,6 +3,7 @@ import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import 'dotenv/config';
+import { UserModule } from './apis/users/user.module';
 
 import { CafeModule } from './apis/cafe/cafe.module';
 
@@ -12,6 +13,7 @@ import { AppResolver } from './app.resolver';
 @Module({
     imports: [
         CafeModule,
+        UserModule,
         ////////GraphQL
         GraphQLModule.forRoot<ApolloDriverConfig>({
             driver: ApolloDriver,
