@@ -1,5 +1,16 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql';
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import {
+    Column,
+    CreateDateColumn,
+    DeleteDateColumn,
+    Entity,
+    ManyToOne,
+    PrimaryGeneratedColumn,
+    UpdateDateColumn,
+} from 'typeorm';
+
+import { Cafe } from 'src/apis/cafe/entities/cafe.entity';
+import { Genre } from 'src/apis/genre/entities/genre.entity';
 
 @Entity()
 @ObjectType()
@@ -18,11 +29,11 @@ export class Theme {
 
     @Column()
     @Field(() => String)
-    introtitle: string;
+    intro_title: string;
 
     @Column()
     @Field(() => String)
-    introcontent: string;
+    intro_content: string;
 
     @Column()
     @Field(() => Int)
@@ -32,15 +43,18 @@ export class Theme {
     @Field(() => Int)
     like: number;
 
-    ///
     @CreateDateColumn()
     createAt: Date;
 
-    ///
     @UpdateDateColumn()
     updateAt: Date;
 
-    ///
     @DeleteDateColumn()
     deletedAt: Date;
+
+    @ManyToOne(() => Cafe)
+    cafe: Cafe;
+
+    @ManyToOne(() => Genre)
+    genre: Genre;
 }
