@@ -36,7 +36,9 @@ export class Theme {
     @CreateDateColumn()
     createAt: Date;
 
+    ///
     @UpdateDateColumn()
+    updateAt: Date;
 
     ///
     @DeleteDateColumn()
