@@ -5,11 +5,14 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import 'dotenv/config';
 import { UserModule } from './apis/users/user.module';
 
+import { CafeModule } from './apis/cafe/cafe.module';
+
 import { AppController } from './app.controller';
 import { AppResolver } from './app.resolver';
 
 @Module({
     imports: [
+        CafeModule,
         UserModule,
         ////////GraphQL
         GraphQLModule.forRoot<ApolloDriverConfig>({
@@ -20,12 +23,14 @@ import { AppResolver } from './app.resolver';
         ///////MySQL
         TypeOrmModule.forRoot({
             type: 'mysql',
-            host: process.env.MYSQL_HOST,
+            // host: process.env.MYSQL_HOST,
+            host: 'localhost',
             port: 3306,
             username: process.env.MYSQL_USER,
             password: process.env.MYSQL_PASS,
             database: process.env.MYSQL_DATABASE,
             entities: [__dirname + '/apis/**/*.entity.*'],
+            synchronize: true,
             logging: true,
         }),
     ],
