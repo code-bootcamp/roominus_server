@@ -3,7 +3,7 @@ import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import 'dotenv/config';
-import { UserModule } from './apis/users/user.module';
+import { UserModule } from './apis/user/user.module';
 
 import { AppController } from './app.controller';
 import { AppResolver } from './app.resolver';
@@ -20,12 +20,14 @@ import { AppResolver } from './app.resolver';
         ///////MySQL
         TypeOrmModule.forRoot({
             type: 'mysql',
-            host: process.env.MYSQL_HOST,
+            // host: process.env.MYSQL_HOST,
+            host: 'localhost',
             port: 3306,
             username: process.env.MYSQL_USER,
             password: process.env.MYSQL_PASS,
             database: process.env.MYSQL_DATABASE,
             entities: [__dirname + '/apis/**/*.entity.*'],
+            synchronize: true,
             logging: true,
         }),
     ],
