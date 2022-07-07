@@ -4,6 +4,7 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import 'dotenv/config';
 
+import { UserModule } from './apis/user/user.module';
 import { CafeModule } from './apis/cafe/cafe.module';
 import { ThemeModule } from './apis/theme/theme.module';
 
