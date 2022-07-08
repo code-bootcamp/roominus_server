@@ -9,9 +9,13 @@ import { CafeModule } from './apis/cafe/cafe.module';
 
 import { AppController } from './app.controller';
 import { AppResolver } from './app.resolver';
+import { GenreModule } from './apis/genre/genre.module';
+import { BoardModule } from './apis/board/board.module';
 
 @Module({
     imports: [
+        BoardModule,
+        GenreModule,
         CafeModule,
         UserModule,
         ////////GraphQL

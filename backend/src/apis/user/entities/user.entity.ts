@@ -32,11 +32,9 @@ export class User {
     @Field(() => Int)
     point: number;
 
-    ///
     @CreateDateColumn()
     createAt: Date;
 
-    ///
     @DeleteDateColumn()
     deletedAt: Date;
 }
