@@ -7,6 +7,7 @@ import 'dotenv/config';
 import { UserModule } from './apis/user/user.module';
 import { CafeModule } from './apis/cafe/cafe.module';
 import { ThemeModule } from './apis/theme/theme.module';
+import { ThemeReviewModule } from './apis/themeReview/themeReview.module';
 
 import { AppController } from './app.controller';
 import { AppResolver } from './app.resolver';
@@ -16,6 +17,7 @@ import { AppResolver } from './app.resolver';
         CafeModule,
         ThemeModule,
         UserModule,
+        ThemeReviewModule,
         ////////GraphQL
         GraphQLModule.forRoot<ApolloDriverConfig>({
             driver: ApolloDriver,
