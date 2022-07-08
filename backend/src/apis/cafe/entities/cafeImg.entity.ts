@@ -1,11 +1,17 @@
-import { CreateDateColumn, DeleteDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 import { Cafe } from 'src/apis/cafe/entities/cafe.entity';
 
 @Entity()
-export class Img {
+export class CafeImg {
     @PrimaryGeneratedColumn('uuid')
     id: string;
+
+    @Column({ default: false })
+    isMain: boolean;
+
+    @Column()
+    url: string;
 
     @CreateDateColumn()
     createdAt: Date;

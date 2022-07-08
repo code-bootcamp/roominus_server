@@ -21,5 +21,11 @@ export class UpdateCafeInput {
     coordinate: number;
 
     @Field(() => String, { nullable: true })
-    img: string;
+    mainImg: string;
+
+    @Field(() => [String], { nullable: true })
+    subImgs: string[];
+
+    @Field(() => [String], { nullable: true })
+    users: string[];
 }

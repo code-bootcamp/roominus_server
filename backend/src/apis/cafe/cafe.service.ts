@@ -1,14 +1,21 @@
 import { ConflictException, Injectable, UnprocessableEntityException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Connection, Repository } from 'typeorm';
 
+import { User } from '../user/entities/user.entity';
 import { Cafe } from './entities/cafe.entity';
+import { CafeImg } from './entities/cafeImg.entity';
 
 @Injectable()
 export class CafeService {
     constructor(
         @InjectRepository(Cafe)
         private readonly cafeRepository: Repository<Cafe>,
+        @InjectRepository(User)
+        private readonly userRepository: Repository<User>,
+        @InjectRepository(CafeImg)
+        private readonly cafeImgRepository: Repository<CafeImg>,
+        private readonly connection: Connection,
     ) {}
 
     async findAll() {
@@ -30,24 +37,57 @@ export class CafeService {
     }
 
     async create({ createCafeInput }) {
-        const { ...cafe } = createCafeInput;
+        const { users, mainImg, subImgs, ...cafe } = createCafeInput;
 
         const hasCafe = await this.cafeRepository.findOne({ name: cafe.name });
         if (hasCafe) throw new ConflictException('이미 등록된 이름입니다!!');
 
+        const userArr = [];
+        for (let i = 0; i < users.length; i++) {
+            const hasUser = await this.userRepository.findOne({ email: users[i] });
+
+            if (hasUser) {
+                userArr.push(hasUser);
+            } else {
+                const newUser = await this.userRepository.save({ email: users[i] });
+                userArr.push(newUser);
+            }
+        }
+
         const result = await this.cafeRepository.save({
             ...cafe,
+            users: userArr,
         });
+
+        await this.cafeImgRepository.save({
+            isMain: true,
+            url: mainImg,
+            cafe: result.id,
+        });
+
+        if (subImgs && subImgs.length) {
+            for (let i = 0; i < subImgs.length; i++) {
+                await this.cafeImgRepository.save({
+                    url: subImgs[i],
+                    cafe: result.id,
+                });
+            }
+        }
 
         return result;
     }
 
     async update({ updateCafeInput }) {
-        const { ...cafe } = updateCafeInput;
+        const { users, mainImg, subImgs, ...cafe } = updateCafeInput;
+
+        const hasCafe = await this.cafeRepository.findOne({ name: cafe.name });
+        if (!hasCafe) throw new UnprocessableEntityException('찾으시는 카페가 없습니다!!');
 
         const result = await this.cafeRepository.update(
             { name: cafe.name }, //
-            { ...cafe },
+            {
+                ...cafe, //
+            },
         );
 
         if (result.affected) {
