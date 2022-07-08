@@ -11,9 +11,13 @@ import { ThemeReviewModule } from './apis/themeReview/themeReview.module';
 
 import { AppController } from './app.controller';
 import { AppResolver } from './app.resolver';
+import { GenreModule } from './apis/genre/genre.module';
+import { BoardModule } from './apis/board/board.module';
 
 @Module({
     imports: [
+        BoardModule,
+        GenreModule,
         CafeModule,
         ThemeModule,
         UserModule,
