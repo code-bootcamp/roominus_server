@@ -53,8 +53,10 @@ export class Theme {
     deletedAt: Date;
 
     @ManyToOne(() => Cafe)
+    @Field(() => String)
     cafe: Cafe;
 
     @ManyToOne(() => Genre)
+    @Field(() => String)
     genre: Genre;
 }
