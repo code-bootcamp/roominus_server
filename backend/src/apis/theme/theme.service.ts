@@ -3,12 +3,16 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import { Theme } from './entities/theme.entity';
+import { ThemeImg } from './entities/themeImg.entity';
 
 @Injectable()
 export class ThemeServie {
     constructor(
         @InjectRepository(Theme)
         private readonly themeRepository: Repository<Theme>,
+
+        @InjectRepository(ThemeImg)
+        private readonly themeImgRepository: Repository<ThemeImg>,
     ) {}
 
     async findAll() {
@@ -30,7 +34,7 @@ export class ThemeServie {
     }
 
     async create({ createThemeInput }) {
-        const { ...theme } = createThemeInput;
+        const { mainImg, subImgs, ...theme } = createThemeInput;
 
         const hasTheme = await this.themeRepository.findOne({ title: theme.title });
         if (hasTheme) throw new ConflictException('이미 등록된 이름입니다!!');
@@ -38,6 +42,21 @@ export class ThemeServie {
         const result = await this.themeRepository.save({
             ...theme,
         });
+
+        await this.themeImgRepository.save({
+            isMain: true,
+            url: mainImg,
+            theme: result.id,
+        });
+
+        if (subImgs && subImgs.length) {
+            for (let i = 0; i < subImgs.length; i++) {
+                await this.themeImgRepository.save({
+                    url: subImgs[i],
+                    theme: result.id,
+                });
+            }
+        }
 
         return result;
     }

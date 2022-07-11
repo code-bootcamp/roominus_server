@@ -2,7 +2,6 @@ import { Field, Float, InputType } from '@nestjs/graphql';
 
 @InputType()
 export class CreateCafeInput {
-    ///
     @Field(() => String)
     name: string;
 

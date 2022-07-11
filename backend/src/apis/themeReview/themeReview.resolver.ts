@@ -1,8 +1,8 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 
 import { ThemeReivewService } from './themewReview.service';
-import { CreateThemeReviewInput } from './dto/createTheme.input';
-import { UpdateThemeReviewInput } from './dto/updateTheme.input';
+import { CreateThemeReviewInput } from './dto/createThemeReview.input';
+import { UpdateThemeReviewInput } from './dto/updateThemeReview.input';
 
 import { ThemeReview } from './entities/themeReview.entity';
 
