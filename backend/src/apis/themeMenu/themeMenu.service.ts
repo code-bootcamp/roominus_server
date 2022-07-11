@@ -1,4 +1,4 @@
-import { Injectable, UnprocessableEntityException } from '@nestjs/common';
+import { ConflictException, Injectable, UnprocessableEntityException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
@@ -43,5 +43,18 @@ export class ThemeMenuService {
             cafe: hasCafe.id,
             theme: hasTheme.id,
         });
+    }
+
+    async delete({ themeMenuId }) {
+        const hasThemeMenu = await this.themeMenuRepository.findOne({ id: themeMenuId });
+        if (!hasThemeMenu) throw new UnprocessableEntityException('존재하지 않는 시간입니다!!');
+
+        const result = await this.themeMenuRepository.softDelete({ id: themeMenuId });
+
+        if (result.affected) {
+            return true;
+        } else {
+            throw new ConflictException('삭제를 실패했습니다!!');
+        }
     }
 }
