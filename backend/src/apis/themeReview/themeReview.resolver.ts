@@ -12,11 +12,11 @@ export class ThemeReivewResolver {
         private readonly themeReviewService: ThemeReivewService, //
     ) {}
 
-    @Query(() => ThemeReview)
-    fetchThemeReviews(
+    @Query(() => [ThemeReview])
+    async fetchThemeReviews(
         @Args('themeId') themeId: string, //
     ) {
-        return this.themeReviewService.findAll({ themeId });
+        return await this.themeReviewService.findAll({ themeId });
     }
 
     @Mutation(() => ThemeReview)
