@@ -19,9 +19,16 @@ export class ThemeResolver {
 
     @Query(() => Theme)
     fetchTheme(
-        @Args('title') title: string, //
+        @Args('themeId') themeId: string, //
     ) {
-        return this.themeService.findOne({ title });
+        return this.themeService.findOne({ themeId });
+    }
+
+    @Query(() => [Theme])
+    fetchThemesOnTheme(
+        @Args('cafeId') cafeId: string, //
+    ) {
+        return this.themeService.findAllwithTheme({ cafeId });
     }
 
     @Mutation(() => Theme)
@@ -35,15 +42,17 @@ export class ThemeResolver {
 
     @Mutation(() => Theme)
     updateTheme(
-        @Args('updateThemeInput') updateThemeInput: UpdateThemeInput, //
+        @Args('themeId') themeId: string,
+        @Args('updateThemeInput')
+        updateThemeInput: UpdateThemeInput, //
     ) {
-        return this.themeService.update({ updateThemeInput });
+        return this.themeService.update({ themeId, updateThemeInput });
     }
 
     @Mutation(() => Boolean)
     deleteTheme(
-        @Args('title') title: string, //
+        @Args('themeId') themeId: string, //
     ) {
-        return this.themeService.delete({ title });
+        return this.themeService.delete({ themeId });
     }
 }

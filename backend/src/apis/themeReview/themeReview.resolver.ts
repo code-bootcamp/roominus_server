@@ -37,8 +37,8 @@ export class ThemeReivewResolver {
 
     @Mutation(() => Boolean)
     deleteThemeReview(
-        @Args('id') id: string, //
+        @Args('themeReviewId') themeReviewId: string, //
     ) {
-        return this.themeReviewService.delete({ id });
+        return this.themeReviewService.delete({ themeReviewId });
     }
 }

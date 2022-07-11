@@ -29,6 +29,10 @@ import { AppResolver } from './app.resolver';
             driver: ApolloDriver,
             autoSchemaFile: 'src/commons/graphql/schema.gql',
             context: ({ req, res }) => ({ req, res }),
+            cors: {
+                origin: '*',
+                credential: true,
+            },
         }),
         ///////MySQL
         TypeOrmModule.forRoot({
