@@ -17,9 +17,9 @@ export class CafeResolver {
 
     @Query(() => Cafe)
     fetchCafe(
-        @Args('name') name: string, //
+        @Args('cafeId') cafeId: string, //
     ) {
-        return this.cafeService.findOne({ name });
+        return this.cafeService.findOne({ cafeId });
     }
 
     @Mutation(() => Cafe)
@@ -31,15 +31,16 @@ export class CafeResolver {
 
     @Mutation(() => Cafe)
     updateCafe(
+        @Args('cafeId') cafeId: string,
         @Args('updateCafeInput') updateCafeInput: UpdateCafeInput, //
     ) {
-        return this.cafeService.update({ updateCafeInput });
+        return this.cafeService.update({ cafeId, updateCafeInput });
     }
 
     @Mutation(() => Boolean)
     deleteCafe(
-        @Args('name') name: string, //
+        @Args('cafeId') cafeId: string, //
     ) {
-        return this.cafeService.delete({ name });
+        return this.cafeService.delete({ cafeId });
     }
 }

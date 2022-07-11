@@ -23,6 +23,7 @@ export class ThemeService {
     async findAll() {
         const result = await this.themeRepository.find({
             relations: ['cafe', 'genre'],
+            order: { createdAt: 'DESC' },
         });
 
         // const reusltCount = await this.themeRepository.count();
@@ -33,13 +34,25 @@ export class ThemeService {
         return result;
     }
 
-    async findOne({ title }) {
+    async findOne({ themeId }) {
         const result = await this.themeRepository.findOne({
-            where: { title },
+            where: { id: themeId },
             relations: ['cafe', 'genre'],
         });
 
         if (!result) throw new UnprocessableEntityException('찾으시는 테마가 없습니다!!');
+
+        return result;
+    }
+
+    async findAllwithTheme({ cafeId }) {
+        const result = await this.themeRepository.find({
+            where: { cafe: cafeId },
+            relations: ['cafe', 'genre'],
+            order: { createdAt: 'DESC' },
+        });
+
+        if (result.length == 0) throw new UnprocessableEntityException('등록된 테마가 없습니다!!');
 
         return result;
     }
@@ -54,7 +67,7 @@ export class ThemeService {
         const hasTheme = await this.themeRepository.findOne({ title: theme.title });
         if (hasTheme) throw new ConflictException('이미 등록된 이름입니다!!');
 
-        const result = await this.themeRepository.save({
+        const newTheme = await this.themeRepository.save({
             ...theme,
             mainImg: mainImg,
             cafe: hasCafe.id,
@@ -65,31 +78,36 @@ export class ThemeService {
             for (let i = 0; i < subImgs.length; i++) {
                 await this.themeImgRepository.save({
                     url: subImgs[i],
-                    theme: result.id,
+                    theme: newTheme.id,
                 });
             }
         }
 
+        const result = await this.themeRepository.findOne({
+            where: { id: newTheme.id },
+            relations: ['cafe', 'genre'],
+        });
+
         return result;
     }
 
-    async update({ updateThemeInput }) {
+    async update({ themeId, updateThemeInput }) {
         const { ...theme } = updateThemeInput;
 
         const result = await this.themeRepository.update(
-            { title: theme.title }, ///
+            { id: themeId }, ///
             { ...theme },
         );
 
         if (result.affected) {
-            return await this.themeRepository.findOne({ title: theme.title });
+            return await this.themeRepository.findOne({ id: themeId });
         } else {
             throw new ConflictException('수정을 실패했습니다!!');
         }
     }
 
-    async delete({ title }) {
-        const result = await this.themeRepository.softDelete({ title });
+    async delete({ themeId }) {
+        const result = await this.themeRepository.softDelete({ id: themeId });
 
         if (result.affected) {
             return true;

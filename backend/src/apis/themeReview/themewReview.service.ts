@@ -18,6 +18,7 @@ export class ThemeReivewService {
         const result = await this.themeReviewRepository.find({
             where: { theme: themeId },
             relations: ['theme', 'user'],
+            order: { createdAt: 'DESC' },
         });
 
         if (result.length == 0) throw new UnprocessableEntityException('등록된 후기가 없습니다!!');
@@ -48,14 +49,17 @@ export class ThemeReivewService {
         );
 
         if (result.affected) {
-            return await this.themeReviewRepository.findOne({ id: themeReviewId });
+            return await this.themeReviewRepository.findOne({
+                where: { id: themeReviewId },
+                relations: ['theme', 'user'],
+            });
         } else {
             throw new ConflictException('수정을 실패했습니다!!');
         }
     }
 
-    async delete({ id }) {
-        const result = await this.themeReviewRepository.softDelete({ id });
+    async delete({ themeReviewId }) {
+        const result = await this.themeReviewRepository.softDelete({ id: themeReviewId });
 
         if (result.affected) {
             return true;

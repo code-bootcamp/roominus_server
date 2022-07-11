@@ -40,7 +40,7 @@ export class Cafe {
     address_detail: string;
 
     @Column()
-    @Field(() => Float)
+    @Field(() => Float, { defaultValue: 0.0 })
     coordinate: number;
 
     @CreateDateColumn()

@@ -21,18 +21,17 @@ export class CafeService {
     async findAll() {
         const result = await this.cafeRepository.find({
             relations: ['users'],
+            order: { createdAt: 'DESC' },
         });
 
         if (result.length == 0) throw new UnprocessableEntityException('등록된 카페가 없습니다!!');
 
-        console.log(result);
-
         return result;
     }
 
-    async findOne({ name }) {
+    async findOne({ cafeId }) {
         const result = await this.cafeRepository.findOne({
-            where: { name },
+            where: { id: cafeId },
         });
 
         if (!result) throw new UnprocessableEntityException('찾으시는 카페가 없습니다!!');
@@ -80,28 +79,28 @@ export class CafeService {
         return result;
     }
 
-    async update({ updateCafeInput }) {
+    async update({ cafeId, updateCafeInput }) {
         const { users, mainImg, subImgs, ...cafe } = updateCafeInput;
 
-        const hasCafe = await this.cafeRepository.findOne({ name: cafe.name });
+        const hasCafe = await this.cafeRepository.findOne({ id: cafeId });
         if (!hasCafe) throw new UnprocessableEntityException('찾으시는 카페가 없습니다!!');
 
         const result = await this.cafeRepository.update(
-            { name: cafe.name }, //
+            { id: cafeId }, //
             {
                 ...cafe, //
             },
         );
 
         if (result.affected) {
-            return await this.cafeRepository.findOne({ name: cafe.name });
+            return await this.cafeRepository.findOne({ id: cafeId });
         } else {
             throw new ConflictException('수정을 실패했습니다!!');
         }
     }
 
-    async delete({ name }) {
-        const result = await this.cafeRepository.softDelete({ name });
+    async delete({ cafeId }) {
+        const result = await this.cafeRepository.softDelete({ id: cafeId });
 
         if (result.affected) {
             return true;
