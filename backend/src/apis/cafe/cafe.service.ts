@@ -19,9 +19,13 @@ export class CafeService {
     ) {}
 
     async findAll() {
-        const result = await this.cafeRepository.find();
+        const result = await this.cafeRepository.find({
+            relations: ['users'],
+        });
 
         if (result.length == 0) throw new UnprocessableEntityException('등록된 카페가 없습니다!!');
+
+        console.log(result);
 
         return result;
     }
@@ -38,16 +42,13 @@ export class CafeService {
 
     async create({ createCafeInput }) {
         const { users, mainImg, subImgs, ...cafe } = createCafeInput;
-        console.log(createCafeInput);
 
         const hasCafe = await this.cafeRepository.findOne({ name: cafe.name });
         if (hasCafe) throw new ConflictException('이미 등록된 이름입니다!!');
 
         const userArr = [];
         for (let i = 0; i < users.length; i++) {
-            console.log('==============', users[i]);
             const hasUser = await this.userRepository.findOne({ name: users[i] });
-            console.log(hasUser);
 
             if (hasUser) {
                 userArr.push(hasUser);
