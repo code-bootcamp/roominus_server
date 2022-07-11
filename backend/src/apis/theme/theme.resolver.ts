@@ -13,8 +13,8 @@ export class ThemeResolver {
     ) {}
 
     @Query(() => [Theme])
-    fetchThemes() {
-        return this.themeService.findAll();
+    async fetchThemes() {
+        return await this.themeService.findAll();
     }
 
     @Query(() => Theme)

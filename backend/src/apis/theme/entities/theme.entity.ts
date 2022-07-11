@@ -43,6 +43,10 @@ export class Theme {
     @Field(() => Int)
     like: number;
 
+    @Column()
+    @Field(() => String)
+    mainImg: string;
+
     @CreateDateColumn()
     createdAt: Date;
 
@@ -53,10 +57,10 @@ export class Theme {
     deletedAt: Date;
 
     @ManyToOne(() => Cafe)
-    @Field(() => String)
+    @Field(() => Cafe)
     cafe: Cafe;
 
     @ManyToOne(() => Genre)
-    @Field(() => String)
+    @Field(() => Genre)
     genre: Genre;
 }
