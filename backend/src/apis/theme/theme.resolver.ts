@@ -1,6 +1,6 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 
-import { ThemeServie } from './theme.service';
+import { ThemeService } from './theme.service';
 
 import { Theme } from './entities/theme.entity';
 import { CreateThemeInput } from './dto/createTheme.input';
@@ -9,7 +9,7 @@ import { UpdateThemeInput } from './dto/updaeteTheme.input';
 @Resolver()
 export class ThemeResolver {
     constructor(
-        private readonly themeService: ThemeServie, //
+        private readonly themeService: ThemeService, //
     ) {}
 
     @Query(() => [Theme])
@@ -26,9 +26,11 @@ export class ThemeResolver {
 
     @Mutation(() => Theme)
     createTheme(
-        @Args('createThemeInput') createThemeInput: CreateThemeInput, //
+        @Args('cafeName') cafeName: string, //
+        @Args('genreName') genreName: string, //
+        @Args('createThemeInput') createThemeInput: CreateThemeInput,
     ) {
-        return this.themeService.create({ createThemeInput });
+        return this.themeService.create({ cafeName, genreName, createThemeInput });
     }
 
     @Mutation(() => Theme)

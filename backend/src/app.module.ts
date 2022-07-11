@@ -8,11 +8,12 @@ import { UserModule } from './apis/user/user.module';
 import { CafeModule } from './apis/cafe/cafe.module';
 import { ThemeModule } from './apis/theme/theme.module';
 import { ThemeReviewModule } from './apis/themeReview/themeReview.module';
+import { GenreModule } from './apis/genre/genre.module';
+import { BoardModule } from './apis/board/board.module';
+import { ThemeMenuModule } from './apis/themeMenu/themeMenu.module';
 
 import { AppController } from './app.controller';
 import { AppResolver } from './app.resolver';
-import { GenreModule } from './apis/genre/genre.module';
-import { BoardModule } from './apis/board/board.module';
 
 @Module({
     imports: [
@@ -22,6 +23,7 @@ import { BoardModule } from './apis/board/board.module';
         ThemeModule,
         UserModule,
         ThemeReviewModule,
+        ThemeMenuModule,
         ////////GraphQL
         GraphQLModule.forRoot<ApolloDriverConfig>({
             driver: ApolloDriver,

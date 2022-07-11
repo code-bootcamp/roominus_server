@@ -10,38 +10,22 @@ import {
 } from 'typeorm';
 
 import { Cafe } from 'src/apis/cafe/entities/cafe.entity';
-import { Genre } from 'src/apis/genre/entities/genre.entity';
+import { Theme } from 'src/apis/theme/entities/theme.entity';
 
 @Entity()
 @ObjectType()
-export class Theme {
+export class ThemeMenu {
     @PrimaryGeneratedColumn('uuid')
     @Field(() => String)
     id: string;
 
     @Column()
-    @Field(() => String)
-    title: string;
+    @Field(() => Int)
+    people_number: number;
 
     @Column()
     @Field(() => Int)
-    rank: number;
-
-    @Column({ nullable: true })
-    @Field(() => String, { nullable: true })
-    intro_title: string;
-
-    @Column({ nullable: true })
-    @Field(() => String, { nullable: true })
-    intro_content: string;
-
-    @Column()
-    @Field(() => Int)
-    agelimit: number;
-
-    @Column({ default: 0 })
-    @Field(() => Int)
-    like: number;
+    price: number;
 
     @CreateDateColumn()
     createdAt: Date;
@@ -56,7 +40,7 @@ export class Theme {
     @Field(() => String)
     cafe: Cafe;
 
-    @ManyToOne(() => Genre)
+    @ManyToOne(() => Theme)
     @Field(() => String)
-    genre: Genre;
+    theme: Theme;
 }
