@@ -32,6 +32,7 @@ export class ThemeReview {
     content: string;
 
     @CreateDateColumn()
+    @Field(() => Date)
     createdAt: Date;
 
     @UpdateDateColumn()
@@ -41,8 +42,10 @@ export class ThemeReview {
     deletedAt: Date;
 
     @ManyToOne(() => Theme)
+    @Field(() => Theme)
     theme: Theme;
 
     @ManyToOne(() => User)
+    @Field(() => User)
     user: User;
 }

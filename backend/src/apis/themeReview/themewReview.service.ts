@@ -15,7 +15,10 @@ export class ThemeReivewService {
     ) {}
 
     async findAll({ themeId }) {
-        const result = await this.themeReviewRepository.find({ theme: themeId });
+        const result = await this.themeReviewRepository.find({
+            where: { theme: themeId },
+            relations: ['theme', 'user'],
+        });
 
         if (result.length == 0) throw new UnprocessableEntityException('등록된 후기가 없습니다!!');
 
