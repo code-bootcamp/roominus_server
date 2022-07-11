@@ -21,7 +21,12 @@ export class ThemeService {
     ) {}
 
     async findAll() {
-        const result = await this.themeRepository.find();
+        const result = await this.themeRepository.find({
+            relations: ['cafe', 'genre'],
+        });
+
+        // const reusltCount = await this.themeRepository.count();
+        // console.log(reusltCount);
 
         if (result.length == 0) throw new UnprocessableEntityException('등록된 테마가 없습니다!!');
 
@@ -31,6 +36,7 @@ export class ThemeService {
     async findOne({ title }) {
         const result = await this.themeRepository.findOne({
             where: { title },
+            relations: ['cafe', 'genre'],
         });
 
         if (!result) throw new UnprocessableEntityException('찾으시는 테마가 없습니다!!');
@@ -50,14 +56,9 @@ export class ThemeService {
 
         const result = await this.themeRepository.save({
             ...theme,
+            mainImg: mainImg,
             cafe: hasCafe.id,
             genre: hasGenre.id,
-        });
-
-        await this.themeImgRepository.save({
-            isMain: true,
-            url: mainImg,
-            theme: result.id,
         });
 
         if (subImgs && subImgs.length) {
