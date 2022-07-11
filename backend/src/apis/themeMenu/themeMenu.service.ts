@@ -17,8 +17,11 @@ export class ThemeMenuService {
         private readonly themeRepositotry: Repository<Theme>,
     ) {}
 
-    async findOne() {
-        return await this.themeMenuRepository.find();
+    async findAll({ themeId }) {
+        return await this.themeMenuRepository.find({
+            where: { theme: themeId },
+            relations: ['cafe', 'theme'],
+        });
     }
 
     async create({ createThemeMenuInput }) {

@@ -37,10 +37,10 @@ export class ThemeMenu {
     deletedAt: Date;
 
     @ManyToOne(() => Cafe)
-    @Field(() => String)
+    @Field(() => Cafe)
     cafe: Cafe;
 
     @ManyToOne(() => Theme)
-    @Field(() => String)
+    @Field(() => Theme)
     theme: Theme;
 }

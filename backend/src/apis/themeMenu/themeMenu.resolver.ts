@@ -12,8 +12,10 @@ export class ThemeMenuResolver {
     ) {}
 
     @Query(() => ThemeMenu)
-    fetchThemeMenu() {
-        return this.themeMenuService.findOne();
+    fetchThemeMenus(
+        @Args('themeId') themeId: string, //
+    ) {
+        return this.themeMenuService.findAll({ themeId });
     }
 
     @Mutation(() => ThemeMenu)
