@@ -1,16 +1,16 @@
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
-import { Cafe } from 'src/apis/cafe/entities/cafe.entity';
+import { Theme } from 'src/apis/theme/entities/theme.entity';
 
 @Entity()
-export class CafeImg {
+export class ThemeImg {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
     @Column({ default: false })
     isMain: boolean;
 
-    @Column({ length: 200 })
+    @Column({ length: '200' })
     url: string;
 
     @CreateDateColumn()
@@ -19,6 +19,6 @@ export class CafeImg {
     @DeleteDateColumn()
     deletedAt: Date;
 
-    @ManyToOne(() => Cafe)
-    cafe: Cafe;
+    @ManyToOne(() => Theme)
+    theme: Theme;
 }
