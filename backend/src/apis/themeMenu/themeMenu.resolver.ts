@@ -24,4 +24,11 @@ export class ThemeMenuResolver {
     ) {
         return this.themeMenuService.create({ createThemeMenuInput });
     }
+
+    @Mutation(() => Boolean)
+    deleteThemeMenu(
+        @Args('themeMenuId') themeMenuId: string, //
+    ) {
+        return this.themeMenuService.delete({ themeMenuId });
+    }
 }
