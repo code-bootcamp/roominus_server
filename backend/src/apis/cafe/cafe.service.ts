@@ -38,19 +38,21 @@ export class CafeService {
 
     async create({ createCafeInput }) {
         const { users, mainImg, subImgs, ...cafe } = createCafeInput;
+        console.log(createCafeInput);
 
         const hasCafe = await this.cafeRepository.findOne({ name: cafe.name });
         if (hasCafe) throw new ConflictException('이미 등록된 이름입니다!!');
 
         const userArr = [];
         for (let i = 0; i < users.length; i++) {
-            const hasUser = await this.userRepository.findOne({ email: users[i] });
+            console.log('==============', users[i]);
+            const hasUser = await this.userRepository.findOne({ name: users[i] });
+            console.log(hasUser);
 
             if (hasUser) {
                 userArr.push(hasUser);
             } else {
-                const newUser = await this.userRepository.save({ email: users[i] });
-                userArr.push(newUser);
+                throw new ConflictException('존재하는 않는 사용자입니다!!');
             }
         }
 
