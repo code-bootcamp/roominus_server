@@ -43,6 +43,10 @@ export class Cafe {
     @Field(() => Float, { defaultValue: 0.0 })
     coordinate: number;
 
+    @Column()
+    @Field(() => String)
+    mainImg: string;
+
     @CreateDateColumn()
     createdAt: Date;
 

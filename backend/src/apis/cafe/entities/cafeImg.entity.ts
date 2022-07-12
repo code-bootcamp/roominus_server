@@ -7,9 +7,6 @@ export class CafeImg {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
-    @Column({ default: false })
-    isMain: boolean;
-
     @Column({ length: 200 })
     url: string;
 

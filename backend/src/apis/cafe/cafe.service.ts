@@ -58,13 +58,8 @@ export class CafeService {
 
         const result = await this.cafeRepository.save({
             ...cafe,
+            mainImg: mainImg,
             users: userArr,
-        });
-
-        await this.cafeImgRepository.save({
-            isMain: true,
-            url: mainImg,
-            cafe: result.id,
         });
 
         if (subImgs && subImgs.length) {
