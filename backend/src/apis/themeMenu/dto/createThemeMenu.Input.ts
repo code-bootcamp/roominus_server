@@ -2,6 +2,9 @@ import { Field, InputType, Int } from '@nestjs/graphql';
 
 @InputType()
 export class CreateThemeMenuInput {
+    @Field(() => String)
+    reservation_time: string;
+
     @Field(() => Int)
     people_number: number;
 

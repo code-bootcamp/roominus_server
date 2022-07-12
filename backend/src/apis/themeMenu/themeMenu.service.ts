@@ -36,12 +36,23 @@ export class ThemeMenuService {
             },
         });
 
-        if (!hasCafe && hasTheme) throw new UnprocessableEntityException('같은 이름으로 등록된 테마가 있습니다!!');
+        if (!hasCafe || !hasTheme) throw new UnprocessableEntityException('카페 또는 테마가 존재하지 않습니다!!');
 
-        return await this.themeMenuRepository.save({
+        const hasThemeMenu = await this.themeMenuRepository.findOne({
+            reservation_time: createThemeMenuInput.reservation_time,
+        });
+
+        if (hasThemeMenu) throw new ConflictException('같은 시간에 등록된 예약 받기가 있습니다!!');
+
+        const newThemeMenu = await this.themeMenuRepository.save({
             ...themeMenu, //
             cafe: hasCafe.id,
             theme: hasTheme.id,
+        });
+
+        return await this.themeMenuRepository.findOne({
+            where: { id: newThemeMenu.id },
+            relations: ['cafe', 'theme'],
         });
     }
 
