@@ -11,7 +11,7 @@ export class ThemeMenuResolver {
         private readonly themeMenuService: ThemeMenuService, //
     ) {}
 
-    @Query(() => ThemeMenu)
+    @Query(() => [ThemeMenu])
     fetchThemeMenus(
         @Args('themeId') themeId: string, //
     ) {

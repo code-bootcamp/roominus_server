@@ -20,6 +20,10 @@ export class ThemeMenu {
     id: string;
 
     @Column()
+    @Field(() => String)
+    reservation_time: string;
+
+    @Column()
     @Field(() => Int)
     people_number: number;
 
