@@ -2,10 +2,8 @@ import { ConflictException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { BoardTag } from '../boardTag/entities/boardTag.entity';
-import { Cafe } from '../cafe/entities/cafe.entity';
-import { Theme } from '../theme/entities/theme.entity';
-import { User } from '../user/entities/user.entity';
 import { Board } from './entities/board.entity';
+import { BoardImg } from './entities/boardImg.entity';
 
 @Injectable()
 export class BoardService {
@@ -13,40 +11,34 @@ export class BoardService {
         @InjectRepository(Board)
         private readonly boardRepository: Repository<Board>,
 
-        @InjectRepository(Cafe)
-        private readonly cafeRepository: Repository<Cafe>,
-
-        @InjectRepository(Theme)
-        private readonly themeRepository: Repository<Theme>,
-
-        @InjectRepository(User)
-        private readonly UserRepository: Repository<User>,
-
         @InjectRepository(BoardTag)
         private readonly boardTagRepository: Repository<BoardTag>,
+
+        @InjectRepository(BoardImg)
+        private readonly boardImgRepository: Repository<BoardImg>,
     ) {}
 
     async findAll() {
         return await this.boardRepository.find({
-            relations: ['cafe', 'theme', 'user', 'boardTags'],
-            order: { createAt: 'DESC' },
+            relations: ['boardTags'],
+            order: { createdAt: 'DESC' },
         });
     }
 
     async findOne({ id }) {
         return await this.boardRepository.findOne({
             where: { id },
-            relations: ['cafe', 'theme', 'user', 'boardTags'],
+            relations: ['boardTags'],
         });
     }
-    async create({ cafeName, themeTitle, userName, createBoardInput }) {
-        const { boardTags, ...board } = createBoardInput;
+    async create({ createBoardInput }) {
+        const { boardImg, boardTags, ...board } = createBoardInput;
 
-        const hasCafe = await this.cafeRepository.findOne({ name: cafeName });
+        // const hasCafe = await this.cafeRepository.findOne({ name: cafeName });
 
-        const hasTheme = await this.themeRepository.findOne({ title: themeTitle });
+        // const hasTheme = await this.themeRepository.findOne({ title: themeTitle });
 
-        const hasUser = await this.UserRepository.findOne({ name: userName });
+        // const hasUser = await this.UserRepository.findOne({ name: userName });
 
         const hasBoard = await this.boardRepository.findOne({ title: board.title });
 
@@ -72,19 +64,13 @@ export class BoardService {
 
         const newBoard = await this.boardRepository.save({
             ...board,
-            cafe: hasCafe.id,
-            theme: hasTheme.id,
-            user: hasUser.id,
+            boardImg: boardImg,
             boardTags: result,
         });
 
-        console.log('-----------');
-        console.log(newBoard);
-        console.log('-----------');
-
         const result2 = await this.boardRepository.findOne({
             where: { id: newBoard.id },
-            relations: ['cafe', 'theme', 'user', 'boardTags'],
+            relations: ['boardTags'],
         });
 
         return result2;
@@ -121,7 +107,7 @@ export class BoardService {
     // }
     /////
     async update({ updateBoardInput }) {
-        const { boardTags, content, like, view, ...board } = updateBoardInput;
+        const { boardTags, content, like, view, mainImg, ...board } = updateBoardInput;
         const checkboard1 = await this.boardRepository.findOne({ title: board.title });
         console.log(checkboard1);
         if (!checkboard1) {
@@ -132,7 +118,7 @@ export class BoardService {
 
         await this.boardRepository.delete({ title: board.title, content, like, view });
         const myboard = await this.boardRepository.findOne({
-            where: { title: board.title, content, like, view, boardTags },
+            where: { title: board.title, content, like, view, mainImg, boardTags },
             relations: ['boardTags'],
         });
 
