@@ -20,6 +20,6 @@ export class UpdateThemeInput {
     @Field(() => String, { nullable: true })
     mainImg: string;
 
-    @Field(() => [String], { nullable: true })
-    subImg: string;
+    // @Field(() => [String], { nullable: true })
+    // subImgs: string;
 }
