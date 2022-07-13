@@ -27,7 +27,19 @@ export class ReservationService {
             relations: ['cafe', 'user', 'theme_menu'],
         });
 
-        if (!result) throw new UnprocessableEntityException('예약이 없습니다!!');
+        if (!result || (await result).length === 0) throw new UnprocessableEntityException('예약이 없습니다!!');
+
+        return result;
+    }
+
+    async findwithUser({ userId }) {
+        const result = this.reservationRepository.find({
+            where: { user: userId },
+            relations: ['cafe', 'user', 'theme_menu'],
+            order: { createdAt: 'DESC' },
+        });
+
+        if (!result || (await result).length === 0) throw new UnprocessableEntityException('예약이 없습니다!!');
 
         return result;
     }
