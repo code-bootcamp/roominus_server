@@ -12,12 +12,9 @@ export class BoardResolver {
     ) {}
     @Mutation(() => Board)
     async createBoard(
-        @Args('cafeName') cafeName: string, //
-        @Args('themeTitle') themeTitle: string,
-        @Args('userName') userName: string,
         @Args('createBoardInput') createBoardInput: CreateBoardInput, //
     ) {
-        return this.boardService.create({ cafeName, themeTitle, userName, createBoardInput });
+        return this.boardService.create({ createBoardInput });
     }
 
     @Query(() => Board)

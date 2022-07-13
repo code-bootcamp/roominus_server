@@ -30,12 +30,16 @@ export class Board {
     @Field(() => String)
     content: string;
 
+    @Column()
+    @Field(() => String)
+    mainImg: string;
+
     @CreateDateColumn()
     @Field(() => Date)
-    createAt: Date;
+    createdAt: Date;
 
     @UpdateDateColumn()
-    updateAt: Date;
+    updatedAt: Date;
 
     @DeleteDateColumn()
     deletedAt: Date;

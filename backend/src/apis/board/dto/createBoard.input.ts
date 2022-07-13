@@ -16,6 +16,9 @@ export class CreateBoardInput {
     @Field(() => Int, { nullable: true })
     view: number;
 
+    @Field(() => String)
+    mainImg: string;
+
     @Field(() => [String], { nullable: true })
     boardTags: string[];
 }
