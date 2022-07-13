@@ -2,7 +2,6 @@ import { Field, Float, InputType } from '@nestjs/graphql';
 
 @InputType()
 export class CreateCafeInput {
-    ///
     @Field(() => String)
     name: string;
 
@@ -18,9 +17,15 @@ export class CreateCafeInput {
     @Field(() => String, { nullable: true })
     address_detail: string;
 
-    @Field(() => Float)
+    @Field(() => Float, { nullable: true })
     coordinate: number;
 
     @Field(() => String)
-    img: string;
+    mainImg: string;
+
+    @Field(() => [String], { nullable: true })
+    subImgs: string[];
+
+    @Field(() => [String])
+    users: string[];
 }

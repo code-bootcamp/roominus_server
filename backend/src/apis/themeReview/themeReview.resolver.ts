@@ -1,8 +1,8 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 
 import { ThemeReivewService } from './themewReview.service';
-import { CreateThemeReviewInput } from './dto/createTheme.input';
-import { UpdateThemeReviewInput } from './dto/updateTheme.input';
+import { CreateThemeReviewInput } from './dto/createThemeReview.input';
+import { UpdateThemeReviewInput } from './dto/updateThemeReview.input';
 
 import { ThemeReview } from './entities/themeReview.entity';
 
@@ -12,11 +12,11 @@ export class ThemeReivewResolver {
         private readonly themeReviewService: ThemeReivewService, //
     ) {}
 
-    @Query(() => ThemeReview)
-    fetchThemeReviews(
+    @Query(() => [ThemeReview])
+    async fetchThemeReviews(
         @Args('themeId') themeId: string, //
     ) {
-        return this.themeReviewService.findAll({ themeId });
+        return await this.themeReviewService.findAll({ themeId });
     }
 
     @Mutation(() => ThemeReview)
@@ -37,8 +37,8 @@ export class ThemeReivewResolver {
 
     @Mutation(() => Boolean)
     deleteThemeReview(
-        @Args('id') id: string, //
+        @Args('themeReviewId') themeReviewId: string, //
     ) {
-        return this.themeReviewService.delete({ id });
+        return this.themeReviewService.delete({ themeReviewId });
     }
 }

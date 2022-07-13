@@ -16,4 +16,10 @@ export class CreateThemeInput {
 
     @Field(() => Int)
     agelimit: number;
+
+    @Field(() => String)
+    mainImg: string;
+
+    @Field(() => [String, { nullable: true }])
+    subImgs: string;
 }

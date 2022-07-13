@@ -1,6 +1,6 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 
-import { ThemeServie } from './theme.service';
+import { ThemeService } from './theme.service';
 
 import { Theme } from './entities/theme.entity';
 import { CreateThemeInput } from './dto/createTheme.input';
@@ -9,39 +9,50 @@ import { UpdateThemeInput } from './dto/updaeteTheme.input';
 @Resolver()
 export class ThemeResolver {
     constructor(
-        private readonly themeService: ThemeServie, //
+        private readonly themeService: ThemeService, //
     ) {}
 
     @Query(() => [Theme])
-    fetchThemes() {
-        return this.themeService.findAll();
+    async fetchThemes() {
+        return await this.themeService.findAll();
     }
 
     @Query(() => Theme)
     fetchTheme(
-        @Args('title') title: string, //
+        @Args('themeId') themeId: string, //
     ) {
-        return this.themeService.findOne({ title });
+        return this.themeService.findOne({ themeId });
+    }
+
+    @Query(() => [Theme])
+    fetchThemesOnTheme(
+        @Args('cafeId') cafeId: string, //
+    ) {
+        return this.themeService.findAllwithTheme({ cafeId });
     }
 
     @Mutation(() => Theme)
     createTheme(
-        @Args('createThemeInput') createThemeInput: CreateThemeInput, //
+        @Args('cafeName') cafeName: string, //
+        @Args('genreName') genreName: string, //
+        @Args('createThemeInput') createThemeInput: CreateThemeInput,
     ) {
-        return this.themeService.create({ createThemeInput });
+        return this.themeService.create({ cafeName, genreName, createThemeInput });
     }
 
     @Mutation(() => Theme)
     updateTheme(
-        @Args('updateThemeInput') updateThemeInput: UpdateThemeInput, //
+        @Args('themeId') themeId: string,
+        @Args('updateThemeInput')
+        updateThemeInput: UpdateThemeInput, //
     ) {
-        return this.themeService.update({ updateThemeInput });
+        return this.themeService.update({ themeId, updateThemeInput });
     }
 
     @Mutation(() => Boolean)
     deleteTheme(
-        @Args('title') title: string, //
+        @Args('themeId') themeId: string, //
     ) {
-        return this.themeService.delete({ title });
+        return this.themeService.delete({ themeId });
     }
 }

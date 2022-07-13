@@ -3,21 +3,22 @@ import { CacheModule, Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import 'dotenv/config';
+import * as redisStore from 'cache-manager-redis-store';
+import { RedisClientOptions } from 'redis';
 
 import { UserModule } from './apis/user/user.module';
 import { CafeModule } from './apis/cafe/cafe.module';
 import { ThemeModule } from './apis/theme/theme.module';
 import { ThemeReviewModule } from './apis/themeReview/themeReview.module';
+import { GenreModule } from './apis/genre/genre.module';
+import { BoardModule } from './apis/board/board.module';
+import { ThemeMenuModule } from './apis/themeMenu/themeMenu.module';
+import { AuthModule } from './apis/auth/auth.module';
+import { BoardreviewModule } from './apis/boardsreview/boardreview.module';
+import { BoardsecondreviewModule } from './apis/boardsecondreview/boardsecondreview.module';
 
 import { AppController } from './app.controller';
 import { AppResolver } from './app.resolver';
-import { GenreModule } from './apis/genre/genre.module';
-import { BoardModule } from './apis/board/board.module';
-import { AuthModule } from './apis/auth/auth.module';
-import * as redisStore from 'cache-manager-redis-store';
-import { RedisClientOptions } from 'redis';
-import { BoardreviewModule } from './apis/boardsreview/boardreview.module';
-import { BoardsecondreviewModule } from './apis/boardsecondreview/boardsecondreview.module';
 
 @Module({
     imports: [
@@ -30,11 +31,16 @@ import { BoardsecondreviewModule } from './apis/boardsecondreview/boardsecondrev
         ThemeModule,
         UserModule,
         ThemeReviewModule,
+        ThemeMenuModule,
         ////////GraphQL
         GraphQLModule.forRoot<ApolloDriverConfig>({
             driver: ApolloDriver,
             autoSchemaFile: 'src/commons/graphql/schema.gql',
             context: ({ req, res }) => ({ req, res }),
+            cors: {
+                origin: '*',
+                credential: true,
+            },
         }),
         ///////MySQL
         TypeOrmModule.forRoot({

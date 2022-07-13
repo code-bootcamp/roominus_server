@@ -1,13 +1,19 @@
-import { Args, Mutation, Resolver } from '@nestjs/graphql';
-import { async } from 'rxjs';
-import { Genre } from './entities/genre.entity';
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+
 import { GenreService } from './genre.service';
+
+import { Genre } from './entities/genre.entity';
 
 @Resolver()
 export class GenreResolver {
     constructor(
         private readonly genreService: GenreService, //
     ) {}
+
+    @Query(() => [Genre])
+    fetchGenres() {
+        return this.genreService.findAll();
+    }
 
     @Mutation(() => Genre)
     async createGenre(@Args('name') name: string) {
@@ -16,8 +22,8 @@ export class GenreResolver {
 
     @Mutation(() => Boolean)
     deleteGenre(
-        @Args('name') name: string, //
+        @Args('genreId') genreId: string, //
     ) {
-        return this.genreService.delete({ name });
+        return this.genreService.delete({ genreId });
     }
 }

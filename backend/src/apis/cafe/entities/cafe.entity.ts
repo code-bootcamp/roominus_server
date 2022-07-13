@@ -1,5 +1,16 @@
 import { Field, Float, ObjectType } from '@nestjs/graphql';
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import {
+    Column,
+    CreateDateColumn,
+    DeleteDateColumn,
+    Entity,
+    JoinTable,
+    ManyToMany,
+    PrimaryGeneratedColumn,
+    UpdateDateColumn,
+} from 'typeorm';
+
+import { User } from 'src/apis/user/entities/user.entity';
 
 @Entity()
 @ObjectType()
@@ -29,8 +40,12 @@ export class Cafe {
     address_detail: string;
 
     @Column()
-    @Field(() => Float)
+    @Field(() => Float, { defaultValue: 0.0 })
     coordinate: number;
+
+    @Column()
+    @Field(() => String)
+    mainImg: string;
 
     @CreateDateColumn()
     createdAt: Date;
@@ -40,4 +55,9 @@ export class Cafe {
 
     @DeleteDateColumn()
     deletedAt: Date;
+
+    @JoinTable()
+    @ManyToMany(() => User, users => users.cafes, { cascade: true })
+    @Field(() => [User])
+    users: User[];
 }

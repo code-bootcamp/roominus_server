@@ -16,4 +16,10 @@ export class UpdateThemeInput {
 
     @Field(() => Int, { nullable: true })
     agelimit: number;
+
+    @Field(() => String, { nullable: true })
+    mainImg: string;
+
+    @Field(() => [String], { nullable: true })
+    subImg: string;
 }
