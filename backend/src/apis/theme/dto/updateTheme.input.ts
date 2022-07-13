@@ -17,6 +17,9 @@ export class UpdateThemeInput {
     @Field(() => Int, { nullable: true })
     agelimit: number;
 
+    @Field(() => Int, { nullable: true })
+    peoplelimit: number;
+
     @Field(() => String, { nullable: true })
     mainImg: string;
 
