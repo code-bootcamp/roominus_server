@@ -39,6 +39,10 @@ export class Theme {
     @Field(() => Int)
     agelimit: number;
 
+    @Column()
+    @Field(() => Int)
+    peoplelimit: number;
+
     @Column({ default: 0 })
     @Field(() => Int)
     like: number;
