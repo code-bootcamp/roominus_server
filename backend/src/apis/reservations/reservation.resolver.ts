@@ -29,13 +29,16 @@ export class ReservationResolver {
         @Args('userId') userId: string, // 토큰이 잘 되면 토큰에 있는 사용자 정보로 대체
         @Args('themeMenuId') themeMenuId: string,
         @Args('createReservationInput') createReservationInput: CreateReservationInput,
+        // @Args('createPaymentInput') createPaymentInput:
     ) {
-        const resultReservation = await this.reservationService.create({
+        return await this.reservationService.create({
             cafeId,
             userId,
             themeMenuId,
             createReservationInput,
         });
+
+        // const resultPayment = await this.paymentService.create();
     }
 
     // 트랜젝션

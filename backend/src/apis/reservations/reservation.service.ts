@@ -61,14 +61,19 @@ export class ReservationService {
 
             if (!hasCafe || !hasUser || !hasThemeMenu) throw new UnprocessableEntityException('예약 실패!!');
 
-            const newReservation = this.reservationRepository.create({
+            const newReservationInput = this.reservationRepository.create({
                 ...reservation,
                 cafe: hasCafe.id,
                 user: hasUser.id,
                 theme_menu: hasThemeMenu.id,
             });
 
-            const result = await queryRunner.manager.save(newReservation);
+            const newReservation = await queryRunner.manager.save(newReservationInput);
+
+            const result = await queryRunner.manager.findOne(Reservation, {
+                where: { id: newReservation['id'] },
+                relations: ['cafe', 'user', 'theme_menu'],
+            });
 
             await queryRunner.commitTransaction();
 
