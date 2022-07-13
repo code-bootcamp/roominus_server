@@ -4,6 +4,7 @@ import { PaymentService } from '../payment/payment.service';
 
 import { ReservationService } from './reservation.service';
 import { CreateReservationInput } from './dto/createReservation.input';
+import { CreatePaymentInput } from '../payment/dto/createPayment.input';
 
 import { Reservation } from './entities/reservation.entity';
 
@@ -29,16 +30,22 @@ export class ReservationResolver {
         @Args('userId') userId: string, // 토큰이 잘 되면 토큰에 있는 사용자 정보로 대체
         @Args('themeMenuId') themeMenuId: string,
         @Args('createReservationInput') createReservationInput: CreateReservationInput,
-        // @Args('createPaymentInput') createPaymentInput:
+        @Args('createPaymentInput') createPaymentInput: CreatePaymentInput,
     ) {
-        return await this.reservationService.create({
+        const resultReservation = await this.reservationService.create({
             cafeId,
             userId,
             themeMenuId,
             createReservationInput,
         });
 
-        // const resultPayment = await this.paymentService.create();
+        const resultPayment = await this.paymentService.create({
+            userId,
+            reservationId: resultReservation.id,
+            createPaymentInput,
+        });
+
+        if (resultReservation && resultPayment) return resultReservation;
     }
 
     // 트랜젝션
