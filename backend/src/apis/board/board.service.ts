@@ -26,7 +26,7 @@ export class BoardService {
         private readonly boardTagRepository: Repository<BoardTag>,
     ) {}
 
-    async FindAll() {
+    async findAll() {
         return await this.boardRepository.find({
             relations: ['cafe', 'theme', 'user', 'boardTags'],
             order: { createAt: 'DESC' },
@@ -39,37 +39,87 @@ export class BoardService {
             relations: ['cafe', 'theme', 'user', 'boardTags'],
         });
     }
+    async create({ cafeName, themeTitle, userName, createBoardInput }) {
+        const { boardTags, ...board } = createBoardInput;
 
-    async create({ createBoardInput }) {
-        const { cafeId, themeId, userId, boardTags, ...board } = createBoardInput;
+        const hasCafe = await this.cafeRepository.findOne({ name: cafeName });
+
+        const hasTheme = await this.themeRepository.findOne({ title: themeTitle });
+
+        const hasUser = await this.UserRepository.findOne({ name: userName });
 
         const hasBoard = await this.boardRepository.findOne({ title: board.title });
-        if (hasBoard) throw new ConflictException('이미 등록된 게시물입니다!!');
 
-        // const result = await this.boardRepository.save({ ...board });
-        const result2 = [];
+        // const hasBoardTags = await this.boardTagRepository.findOne({ title: boardTags.title });
+        // console.log('-----------');
+        // console.log(hasBoardTags);
+        // console.log('-----------');
+
+        if (hasBoard) throw new ConflictException('이미 등록된 게시글입니다.');
+
+        const result = [];
         for (let i = 0; i < boardTags.length; i++) {
             const tagtitle = boardTags[i].replace('#', '');
             const prevTag = await this.boardTagRepository.findOne({ title: tagtitle });
 
             if (prevTag) {
-                result2.push(prevTag);
+                result.push(prevTag);
             } else {
                 const newTag = await this.boardTagRepository.save({ title: tagtitle });
-                result2.push(newTag);
+                result.push(newTag);
             }
         }
 
-        const result3 = await this.boardRepository.save({
+        const newBoard = await this.boardRepository.save({
             ...board,
-            cafe: { id: cafeId },
-            theme: { id: themeId },
-            user: { id: userId },
-            boardTags: result2,
+            cafe: hasCafe.id,
+            theme: hasTheme.id,
+            user: hasUser.id,
+            boardTags: result,
         });
-        return result3;
-    }
 
+        console.log('-----------');
+        console.log(newBoard);
+        console.log('-----------');
+
+        const result2 = await this.boardRepository.findOne({
+            where: { id: newBoard.id },
+            relations: ['cafe', 'theme', 'user', 'boardTags'],
+        });
+
+        return result2;
+    }
+    /////
+    // async create({ createBoardInput }) {
+    //     const { cafeId, themeId, userId, boardTags, ...board } = createBoardInput;
+
+    //     const hasBoard = await this.boardRepository.findOne({ title: board.title });
+    //     if (hasBoard) throw new ConflictException('이미 등록된 게시물입니다!!');
+
+    //     // const result = await this.boardRepository.save({ ...board });
+    //     const result2 = [];
+    //     for (let i = 0; i < boardTags.length; i++) {
+    //         const tagtitle = boardTags[i].replace('#', '');
+    //         const prevTag = await this.boardTagRepository.findOne({ title: tagtitle });
+
+    //         if (prevTag) {
+    //             result2.push(prevTag);
+    //         } else {
+    //             const newTag = await this.boardTagRepository.save({ title: tagtitle });
+    //             result2.push(newTag);
+    //         }
+    //     }
+
+    //     const result3 = await this.boardRepository.save({
+    //         ...board,
+    //         cafe: { id: cafeId },
+    //         theme: { id: themeId },
+    //         user: { id: userId },
+    //         boardTags: result2,
+    //     });
+    //     return result3;
+    // }
+    /////
     async update({ updateBoardInput }) {
         const { boardTags, content, like, view, ...board } = updateBoardInput;
         const checkboard1 = await this.boardRepository.findOne({ title: board.title });

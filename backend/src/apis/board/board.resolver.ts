@@ -1,5 +1,5 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { title } from 'process';
+
 import { BoardService } from './board.service';
 import { CreateBoardInput } from './dto/createBoard.input';
 import { UpdateBoardInput } from './dto/updateBoard.input';
@@ -12,14 +12,17 @@ export class BoardResolver {
     ) {}
     @Mutation(() => Board)
     async createBoard(
+        @Args('cafeName') cafeName: string, //
+        @Args('themeTitle') themeTitle: string,
+        @Args('userName') userName: string,
         @Args('createBoardInput') createBoardInput: CreateBoardInput, //
     ) {
-        return this.boardService.create({ createBoardInput });
+        return this.boardService.create({ cafeName, themeTitle, userName, createBoardInput });
     }
 
     @Query(() => Board)
     fetchBoards() {
-        return this.boardService.FindAll();
+        return this.boardService.findAll();
     }
 
     @Query(() => Board)
