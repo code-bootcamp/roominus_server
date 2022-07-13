@@ -51,6 +51,7 @@ export class ThemeReivewService {
         return result;
     }
 
+    // 토큰 완성되면 작성자만 변경가능하게 수정
     async update({ themeReviewId, updateThemeReviewInput }) {
         const { ...themeReview } = updateThemeReviewInput;
 

@@ -1,4 +1,4 @@
-import { Field, ObjectType } from '@nestjs/graphql';
+import { Field, Int, ObjectType } from '@nestjs/graphql';
 import {
     Column,
     CreateDateColumn,
@@ -30,6 +30,10 @@ export class ThemeReview {
     @Column()
     @Field(() => String)
     content: string;
+
+    @Column({ default: 5 })
+    @Field(() => Int)
+    star: number;
 
     @CreateDateColumn()
     @Field(() => Date)
