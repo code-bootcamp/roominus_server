@@ -19,7 +19,6 @@ import { AuthModule } from './apis/auth/auth.module';
 import { BoardreviewModule } from './apis/boardsreview/boardreview.module';
 import { BoardsecondreviewModule } from './apis/boardsecondreview/boardsecondreview.module';
 
-
 import { AppController } from './app.controller';
 import { AppResolver } from './app.resolver';
 
@@ -50,8 +49,8 @@ import { AppResolver } from './app.resolver';
         ///////MySQL
         TypeOrmModule.forRoot({
             type: 'mysql',
-            host: process.env.MYSQL_HOST,
-            // host: 'localhost',
+            // host: process.env.MYSQL_HOST,
+            host: 'localhost',
             port: 3306,
             username: process.env.MYSQL_USER,
             password: process.env.MYSQL_PASS,

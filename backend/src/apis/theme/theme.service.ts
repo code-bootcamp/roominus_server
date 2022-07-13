@@ -92,12 +92,21 @@ export class ThemeService {
     }
 
     async update({ themeId, updateThemeInput }) {
-        const { ...theme } = updateThemeInput;
+        const { subImgs, ...theme } = updateThemeInput;
 
         const result = await this.themeRepository.update(
             { id: themeId }, ///
             { ...theme },
         );
+
+        if (subImgs && subImgs.length) {
+            for (let i = 0; i < subImgs.length; i++) {
+                await this.themeImgRepository.save({
+                    url: subImgs[i],
+                    theme: themeId,
+                });
+            }
+        }
 
         if (result.affected) {
             return await this.themeRepository.findOne({ id: themeId });
