@@ -3,10 +3,11 @@ import { Field, InputType, Int } from '@nestjs/graphql';
 @InputType()
 export class CreateBoardInput {
     ///
-    @Field(() => String)
+
+    @Field(() => String, { nullable: true })
     title: string;
 
-    @Field(() => String)
+    @Field(() => String, { nullable: true })
     content: string;
 
     @Field(() => Int, { nullable: true })
@@ -14,4 +15,10 @@ export class CreateBoardInput {
 
     @Field(() => Int, { nullable: true })
     view: number;
+
+    @Field(() => String)
+    mainImg: string;
+
+    @Field(() => [String], { nullable: true })
+    boardTags: string[];
 }
