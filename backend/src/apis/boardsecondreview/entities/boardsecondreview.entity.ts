@@ -3,7 +3,7 @@ import { Column, CreateDateColumn, DeleteDateColumn, Entity, PrimaryGeneratedCol
 
 @Entity()
 @ObjectType()
-export class Boardreview {
+export class Boardsecondreview {
     @PrimaryGeneratedColumn('uuid')
     @Field(() => String)
     id: string;

@@ -1,5 +1,5 @@
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
-import { Module } from '@nestjs/common';
+import { CacheModule, Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import 'dotenv/config';
@@ -13,9 +13,17 @@ import { AppController } from './app.controller';
 import { AppResolver } from './app.resolver';
 import { GenreModule } from './apis/genre/genre.module';
 import { BoardModule } from './apis/board/board.module';
+import { AuthModule } from './apis/auth/auth.module';
+import * as redisStore from 'cache-manager-redis-store';
+import { RedisClientOptions } from 'redis';
+import { BoardreviewModule } from './apis/boardsreview/boardreview.module';
+import { BoardsecondreviewModule } from './apis/boardsecondreview/boardsecondreview.module';
 
 @Module({
     imports: [
+        BoardsecondreviewModule,
+        BoardreviewModule,
+        AuthModule,
         BoardModule,
         GenreModule,
         CafeModule,
@@ -41,6 +49,11 @@ import { BoardModule } from './apis/board/board.module';
             synchronize: true,
             logging: true,
         }),
+        // CacheModule.register<RedisClientOptions>({
+        //     store: redisStore,
+        //     url: 'redis://my-redis:6379',
+        //     isGlobal: true,
+        // }),
     ],
     controllers: [AppController],
     providers: [AppResolver],

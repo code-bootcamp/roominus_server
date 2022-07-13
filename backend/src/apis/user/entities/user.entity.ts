@@ -13,6 +13,10 @@ export class User {
     isserviceprovider: boolean;
 
     @Column()
+    @Field(() => String)
+    userid: string;
+
+    @Column()
     // @Field(() => String) 비밀번호 노출 금지!!
     password: string;
 
@@ -28,11 +32,16 @@ export class User {
     @Field(() => String)
     email: string;
 
+    @Column({ nullable: true })
+    @Field(() => String, { nullable: true })
+    nickname: string;
+
     @Column({ default: 0 })
-    @Field(() => Int)
+    @Field(() => Int, { nullable: true })
     point: number;
 
     @CreateDateColumn()
+    @Field(() => Date)
     createAt: Date;
 
     @DeleteDateColumn()

@@ -10,19 +10,19 @@ export class UserService {
         private readonly userRepository: Repository<User>,
     ) {}
 
-    async findOne({ email }) {
-        return await this.userRepository.findOne({ email });
+    async findOne({ userid }) {
+        return await this.userRepository.findOne({ userid });
     }
 
-    async create({ email, hashedPassword: password, name, phone }) {
-        const user = await this.userRepository.findOne({ email });
+    async create({ userid, hashedPassword: password, name, phone, email }) {
+        const user = await this.userRepository.findOne({ userid });
         if (user) throw new ConflictException('이미 등록된 유저입니다.');
 
-        return await this.userRepository.save({ email, password, name, phone });
+        return await this.userRepository.save({ userid, password, name, phone, email });
     }
 
-    async delete({ email }) {
-        const result = await this.userRepository.softDelete({ email });
+    async delete({ userid }) {
+        const result = await this.userRepository.softDelete({ userid });
         return result.affected ? true : false;
     }
 }
