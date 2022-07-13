@@ -84,8 +84,18 @@ export class CafeService {
             { id: cafeId }, //
             {
                 ...cafe, //
+                mainImg: mainImg,
             },
         );
+
+        if (subImgs && subImgs.length) {
+            for (let i = 0; i < subImgs.length; i++) {
+                await this.cafeImgRepository.save({
+                    url: subImgs[i],
+                    cafe: cafeId,
+                });
+            }
+        }
 
         if (result.affected) {
             return await this.cafeRepository.findOne({ id: cafeId });
