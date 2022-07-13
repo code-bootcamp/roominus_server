@@ -13,9 +13,12 @@ import { ThemeReviewModule } from './apis/themeReview/themeReview.module';
 import { GenreModule } from './apis/genre/genre.module';
 import { BoardModule } from './apis/board/board.module';
 import { ThemeMenuModule } from './apis/themeMenu/themeMenu.module';
+import { ReservationModule } from './apis/reservations/reservation.module';
+import { IamportModule } from './apis/iamport/iamport.module';
 import { AuthModule } from './apis/auth/auth.module';
 import { BoardreviewModule } from './apis/boardsreview/boardreview.module';
 import { BoardsecondreviewModule } from './apis/boardsecondreview/boardsecondreview.module';
+
 
 import { AppController } from './app.controller';
 import { AppResolver } from './app.resolver';
@@ -32,6 +35,8 @@ import { AppResolver } from './app.resolver';
         UserModule,
         ThemeReviewModule,
         ThemeMenuModule,
+        ReservationModule,
+        IamportModule,
         ////////GraphQL
         GraphQLModule.forRoot<ApolloDriverConfig>({
             driver: ApolloDriver,

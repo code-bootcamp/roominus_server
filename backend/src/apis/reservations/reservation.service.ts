@@ -1,23 +1,11 @@
 import { ConflictException, Injectable, UnprocessableEntityException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Connection, Repository } from 'typeorm';
+
 import { Cafe } from '../cafe/entities/cafe.entity';
 import { ThemeMenu } from '../themeMenu/entities/themeMenu.entity';
 import { User } from '../user/entities/user.entity';
-
 import { Reservation } from './entities/reservation.entity';
-
-interface IreservationResult {
-    reservation_date?: string;
-    cafe?: string;
-    user?: string;
-    theme_menu?: string;
-    memo?: string;
-    deletedAt?: Date;
-    id?: string;
-    status?: string;
-    createdAt?: Date;
-}
 
 @Injectable()
 export class ReservationService {
@@ -49,6 +37,10 @@ export class ReservationService {
 
         const queryRunner = await this.connection.createQueryRunner();
         await queryRunner.connect();
+
+        /////
+        // 최대 인원 초과 확인 필요?
+        ////
 
         await queryRunner.startTransaction('SERIALIZABLE');
 
