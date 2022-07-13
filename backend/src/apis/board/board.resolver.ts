@@ -1,4 +1,5 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { title } from 'process';
 import { BoardService } from './board.service';
 import { CreateBoardInput } from './dto/createBoard.input';
 import { UpdateBoardInput } from './dto/updateBoard.input';
@@ -17,8 +18,13 @@ export class BoardResolver {
     }
 
     @Query(() => Board)
-    fetchBoard(@Args('title') title: string) {
-        return this.boardService.findOne({ title });
+    fetchBoards() {
+        return this.boardService.FindAll();
+    }
+
+    @Query(() => Board)
+    fetchBoard(@Args('id') id: string) {
+        return this.boardService.findOne({ id });
     }
 
     @Mutation(() => Board)
