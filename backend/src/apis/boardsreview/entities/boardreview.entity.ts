@@ -1,5 +1,14 @@
 import { Field, ObjectType } from '@nestjs/graphql';
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { Boardsecondreview } from 'src/apis/boardsecondreview/entities/boardsecondreview.entity';
+import {
+    Column,
+    CreateDateColumn,
+    DeleteDateColumn,
+    Entity,
+    ManyToOne,
+    PrimaryGeneratedColumn,
+    UpdateDateColumn,
+} from 'typeorm';
 
 @Entity()
 @ObjectType()
@@ -12,12 +21,16 @@ export class Boardreview {
     @Field(() => String)
     content: string;
 
+    @ManyToOne(() => Boardsecondreview)
+    @Field(() => Boardsecondreview)
+    boardsecondreview: Boardsecondreview;
+
     @CreateDateColumn()
     @Field(() => Date)
-    createAt: Date;
+    createdAt: Date;
 
     @UpdateDateColumn()
-    updateAt: Date;
+    updatedAt: Date;
 
     @DeleteDateColumn()
     deletedAt: Date;

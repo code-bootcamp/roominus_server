@@ -10,10 +10,10 @@ export class BoardreviewResolver {
 
     @Mutation(() => Boardreview)
     async createBoardreview(
-        @Args('id') id: string,
         @Args('content') content: string, //
+        @Args('boardId') boardId: string, //
     ) {
-        return this.boardreviewService.create({ id, content });
+        return this.boardreviewService.create({ content, boardId });
     }
 
     @Mutation(() => Boolean)

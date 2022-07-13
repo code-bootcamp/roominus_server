@@ -14,10 +14,10 @@ export class Boardsecondreview {
 
     @CreateDateColumn()
     @Field(() => Date)
-    createAt: Date;
+    createdAt: Date;
 
     @UpdateDateColumn()
-    updateAt: Date;
+    updatedAt: Date;
 
     @DeleteDateColumn()
     deletedAt: Date;
