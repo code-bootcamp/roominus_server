@@ -23,6 +23,13 @@ export class ReservationResolver {
         return this.reservationService.findAll({ cafeId, reservationDate });
     }
 
+    @Query(() => [Reservation])
+    fetchReservationsUser(
+        @Args('userId') userId: string, //
+    ) {
+        return this.reservationService.findwithUser({ userId });
+    }
+
     // 트랜젝션
     @Mutation(() => Reservation)
     async createReservation(
