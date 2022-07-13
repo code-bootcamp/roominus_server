@@ -1,4 +1,5 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql';
+import { Boardreview } from 'src/apis/boardsreview/entities/boardreview.entity';
 import { BoardTag } from 'src/apis/boardTag/entities/boardTag.entity';
 import { Cafe } from 'src/apis/cafe/entities/cafe.entity';
 import { Theme } from 'src/apis/theme/entities/theme.entity';
@@ -52,17 +53,9 @@ export class Board {
     @Field(() => Int)
     view: number;
 
-    @ManyToOne(() => Cafe)
-    @Field(() => Cafe)
-    cafe: Cafe;
-
-    @ManyToOne(() => Theme)
-    @Field(() => Theme)
-    theme: Theme;
-
-    @ManyToOne(() => User)
-    @Field(() => User)
-    user: User;
+    @ManyToOne(() => Boardreview)
+    @Field(() => Boardreview)
+    boardreview: Boardreview;
 
     @JoinTable()
     @ManyToMany(() => BoardTag, boardTags => boardTags.boards)

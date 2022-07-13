@@ -10,23 +10,32 @@ export class BoardreviewService {
     constructor(
         @InjectRepository(Boardreview)
         private readonly boardreviewRepository: Repository<Boardreview>,
+
+        @InjectRepository(Board)
+        private readonly boardRepository: Repository<Board>,
     ) {}
     async FindAll() {
         return await this.boardreviewRepository.find({
-            relations: ['board', 'user'],
-            order: { createAt: 'DESC' },
+            relations: ['board'],
+            order: { createdAt: 'DESC' },
         });
     }
 
     async findOne({ id }) {
         return await this.boardreviewRepository.findOne({
             where: { id },
-            relations: ['board', 'user'],
+            relations: ['board'],
         });
     }
 
-    async create({ id, content }) {
-        return await this.boardreviewRepository.save({ id, content });
+    async create({ content, boardId }) {
+        const hasBoardreview = await this.boardRepository.findOne({ id: boardId });
+        const newBoardreview = await this.boardreviewRepository.save({
+            relations: ['board'],
+            content,
+            board: hasBoardreview.id,
+        });
+        return newBoardreview;
     }
 
     async delete({ id }) {
