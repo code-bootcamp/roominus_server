@@ -1,8 +1,10 @@
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
-import { Module } from '@nestjs/common';
+import { CacheModule, Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import 'dotenv/config';
+import * as redisStore from 'cache-manager-redis-store';
+import { RedisClientOptions } from 'redis';
 
 import { UserModule } from './apis/user/user.module';
 import { CafeModule } from './apis/cafe/cafe.module';
@@ -11,12 +13,18 @@ import { ThemeReviewModule } from './apis/themeReview/themeReview.module';
 import { GenreModule } from './apis/genre/genre.module';
 import { BoardModule } from './apis/board/board.module';
 import { ThemeMenuModule } from './apis/themeMenu/themeMenu.module';
+import { AuthModule } from './apis/auth/auth.module';
+import { BoardreviewModule } from './apis/boardsreview/boardreview.module';
+import { BoardsecondreviewModule } from './apis/boardsecondreview/boardsecondreview.module';
 
 import { AppController } from './app.controller';
 import { AppResolver } from './app.resolver';
 
 @Module({
     imports: [
+        BoardsecondreviewModule,
+        BoardreviewModule,
+        AuthModule,
         BoardModule,
         GenreModule,
         CafeModule,
@@ -37,8 +45,8 @@ import { AppResolver } from './app.resolver';
         ///////MySQL
         TypeOrmModule.forRoot({
             type: 'mysql',
-            // host: process.env.MYSQL_HOST,
-            host: 'localhost',
+            host: process.env.MYSQL_HOST,
+            // host: 'localhost',
             port: 3306,
             username: process.env.MYSQL_USER,
             password: process.env.MYSQL_PASS,
@@ -47,6 +55,11 @@ import { AppResolver } from './app.resolver';
             synchronize: true,
             logging: true,
         }),
+        // CacheModule.register<RedisClientOptions>({
+        //     store: redisStore,
+        //     url: 'redis://my-redis:6379',
+        //     isGlobal: true,
+        // }),
     ],
     controllers: [AppController],
     providers: [AppResolver],

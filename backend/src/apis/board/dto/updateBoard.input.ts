@@ -1,17 +1,20 @@
-import { Field, InputType, Int } from '@nestjs/graphql';
+import { Field, InputType, Int, PartialType } from '@nestjs/graphql';
+import { CreateBoardInput } from './createBoard.input';
 
 @InputType()
-export class UpdateBoardInput {
-    ///
-    @Field(() => String)
-    title: string;
+export class UpdateBoardInput extends PartialType(CreateBoardInput) {}
 
-    @Field(() => String)
-    content: string;
+// export class UpdateBoardInput {
 
-    @Field(() => Int, { nullable: true })
-    like: number;
+//     @Field(() => String)
+//     title: string;
 
-    @Field(() => Int, { nullable: true })
-    view: number;
-}
+//     @Field(() => String)
+//     content: string;
+
+//     @Field(() => Int, { nullable: true })
+//     like: number;
+
+//     @Field(() => Int, { nullable: true })
+//     view: number;
+// }
