@@ -109,7 +109,10 @@ export class ThemeService {
         }
 
         if (result.affected) {
-            return await this.themeRepository.findOne({ id: themeId });
+            return await this.themeRepository.findOne({
+                where: { id: themeId },
+                relations: ['cafe', 'genre'],
+            });
         } else {
             throw new ConflictException('수정을 실패했습니다!!');
         }
