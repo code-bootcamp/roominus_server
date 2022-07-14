@@ -13,6 +13,8 @@ import { ThemeReviewModule } from './apis/themeReview/themeReview.module';
 import { GenreModule } from './apis/genre/genre.module';
 import { BoardModule } from './apis/board/board.module';
 import { ThemeMenuModule } from './apis/themeMenu/themeMenu.module';
+import { ReservationModule } from './apis/reservations/reservation.module';
+import { IamportModule } from './apis/iamport/iamport.module';
 import { AuthModule } from './apis/auth/auth.module';
 import { BoardreviewModule } from './apis/boardsreview/boardreview.module';
 import { BoardsecondreviewModule } from './apis/boardsecondreview/boardsecondreview.module';
@@ -32,6 +34,8 @@ import { AppResolver } from './app.resolver';
         UserModule,
         ThemeReviewModule,
         ThemeMenuModule,
+        ReservationModule,
+        IamportModule,
         ////////GraphQL
         GraphQLModule.forRoot<ApolloDriverConfig>({
             driver: ApolloDriver,
@@ -45,8 +49,8 @@ import { AppResolver } from './app.resolver';
         ///////MySQL
         TypeOrmModule.forRoot({
             type: 'mysql',
-            host: process.env.MYSQL_HOST,
-            // host: 'localhost',
+            // host: process.env.MYSQL_HOST,
+            host: 'localhost',
             port: 3306,
             username: process.env.MYSQL_USER,
             password: process.env.MYSQL_PASS,

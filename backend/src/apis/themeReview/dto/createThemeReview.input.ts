@@ -1,4 +1,4 @@
-import { Field, InputType } from '@nestjs/graphql';
+import { Field, InputType, Int } from '@nestjs/graphql';
 
 @InputType()
 export class CreateThemeReviewInput {
@@ -10,6 +10,9 @@ export class CreateThemeReviewInput {
 
     @Field(() => String)
     rank: string;
+
+    @Field(() => Int)
+    star: number;
 
     @Field(() => String)
     content: string;

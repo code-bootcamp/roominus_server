@@ -4,7 +4,7 @@ import { ThemeService } from './theme.service';
 
 import { Theme } from './entities/theme.entity';
 import { CreateThemeInput } from './dto/createTheme.input';
-import { UpdateThemeInput } from './dto/updaeteTheme.input';
+import { UpdateThemeInput } from './dto/updateTheme.input';
 
 @Resolver()
 export class ThemeResolver {

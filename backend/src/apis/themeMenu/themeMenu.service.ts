@@ -21,6 +21,7 @@ export class ThemeMenuService {
         return await this.themeMenuRepository.find({
             where: { theme: themeId },
             relations: ['cafe', 'theme'],
+            order: { reservation_time: 'ASC' },
         });
     }
 
@@ -29,6 +30,8 @@ export class ThemeMenuService {
 
         const hasCafe = await this.cafeRepositotry.findOne({ name: cafeName });
 
+        if (!hasCafe) throw new UnprocessableEntityException('카페가 존재하지 않습니다!!');
+
         const hasTheme = await this.themeRepositotry.findOne({
             where: {
                 title: themeTitle, //
@@ -36,13 +39,17 @@ export class ThemeMenuService {
             },
         });
 
-        if (!hasCafe || !hasTheme) throw new UnprocessableEntityException('카페 또는 테마가 존재하지 않습니다!!');
+        if (!hasTheme) throw new UnprocessableEntityException('카페에 테마가 존재하지 않습니다!!');
 
         const hasThemeMenu = await this.themeMenuRepository.findOne({
-            reservation_time: createThemeMenuInput.reservation_time,
+            where: {
+                reservation_time: createThemeMenuInput.reservation_time,
+                people_number: createThemeMenuInput.people_number,
+                theme: hasTheme.id,
+            },
         });
 
-        if (hasThemeMenu) throw new ConflictException('같은 시간에 등록된 예약 받기가 있습니다!!');
+        if (hasThemeMenu) throw new ConflictException('같은 시간 같은 인원 수로 등록된 예약 공간이 있습니다!!');
 
         const newThemeMenu = await this.themeMenuRepository.save({
             ...themeMenu, //

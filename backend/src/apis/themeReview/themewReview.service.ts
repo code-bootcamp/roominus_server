@@ -2,6 +2,7 @@ import { ConflictException, Injectable, UnprocessableEntityException } from '@ne
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
+import { Theme } from '../theme/entities/theme.entity';
 import { User } from '../user/entities/user.entity';
 import { ThemeReview } from './entities/themeReview.entity';
 
@@ -12,6 +13,8 @@ export class ThemeReivewService {
         private readonly themeReviewRepository: Repository<ThemeReview>,
         @InjectRepository(User)
         private readonly userRepository: Repository<User>,
+        @InjectRepository(Theme)
+        private readonly themeRepository: Repository<Theme>,
     ) {}
 
     async findAll({ themeId }) {
@@ -27,19 +30,28 @@ export class ThemeReivewService {
     }
 
     async create({ themeId, createThemeReviewInput }) {
-        const { ...themeReview } = createThemeReviewInput;
+        const { writerName, ...themeReview } = createThemeReviewInput;
 
-        const currentUser = await this.userRepository.findOne({ name: createThemeReviewInput.writerName });
+        const hasTheme = await this.themeRepository.findOne({ id: themeId });
+        if (!hasTheme) throw new UnprocessableEntityException('없는 테마입니다!!');
 
-        const result = await this.themeReviewRepository.save({
+        const currentUser = await this.userRepository.findOne({ name: writerName });
+
+        const newThemeReview = await this.themeReviewRepository.save({
             ...themeReview,
             theme: themeId,
             user: currentUser.id,
         });
 
+        const result = await this.themeReviewRepository.findOne({
+            where: { id: newThemeReview.id },
+            relations: ['theme', 'user'],
+        });
+
         return result;
     }
 
+    // 토큰 완성되면 작성자만 변경가능하게 수정
     async update({ themeReviewId, updateThemeReviewInput }) {
         const { ...themeReview } = updateThemeReviewInput;
 
