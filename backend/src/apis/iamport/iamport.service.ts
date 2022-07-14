@@ -29,10 +29,10 @@ export class IamportService {
     }
     async paymentCancel({
         impAccessToken, //
-        impUid,
-        reason,
-        cancelAmount,
-        cancelableAmount,
+        imp_uid,
+        // reason,
+        // cancelAmount,
+        // cancelableAmount,
     }) {
         try {
             const getCancelData = await axios({
@@ -43,10 +43,10 @@ export class IamportService {
                     Authorization: impAccessToken, // 아임포트 서버로부터 발급받은 엑세스 토큰
                 },
                 data: {
-                    reason, // 클라이언트로부터 받은 환불사유
-                    imp_uid: impUid, // imp_uid를 환불 `unique key`로 입력
-                    amount: cancelAmount, // 클라이언트로부터 받은 환불금액
-                    checksum: cancelableAmount, // [권장] 환불 가능 금액 입력
+                    // reason, // 클라이언트로부터 받은 환불사유
+                    imp_uid, // imp_uid를 환불 `unique key`로 입력
+                    // amount: cancelAmount, // 클라이언트로부터 받은 환불금액
+                    // checksum: cancelableAmount, // [권장] 환불 가능 금액 입력
                 },
             });
             const { response } = getCancelData.data;

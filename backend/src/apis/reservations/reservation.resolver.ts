@@ -61,5 +61,13 @@ export class ReservationResolver {
 
     // 트랜젝션
     @Mutation(() => Boolean)
-    deleteReservation() {}
+    async deleteReservation(
+        @Args('reservationId') reservationId: string,
+        @Args('userId') userId: string,
+        @Args('merchantUid') merchantUid: string,
+    ) {
+        const resultCancelPayment = this.paymentService.cancel({ reservationId, userId, merchantUid });
+
+        if (resultCancelPayment) return true;
+    }
 }
