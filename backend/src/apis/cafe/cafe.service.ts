@@ -15,7 +15,6 @@ export class CafeService {
         private readonly userRepository: Repository<User>,
         @InjectRepository(CafeImg)
         private readonly cafeImgRepository: Repository<CafeImg>,
-        private readonly connection: Connection,
     ) {}
 
     async findAll() {

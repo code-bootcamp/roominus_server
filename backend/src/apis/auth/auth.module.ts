@@ -2,6 +2,9 @@ import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { JwtRefreshStrategy } from 'src/commons/auth/jwt-refresh.strategy';
+import { CafeService } from '../cafe/cafe.service';
+import { Cafe } from '../cafe/entities/cafe.entity';
+import { CafeImg } from '../cafe/entities/cafeImg.entity';
 import { User } from '../user/entities/user.entity';
 import { UserService } from '../user/user.service';
 import { AuthController } from './auth.controller';
@@ -11,9 +14,15 @@ import { AuthService } from './auth.service';
 @Module({
     imports: [
         JwtModule.register({}), //
-        TypeOrmModule.forFeature([User]),
+        TypeOrmModule.forFeature([User, Cafe, CafeImg]),
     ],
-    providers: [JwtRefreshStrategy, AuthResolver, AuthService, UserService],
+    providers: [
+        JwtRefreshStrategy, //
+        AuthResolver,
+        AuthService,
+        UserService,
+        CafeService,
+    ],
     controllers: [
         AuthController, //
     ],

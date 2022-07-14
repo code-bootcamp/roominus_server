@@ -17,18 +17,17 @@ interface IContext {
 export class AuthResolver {
     constructor(
         private readonly userService: UserService, //
-        private readonly authService: AuthService, // @Inject(CACHE_MANAGER)
-    ) // private readonly cacheManager: Cache,
-    {}
+        private readonly authService: AuthService, // @Inject(CACHE_MANAGER) // private readonly cacheManager: Cache,
+    ) {}
 
     @Mutation(() => String)
     async Login(
-        @Args('userid') userid: string, //
+        @Args('email') email: string, //
         @Args('password') password: string,
         @Context() context: IContext,
     ) {
         // 1. 로그인 @@
-        const user = await this.userService.findOne({ userid });
+        const user = await this.userService.findOne({ email });
 
         // 2. 일치하는 유저가 없으면?! 에러 던지기!!!
         if (!user) throw new UnprocessableEntityException('아이디가 없습니다.');

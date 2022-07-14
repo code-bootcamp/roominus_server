@@ -6,6 +6,7 @@ import { UseGuards } from '@nestjs/common';
 import { GqlAuthAccessGuard } from 'src/commons/auth/gql-auth.guard';
 import { CurrentUser, ICurrentUser } from 'src/commons/auth/gql-user.param';
 import { Theme } from '../theme/entities/theme.entity';
+import { CreateUserInput } from './dto/createUser.input';
 
 @Resolver()
 export class UserResolver {
@@ -15,21 +16,23 @@ export class UserResolver {
 
     @Mutation(() => User)
     async createUser(
-        @Args('userid') userid: string, //
-        @Args('password') password: string,
-        @Args('name') name: string,
-        @Args('phone') phone: string,
-        @Args('email') email: string,
+        @Args('password') password: string, //
+        @Args('createUserInput') createUserInput: CreateUserInput,
     ) {
         const hashedPassword = await bcrypt.hash(password, 10.2);
         console.log(hashedPassword);
-        return this.userService.create({ userid, hashedPassword, name, phone, email });
+        return await this.userService.create({ createUserInput, hashedPassword });
     }
 
     @UseGuards(GqlAuthAccessGuard)
     @Query(() => User)
-    fetchUser(@Args('userid') userid: string) {
-        return this.userService.findOne({ userid });
+    fetchUser(@Args('email') email: string) {
+        return this.userService.findOne({ email });
+    }
+
+    @Query(() => [User])
+    fetchUserLoggedIn() {
+        return this.userService.findAll();
     }
 
     // @UseGuards(GqlAuthAccessGuard)
@@ -40,8 +43,8 @@ export class UserResolver {
 
     @Mutation(() => Boolean)
     deleteUser(
-        @Args('userid') userid: string, //
+        @Args('email') email: string, //
     ) {
-        return this.userService.delete({ userid });
+        return this.userService.delete({ email });
     }
 }
