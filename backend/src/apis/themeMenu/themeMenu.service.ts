@@ -45,6 +45,7 @@ export class ThemeMenuService {
             where: {
                 reservation_time: createThemeMenuInput.reservation_time,
                 people_number: createThemeMenuInput.people_number,
+                theme: hasTheme.id,
             },
         });
 
