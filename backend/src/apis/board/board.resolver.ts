@@ -17,7 +17,7 @@ export class BoardResolver {
         return this.boardService.create({ createBoardInput });
     }
 
-    @Query(() => Board)
+    @Query(() => [Board])
     fetchBoards() {
         return this.boardService.findAll();
     }
