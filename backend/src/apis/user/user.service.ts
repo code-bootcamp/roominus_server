@@ -25,14 +25,7 @@ export class UserService {
     async create({ createUserInput, hashedPassword }) {
         const { ...user } = createUserInput;
 
-        console.log('-------------------');
-        console.log(createUserInput);
-        console.log('-------------------');
         const result1 = await this.cafeRepository.findOne({});
-
-        console.log('-------------------');
-        console.log(result1);
-        console.log('-------------------');
 
         // const bbb = await this.userRepository.findOne({password: user.password})
         const aaa = await this.userRepository.findOne({ email: user.email });
@@ -42,7 +35,7 @@ export class UserService {
             cafe: result1,
             password: hashedPassword,
         });
-        console.log(result2);
+
         return result2;
     }
 

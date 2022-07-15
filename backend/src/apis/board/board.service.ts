@@ -43,9 +43,6 @@ export class BoardService {
         const hasBoard = await this.boardRepository.findOne({ title: board.title });
 
         // const hasBoardTags = await this.boardTagRepository.findOne({ title: boardTags.title });
-        // console.log('-----------');
-        // console.log(hasBoardTags);
-        // console.log('-----------');
 
         if (hasBoard) throw new ConflictException('이미 등록된 게시글입니다.');
 
@@ -109,7 +106,7 @@ export class BoardService {
     async update({ updateBoardInput }) {
         const { boardTags, content, like, view, mainImg, ...board } = updateBoardInput;
         const checkboard1 = await this.boardRepository.findOne({ title: board.title });
-        console.log(checkboard1);
+
         if (!checkboard1) {
             throw new ConflictException('기존 게시물이 없습니다.');
         }
