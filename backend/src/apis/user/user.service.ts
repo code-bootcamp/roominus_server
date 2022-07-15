@@ -39,23 +39,8 @@ export class UserService {
             password: hashedPassword,
             name: maskingname,
         });
-        console.log(result);
-        return result;
-        // const result1 = await this.cafeRepository.save({
 
-        // });
-        // console.log('--------');
-        // console.log(result1);
-        // console.log('--------');
-        // // const bbb = await this.userRepository.findOne({password: user.password})
-        // const aaa = await this.userRepository.findOne({ email: user.email });
-        // if (aaa) throw new ConflictException('이미 등록된 유저입니다.');
-        // const result2 = await this.userRepository.save({
-        //     ...user,
-        //     cafe: result1,
-        //     password: hashedPassword,
-        // });
-        // return result2;
+        return result;      
     }
 
     async delete({ email }) {

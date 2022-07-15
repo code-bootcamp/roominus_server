@@ -1,14 +1,16 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { User } from './entities/user.entity';
-import { UserService } from './user.service';
 import * as bcrypt from 'bcrypt';
 import { UseGuards } from '@nestjs/common';
 import { GqlAuthAccessGuard } from 'src/commons/auth/gql-auth.guard';
 import { CurrentUser, ICurrentUser } from 'src/commons/auth/gql-user.param';
-import { Theme } from '../theme/entities/theme.entity';
+
+import { UserService } from './user.service';
 import { CreateUserInput } from './dto/createUser.input';
 import { AuthService } from '../auth/auth.service';
 import { JwtService } from '@nestjs/jwt';
+
+import { User } from './entities/user.entity';
+import { Theme } from '../theme/entities/theme.entity';
 
 @Resolver()
 export class UserResolver {
@@ -37,5 +39,12 @@ export class UserResolver {
         @Args('email') email: string, //
     ) {
         return this.userService.delete({ email });
+    }
+
+    @UseGuards(GqlAuthAccessGuard)
+    @Query(() => String)
+    testAuthGuard(@CurrentUser() currentUser: ICurrentUser) {
+        console.log(currentUser);
+        return '인증 성공!!';
     }
 }

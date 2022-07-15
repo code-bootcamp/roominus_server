@@ -40,6 +40,34 @@ export class BoardService {
         return result;
     }
     async create({ createBoardInput }) {
+
+        const { boardImg, boardTags, ...board } = createBoardInput;
+
+        // const hasCafe = await this.cafeRepository.findOne({ name: cafeName });
+
+        // const hasTheme = await this.themeRepository.findOne({ title: themeTitle });
+
+        // const hasUser = await this.UserRepository.findOne({ name: userName });
+
+        const hasBoard = await this.boardRepository.findOne({ title: board.title });
+
+        // const hasBoardTags = await this.boardTagRepository.findOne({ title: boardTags.title });
+
+        if (hasBoard) throw new ConflictException('이미 등록된 게시글입니다.');
+
+        const result = [];
+        for (let i = 0; i < boardTags.length; i++) {
+            const tagtitle = boardTags[i].replace('#', '');
+            const prevTag = await this.boardTagRepository.findOne({ title: tagtitle });
+
+            if (prevTag) {
+                result.push(prevTag);
+            } else {
+                const newTag = await this.boardTagRepository.save({ title: tagtitle });
+                result.push(newTag);
+            }
+        }
+
         //게시물 중복여부 확인(안해도 됨)
         // const checkBoard = await this.boardRepository.findOne({ id: createBoardInput.id });
         // if (checkBoard) throw new ConflictException('이미 등록된 게시물입니다.');
@@ -47,6 +75,7 @@ export class BoardService {
         const findUser = await this.userRepository.findOne({
             where: { id: user },
         });
+
 
         const result = await this.boardRepository.save({
             ...items,
@@ -65,7 +94,7 @@ export class BoardService {
     async update({ updateBoardInput }) {
         const { boardTags, content, like, view, mainImg, ...board } = updateBoardInput;
         const checkboard1 = await this.boardRepository.findOne({ title: board.title });
-        console.log(checkboard1);
+
         if (!checkboard1) {
             throw new ConflictException('기존 게시물이 없습니다.');
         }
