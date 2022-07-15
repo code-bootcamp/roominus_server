@@ -57,7 +57,7 @@ export class Cafe {
     deletedAt: Date;
 
     @JoinTable()
-    @ManyToMany(() => User, users => users.cafes, { cascade: true })
+    @ManyToMany(() => User, users => users.cafe)
     @Field(() => [User])
     users: User[];
 }

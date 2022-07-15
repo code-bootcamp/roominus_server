@@ -28,14 +28,24 @@ export class BoardreviewService {
         });
     }
 
-    async create({ content, boardId }) {
-        const hasBoardreview = await this.boardRepository.findOne({ id: boardId });
-        const newBoardreview = await this.boardreviewRepository.save({
-            relations: ['board'],
-            content,
-            board: hasBoardreview.id,
+    async create({ createBoardreviewInput }) {
+        const { board, ...items } = createBoardreviewInput;
+
+        const findBoard = await this.boardRepository.findOne({
+            where: { id: board },
         });
-        return newBoardreview;
+
+        const result = await this.boardreviewRepository.save({
+            ...items,
+            board: findBoard.id,
+        });
+
+        await this.boardRepository.save({
+            ...findBoard,
+            boardreview: [result],
+        });
+
+        return result;
     }
 
     async delete({ id }) {
