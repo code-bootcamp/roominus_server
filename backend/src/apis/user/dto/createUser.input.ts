@@ -18,7 +18,7 @@ export class CreateUserInput {
     phone: string;
 
     @Field(() => Int, { nullable: true })
-    userpoint: number;
+    point: number;
 
     @Field(() => String)
     cafe: string;
