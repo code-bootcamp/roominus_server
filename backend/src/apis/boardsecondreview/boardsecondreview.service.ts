@@ -27,15 +27,25 @@ export class BoardsecondreviewService {
         });
     }
 
-    async create({ content, boardreviewId }) {
-        const hasBoardsecondreview = await this.boardreviewRepository.findOne({ id: boardreviewId });
-        const newBoardsecondreview = await this.boardsecondreviewRepository.save({
-            relations: ['boardreview'],
-            content,
-            boardreview: hasBoardsecondreview.id,
+    async create({ createBoardsecondreviewInput }) {
+        const { boardreview, ...items } = createBoardsecondreviewInput;
+
+        const findBoardreview = await this.boardreviewRepository.findOne({
+            where: { id: boardreview },
         });
 
-        return newBoardsecondreview;
+        console.log(findBoardreview);
+
+        const result = await this.boardsecondreviewRepository.save({
+            ...items,
+            boardreview: findBoardreview.id,
+        });
+
+        await this.boardreviewRepository.save({
+            ...findBoardreview,
+            boardsecondreview: [result],
+        });
+        return result;
     }
 
     async delete({ id }) {

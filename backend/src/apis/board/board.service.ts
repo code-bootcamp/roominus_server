@@ -2,6 +2,7 @@ import { ConflictException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { BoardTag } from '../boardTag/entities/boardTag.entity';
+import { User } from '../user/entities/user.entity';
 import { Board } from './entities/board.entity';
 import { BoardImg } from './entities/boardImg.entity';
 
@@ -14,24 +15,32 @@ export class BoardService {
         @InjectRepository(BoardTag)
         private readonly boardTagRepository: Repository<BoardTag>,
 
+        @InjectRepository(User)
+        private readonly userRepository: Repository<User>,
+
         @InjectRepository(BoardImg)
         private readonly boardImgRepository: Repository<BoardImg>,
     ) {}
 
     async findAll() {
-        return await this.boardRepository.find({
-            relations: ['boardTags'],
+        const aaa = await this.boardRepository.find({
+            relations: ['boardTags', 'user'],
             order: { createdAt: 'DESC' },
         });
+        console.log(aaa);
+        return aaa;
     }
 
     async findOne({ id }) {
-        return await this.boardRepository.findOne({
+        const result = await this.boardRepository.findOne({
             where: { id },
-            relations: ['boardTags'],
+            relations: ['boardTags', 'user'],
         });
+
+        return result;
     }
     async create({ createBoardInput }) {
+
         const { boardImg, boardTags, ...board } = createBoardInput;
 
         // const hasCafe = await this.cafeRepository.findOne({ name: cafeName });
@@ -59,50 +68,29 @@ export class BoardService {
             }
         }
 
-        const newBoard = await this.boardRepository.save({
-            ...board,
-            boardImg: boardImg,
-            boardTags: result,
+        //게시물 중복여부 확인(안해도 됨)
+        // const checkBoard = await this.boardRepository.findOne({ id: createBoardInput.id });
+        // if (checkBoard) throw new ConflictException('이미 등록된 게시물입니다.');
+        const { user, ...items } = createBoardInput;
+        const findUser = await this.userRepository.findOne({
+            where: { id: user },
         });
 
-        const result2 = await this.boardRepository.findOne({
-            where: { id: newBoard.id },
-            relations: ['boardTags'],
+
+        const result = await this.boardRepository.save({
+            ...items,
+            user: findUser.id,
         });
 
-        return result2;
+        await this.userRepository.save({
+            ...findUser,
+            board: [result],
+        });
+
+        return result;
     }
     /////
-    // async create({ createBoardInput }) {
-    //     const { cafeId, themeId, userId, boardTags, ...board } = createBoardInput;
 
-    //     const hasBoard = await this.boardRepository.findOne({ title: board.title });
-    //     if (hasBoard) throw new ConflictException('이미 등록된 게시물입니다!!');
-
-    //     // const result = await this.boardRepository.save({ ...board });
-    //     const result2 = [];
-    //     for (let i = 0; i < boardTags.length; i++) {
-    //         const tagtitle = boardTags[i].replace('#', '');
-    //         const prevTag = await this.boardTagRepository.findOne({ title: tagtitle });
-
-    //         if (prevTag) {
-    //             result2.push(prevTag);
-    //         } else {
-    //             const newTag = await this.boardTagRepository.save({ title: tagtitle });
-    //             result2.push(newTag);
-    //         }
-    //     }
-
-    //     const result3 = await this.boardRepository.save({
-    //         ...board,
-    //         cafe: { id: cafeId },
-    //         theme: { id: themeId },
-    //         user: { id: userId },
-    //         boardTags: result2,
-    //     });
-    //     return result3;
-    // }
-    /////
     async update({ updateBoardInput }) {
         const { boardTags, content, like, view, mainImg, ...board } = updateBoardInput;
         const checkboard1 = await this.boardRepository.findOne({ title: board.title });

@@ -1,6 +1,8 @@
 import { ConflictException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { FragmentsOnCompositeTypesRule } from 'graphql';
 import { Repository } from 'typeorm';
+import { Board } from '../board/entities/board.entity';
 import { Cafe } from '../cafe/entities/cafe.entity';
 import { User } from './entities/user.entity';
 
@@ -12,6 +14,9 @@ export class UserService {
 
         @InjectRepository(Cafe)
         private readonly cafeRepository: Repository<Cafe>,
+
+        @InjectRepository(Board)
+        private readonly boardRepository: Repository<Board>,
     ) {}
 
     async findAll() {
@@ -23,20 +28,19 @@ export class UserService {
     }
 
     async create({ createUserInput, hashedPassword }) {
-        const { ...user } = createUserInput;
+        const { name, ...items } = createUserInput;
+        const maskingname = name.replace(name[name.length - 2], '*');
 
-        const result1 = await this.cafeRepository.findOne({});
+        const checkuser = await this.userRepository.findOne({ email: createUserInput.email });
+        if (checkuser) throw new ConflictException('이미 등록된 유저입니다.');
 
-        // const bbb = await this.userRepository.findOne({password: user.password})
-        const aaa = await this.userRepository.findOne({ email: user.email });
-        if (aaa) throw new ConflictException('이미 등록된 유저입니다.');
-        const result2 = await this.userRepository.save({
-            ...user,
-            cafe: result1,
+        const result = await this.userRepository.save({
+            ...items,
             password: hashedPassword,
+            name: maskingname,
         });
 
-        return result2;
+        return result;      
     }
 
     async delete({ email }) {

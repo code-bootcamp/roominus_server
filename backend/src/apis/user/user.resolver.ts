@@ -6,6 +6,8 @@ import { CurrentUser, ICurrentUser } from 'src/commons/auth/gql-user.param';
 
 import { UserService } from './user.service';
 import { CreateUserInput } from './dto/createUser.input';
+import { AuthService } from '../auth/auth.service';
+import { JwtService } from '@nestjs/jwt';
 
 import { User } from './entities/user.entity';
 import { Theme } from '../theme/entities/theme.entity';
@@ -13,16 +15,16 @@ import { Theme } from '../theme/entities/theme.entity';
 @Resolver()
 export class UserResolver {
     constructor(
+        private readonly jwtService: JwtService,
         private readonly userService: UserService, //
+        private readonly authService: AuthService,
     ) {}
 
     @Mutation(() => User)
     async createUser(
-        @Args('password') password: string, //
-        @Args('createUserInput') createUserInput: CreateUserInput,
+        @Args('createUserInput') createUserInput: CreateUserInput, //
     ) {
-        const hashedPassword = await bcrypt.hash(password, 10.2);
-
+        const hashedPassword = await bcrypt.hash(createUserInput.password, 10.2);
         return await this.userService.create({ createUserInput, hashedPassword });
     }
 
@@ -31,17 +33,6 @@ export class UserResolver {
     fetchUser(@Args('email') email: string) {
         return this.userService.findOne({ email });
     }
-
-    @Query(() => [User])
-    fetchUserLoggedIn() {
-        return this.userService.findAll();
-    }
-
-    // @UseGuards(GqlAuthAccessGuard)
-    // @Query(() => String)
-    // fetchUser() {
-    //     return '인증 통과!!';
-    // }
 
     @Mutation(() => Boolean)
     deleteUser(

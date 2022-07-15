@@ -12,6 +12,7 @@ import {
     JoinTable,
     ManyToMany,
     ManyToOne,
+    OneToMany,
     PrimaryGeneratedColumn,
     UpdateDateColumn,
 } from 'typeorm';
@@ -53,12 +54,17 @@ export class Board {
     @Field(() => Int)
     view: number;
 
-    @ManyToOne(() => Boardreview)
-    @Field(() => Boardreview)
-    boardreview: Boardreview;
+    @JoinTable()
+    @OneToMany(() => Boardreview, boardreview => boardreview.board)
+    @Field(() => [Boardreview])
+    boardreview: Boardreview[];
 
     @JoinTable()
     @ManyToMany(() => BoardTag, boardTags => boardTags.boards)
-    @Field(() => [BoardTag])
+    @Field(() => [BoardTag], { nullable: true })
     boardTags: BoardTag[];
+
+    @ManyToOne(() => User)
+    @Field(() => User)
+    user: User;
 }

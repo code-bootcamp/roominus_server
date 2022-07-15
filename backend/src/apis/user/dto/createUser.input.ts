@@ -8,8 +8,8 @@ export class CreateUserInput {
     @Field(() => String)
     email: string;
 
-    // @Field(() => String)
-    // password: string;
+    @Field(() => String)
+    password: string;
 
     @Field(() => String)
     name: string;
@@ -20,6 +20,6 @@ export class CreateUserInput {
     @Field(() => Int, { nullable: true })
     point: number;
 
-    @Field(() => String)
+    @Field(() => String, { nullable: true })
     cafe: string;
 }
