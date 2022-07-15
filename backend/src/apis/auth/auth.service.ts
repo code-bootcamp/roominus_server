@@ -11,7 +11,7 @@ export class AuthService {
 
     setRefreshToken({ user, res }) {
         const refreshToken = this.jwtService.sign(
-            { email: user.email, sub: user.id },
+            { email: user.email, id: user.id, isServiceProvider: user.isserviceprovider },
             { secret: process.env.REFRESH_TOKEN_KEY, expiresIn: '1h' },
         );
 
@@ -27,7 +27,7 @@ export class AuthService {
 
     getAccessToken({ user }) {
         return this.jwtService.sign(
-            { email: user.email, sub: user.id },
+            { email: user.email, id: user.id, isServiceProvider: user.isserviceprovider },
             { secret: process.env.ACCESS_TOKEN_KEY, expiresIn: '1h' },
         );
     }
