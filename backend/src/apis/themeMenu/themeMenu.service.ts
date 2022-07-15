@@ -21,7 +21,7 @@ export class ThemeMenuService {
         return await this.themeMenuRepository.find({
             where: { theme: themeId },
             relations: ['cafe', 'theme'],
-            order: { reservation_time: 'ASC' },
+            order: { reservation_time: 'ASC', people_number: 'ASC' },
         });
     }
 
