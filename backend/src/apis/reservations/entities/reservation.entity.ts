@@ -58,5 +58,5 @@ export class Reservation {
     @JoinColumn()
     @OneToOne(() => Payment)
     @Field(() => Payment)
-    payment: Payment;
+    payment: string;
 }

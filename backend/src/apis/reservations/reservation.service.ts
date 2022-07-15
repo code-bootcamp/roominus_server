@@ -58,12 +58,18 @@ export class ReservationService {
 
         try {
             const hasCafe = await this.cafeRepository.findOne({ id: cafeId });
-
             const hasUser = await this.userRepository.findOne({ id: userId });
-
             const hasThemeMenu = await this.themeMenuRepository.findOne({ id: themeMenuId });
-
             if (!hasCafe || !hasUser || !hasThemeMenu) throw new UnprocessableEntityException('예약 실패!!');
+
+            const hasReservation = await this.reservationRepository.findOne({
+                where: {
+                    cafe: hasCafe.id,
+                    user: hasUser.id,
+                    theme_menu: hasThemeMenu.id,
+                },
+            });
+            if (hasReservation) throw new ConflictException('이미 예약하셨습니다!!');
 
             const newReservationInput = this.reservationRepository.create({
                 ...reservation,
