@@ -28,13 +28,18 @@ export class UserService {
     }
 
     async create({ createUserInput, hashedPassword }) {
+        const { name, ...items } = createUserInput;
+        const maskingname = name.replace(name[name.length - 2], '*');
+
         const checkuser = await this.userRepository.findOne({ email: createUserInput.email });
         if (checkuser) throw new ConflictException('이미 등록된 유저입니다.');
 
         const result = await this.userRepository.save({
-            ...createUserInput,
+            ...items,
             password: hashedPassword,
+            name: maskingname,
         });
+        console.log(result);
         return result;
         // const result1 = await this.cafeRepository.save({
 
