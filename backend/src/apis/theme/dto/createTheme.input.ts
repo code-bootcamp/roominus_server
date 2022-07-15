@@ -21,6 +21,9 @@ export class CreateThemeInput {
     peoplelimit: number;
 
     @Field(() => String)
+    clearTime: string;
+
+    @Field(() => String)
     mainImg: string;
 
     @Field(() => [String, { nullable: true }])
