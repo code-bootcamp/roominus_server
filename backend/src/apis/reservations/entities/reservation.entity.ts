@@ -1,9 +1,19 @@
 import { Field, ObjectType } from '@nestjs/graphql';
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+    Column,
+    CreateDateColumn,
+    DeleteDateColumn,
+    Entity,
+    JoinColumn,
+    ManyToOne,
+    OneToOne,
+    PrimaryGeneratedColumn,
+} from 'typeorm';
 
 import { Cafe } from 'src/apis/cafe/entities/cafe.entity';
 import { User } from 'src/apis/user/entities/user.entity';
 import { ThemeMenu } from 'src/apis/themeMenu/entities/themeMenu.entity';
+import { Payment } from 'src/apis/payment/entities/payment.entity';
 
 @Entity()
 @ObjectType()
@@ -44,4 +54,9 @@ export class Reservation {
     @ManyToOne(() => ThemeMenu)
     @Field(() => ThemeMenu)
     theme_menu: ThemeMenu;
+
+    @JoinColumn()
+    @OneToOne(() => Payment)
+    @Field(() => Payment)
+    payment: Payment;
 }

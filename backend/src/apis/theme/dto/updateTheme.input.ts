@@ -20,6 +20,9 @@ export class UpdateThemeInput {
     @Field(() => Int, { nullable: true })
     peoplelimit: number;
 
+    @Field(() => String)
+    clearTime: string;
+
     @Field(() => String, { nullable: true })
     mainImg: string;
 

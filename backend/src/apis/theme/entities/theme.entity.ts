@@ -43,6 +43,10 @@ export class Theme {
     @Field(() => Int)
     peoplelimit: number;
 
+    @Column()
+    @Field(() => String)
+    clearTime: string;
+
     @Column({ default: 0 })
     @Field(() => Int)
     like: number;
