@@ -34,20 +34,20 @@ export class ReservationResolver {
     @Mutation(() => Reservation)
     async createReservation(
         @Args('cafeId') cafeId: string, //
-        @Args('userId') userId: string, // 토큰이 잘 되면 토큰에 있는 사용자 정보로 대체
+        // @Args('userId') userId: string, // 토큰이 잘 되면 토큰에 있는 사용자 정보로 대체
         @Args('themeMenuId') themeMenuId: string,
         @Args('createReservationInput') createReservationInput: CreateReservationInput,
         @Args('createPaymentInput') createPaymentInput: CreatePaymentInput,
     ) {
         const resultReservation = await this.reservationService.create({
             cafeId,
-            userId,
+            userId: '8acc2ac3-24a1-469f-a2a4-6b267bb51f09',
             themeMenuId,
             createReservationInput,
         });
 
         const resultPayment = await this.paymentService.create({
-            userId,
+            userId: '8acc2ac3-24a1-469f-a2a4-6b267bb51f09',
             reservationId: resultReservation.id,
             createPaymentInput,
         });
@@ -63,10 +63,14 @@ export class ReservationResolver {
     @Mutation(() => Boolean)
     async deleteReservation(
         @Args('reservationId') reservationId: string,
-        @Args('userId') userId: string,
+        // @Args('userId') userId: string,
         @Args('merchantUid') merchantUid: string,
     ) {
-        const resultCancelPayment = this.paymentService.cancel({ reservationId, userId, merchantUid });
+        const resultCancelPayment = this.paymentService.cancel({
+            reservationId, //
+            userId: '8acc2ac3-24a1-469f-a2a4-6b267bb51f09',
+            merchantUid,
+        });
 
         if (resultCancelPayment) return true;
     }
