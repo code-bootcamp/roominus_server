@@ -1,11 +1,15 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql';
+import { Board } from 'src/apis/board/entities/board.entity';
 import { Cafe } from 'src/apis/cafe/entities/cafe.entity';
 import {
     Column,
     CreateDateColumn,
     DeleteDateColumn,
     Entity,
+    JoinTable,
     ManyToMany,
+    ManyToOne,
+    OneToMany,
     PrimaryGeneratedColumn,
     UpdateDateColumn,
 } from 'typeorm';
@@ -22,7 +26,7 @@ export class User {
     isserviceprovider: boolean;
 
     @Column()
-    // @Field(() => String) 비밀번호 노출 금지!!
+    @Field(() => String)
     password: string;
 
     @Column()
@@ -39,7 +43,7 @@ export class User {
 
     @Column({ default: 0 })
     @Field(() => Int, { nullable: true })
-    userpoint: number;
+    point: number;
 
     @CreateDateColumn()
     @Field(() => Date)
@@ -52,7 +56,12 @@ export class User {
     @DeleteDateColumn()
     deletedAt: Date;
 
-    @ManyToMany(() => Cafe, cafes => cafes.users)
+    @ManyToMany(() => Cafe, cafe => cafe.users)
     @Field(() => [String])
-    cafes: string[];
+    cafe: string[];
+
+    @JoinTable()
+    @OneToMany(() => Board, board => board.user)
+    @Field(() => [Board])
+    board: Board[];
 }

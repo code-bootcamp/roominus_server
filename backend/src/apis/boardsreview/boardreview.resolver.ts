@@ -1,5 +1,6 @@
-import { Args, Mutation, Resolver } from '@nestjs/graphql';
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { BoardreviewService } from './boardreview.service';
+import { CreateBoardreviewInput } from './dto/createBoardreview.input';
 import { Boardreview } from './entities/boardreview.entity';
 
 @Resolver()
@@ -8,12 +9,16 @@ export class BoardreviewResolver {
         private readonly boardreviewService: BoardreviewService, //
     ) {}
 
+    @Query(() => Boardreview)
+    async fetchBoardreview(@Args('id') id: string) {
+        return this.boardreviewService.findOne({ id });
+    }
+
     @Mutation(() => Boardreview)
     async createBoardreview(
-        @Args('content') content: string, //
-        @Args('boardId') boardId: string, //
+        @Args('createBoardreviewInput') createBoardreviewInput: CreateBoardreviewInput, //
     ) {
-        return this.boardreviewService.create({ content, boardId });
+        return this.boardreviewService.create({ createBoardreviewInput });
     }
 
     @Mutation(() => Boolean)
