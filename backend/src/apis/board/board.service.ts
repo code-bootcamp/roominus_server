@@ -23,10 +23,12 @@ export class BoardService {
     ) {}
 
     async findAll() {
-        return await this.boardRepository.find({
-            relations: ['boardTags'],
+        const aaa = await this.boardRepository.find({
+            relations: ['boardTags', 'user'],
             order: { createdAt: 'DESC' },
         });
+        console.log(aaa);
+        return aaa;
     }
 
     async findOne({ id }) {

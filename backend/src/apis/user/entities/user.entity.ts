@@ -57,11 +57,11 @@ export class User {
     deletedAt: Date;
 
     @ManyToMany(() => Cafe, cafe => cafe.users)
-    @Field(() => [String])
+    @Field(() => [String], { nullable: true })
     cafe: string[];
 
     @JoinTable()
     @OneToMany(() => Board, board => board.user)
-    @Field(() => [Board])
+    @Field(() => [Board], { nullable: true })
     board: Board[];
 }

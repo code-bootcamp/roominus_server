@@ -61,7 +61,7 @@ export class Board {
 
     @JoinTable()
     @ManyToMany(() => BoardTag, boardTags => boardTags.boards)
-    @Field(() => [BoardTag])
+    @Field(() => [BoardTag], { nullable: true })
     boardTags: BoardTag[];
 
     @ManyToOne(() => User)

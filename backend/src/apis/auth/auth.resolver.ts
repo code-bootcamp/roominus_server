@@ -1,5 +1,12 @@
-import { CACHE_MANAGER, Inject, UnauthorizedException, UnprocessableEntityException, UseGuards } from '@nestjs/common';
-import { Args, Context, Mutation, Resolver } from '@nestjs/graphql';
+import {
+    CACHE_MANAGER,
+    ConflictException,
+    Inject,
+    UnauthorizedException,
+    UnprocessableEntityException,
+    UseGuards,
+} from '@nestjs/common';
+import { Args, Context, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { UserService } from '../user/user.service';
 import { AuthService } from './auth.service';
 import * as bcrypt from 'bcrypt';
@@ -7,6 +14,7 @@ import { CurrentUser } from 'src/commons/auth/gql-user.param';
 import * as jwt from 'jsonwebtoken';
 import { GqlAuthAccessGuard, GqlAuthRefreshGuard } from 'src/commons/auth/gql-auth.guard';
 import { Cache } from 'cache-manager';
+import { User } from '../user/entities/user.entity';
 
 interface IContext {
     req: Request;
@@ -43,11 +51,33 @@ export class AuthResolver {
         return this.authService.getAccessToken({ user });
     }
 
+    @Query(() => User)
+    async fetchUserLoggedIn(
+        @Context() context: any, //
+    ) {
+        const accessToken = context.req.headers.authorization.split(' ')[1];
+        const refreshToken = context.req.headers.cookie.split('=')[1];
+
+        const aaa = jwt.verify(accessToken, 'myAccessKey');
+
+        const isValidation = this.authService.validationToken({
+            accessToken,
+            refreshToken,
+        });
+        if (isValidation === true) {
+            return await this.userService.findOne({ email: aaa['email'] });
+        } else {
+            return '오류';
+        }
+    }
     @UseGuards(GqlAuthAccessGuard)
     @Mutation(() => String)
     async logout(@Context() context: any) {
+        console.log(context);
         const accessToken = context.req.headers.anthorization.replace('Bearer ', '');
         const refreshToken = context.req.headers.cookie.replace('refreshToken=', '');
+
+        console.log(jwt.verify(accessToken, 'myAccessKey'));
         try {
             jwt.verify(accessToken, 'myAccessKey');
             jwt.verify(refreshToken, 'myRefreshKey');
