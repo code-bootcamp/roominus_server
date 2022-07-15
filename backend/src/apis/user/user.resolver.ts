@@ -32,19 +32,6 @@ export class UserResolver {
         return this.userService.findOne({ email });
     }
 
-    // 프론트에서 토큰을 보내줄 예정
-    @Query(() => [User])
-    async fetchUserLoggedIn(@Args('accessToken') accessToken: string, @Args('email') email: string) {
-        let ConfirmAccessToken = await this.authService.getAccessToken;
-        return await this.userService.findOne({ email });
-    }
-
-    // @UseGuards(GqlAuthAccessGuard)
-    // @Query(() => String)
-    // fetchUser() {
-    //     return '인증 통과!!';
-    // }
-
     @Mutation(() => Boolean)
     deleteUser(
         @Args('email') email: string, //

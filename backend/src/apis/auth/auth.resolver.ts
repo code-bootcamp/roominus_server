@@ -55,8 +55,10 @@ export class AuthResolver {
     async fetchUserLoggedIn(
         @Context() context: any, //
     ) {
-        const accessToken = context.req.headers.authorization.split(' ')[1];
-        const refreshToken = context.req.headers.cookie.split('=')[1];
+        const accessToken = context.req.headers.authorization.replace('Bearer ', '');
+        ///const accessToken = context.req.headers.authorization.split(' ')[1];
+        const refreshToken = context.req.headers.cookie.replace('refreshToken=', '');
+        // const refreshToken = context.req.headers.cookie.split('=')[1];
 
         const aaa = jwt.verify(accessToken, 'myAccessKey');
 
