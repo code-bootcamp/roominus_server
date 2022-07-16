@@ -39,22 +39,14 @@ export class ReservationResolver {
         @Args('createReservationInput') createReservationInput: CreateReservationInput,
         @Args('createPaymentInput') createPaymentInput: CreatePaymentInput,
     ) {
-        const resultReservation = await this.reservationService.create({
+        return await this.reservationService.create({
             cafeId,
-            // userId: '8acc2ac3-24a1-469f-a2a4-6b267bb51f09',
-            userId: '5a78a9a6-633a-4ba9-871f-9a74c9fd2970',
+            userId: '8acc2ac3-24a1-469f-a2a4-6b267bb51f09',
+            // userId: '5a78a9a6-633a-4ba9-871f-9a74c9fd2970',
             themeMenuId,
             createReservationInput,
-        });
-
-        const resultPayment = await this.paymentService.create({
-            // userId: '8acc2ac3-24a1-469f-a2a4-6b267bb51f09',
-            userId: '5a78a9a6-633a-4ba9-871f-9a74c9fd2970',
-            reservationId: resultReservation.id,
             createPaymentInput,
         });
-
-        if (resultReservation && resultPayment) return resultPayment;
     }
 
     // 트랜젝션
@@ -70,8 +62,8 @@ export class ReservationResolver {
     ) {
         const resultCancelPayment = this.paymentService.cancel({
             reservationId, //
-            // userId: '8acc2ac3-24a1-469f-a2a4-6b267bb51f09',
-            userId: '5a78a9a6-633a-4ba9-871f-9a74c9fd2970',
+            userId: '8acc2ac3-24a1-469f-a2a4-6b267bb51f09',
+            // userId: '5a78a9a6-633a-4ba9-871f-9a74c9fd2970',
             merchantUid,
         });
 
