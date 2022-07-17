@@ -64,7 +64,7 @@ import { PhoneModule } from './apis/phone/phone.module';
         }),
         CacheModule.register<RedisClientOptions>({
             store: redisStore,
-            url: 'redis://my-redis:6379',
+            url: '172.19.209.0/29',
             isGlobal: true,
         }),
     ],
