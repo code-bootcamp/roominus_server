@@ -15,8 +15,8 @@ import { Board } from '../board/entities/board.entity';
         TypeOrmModule.forFeature([User, Cafe, Board]),
     ],
     providers: [
-        JwtAccessStreategy,
-        UserResolver, //
+        JwtAccessStreategy, //
+        UserResolver,
         UserService,
         AuthResolver,
         AuthService,

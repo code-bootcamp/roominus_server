@@ -6,10 +6,9 @@ import { User } from '../user/entities/user.entity';
 import { BoardResolver } from './board.resolver';
 import { BoardService } from './board.service';
 import { Board } from './entities/board.entity';
-import { BoardImg } from './entities/boardImg.entity';
 
 @Module({
-    imports: [TypeOrmModule.forFeature([Board, BoardTag, BoardImg, User, Boardreview])],
+    imports: [TypeOrmModule.forFeature([Board, BoardTag, User, Boardreview])],
     providers: [
         BoardResolver, //
         BoardService,

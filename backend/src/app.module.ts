@@ -21,9 +21,11 @@ import { BoardsecondreviewModule } from './apis/boardsecondreview/boardsecondrev
 
 import { AppController } from './app.controller';
 import { AppResolver } from './app.resolver';
+import { PhoneModule } from './apis/phone/phone.module';
 
 @Module({
     imports: [
+        PhoneModule,
         BoardsecondreviewModule,
         BoardreviewModule,
         AuthModule,
@@ -49,8 +51,9 @@ import { AppResolver } from './app.resolver';
         ///////MySQL
         TypeOrmModule.forRoot({
             type: 'mysql',
-            host: process.env.MYSQL_HOST,
-            // host: 'localhost',
+            host: process.env.MYSQL_HOST, // 배포
+            // host: 'localhost', // local
+            // host: 'my-database', // docker redis 확인
             port: 3306,
             username: process.env.MYSQL_USER,
             password: process.env.MYSQL_PASS,
@@ -59,11 +62,11 @@ import { AppResolver } from './app.resolver';
             synchronize: true,
             logging: true,
         }),
-        // CacheModule.register<RedisClientOptions>({
-        //     store: redisStore,
-        //     url: 'redis://my-redis:6379',
-        //     isGlobal: true,
-        // }),
+        CacheModule.register<RedisClientOptions>({
+            store: redisStore,
+            url: 'redis://my-redis:6379',
+            isGlobal: true,
+        }),
     ],
     controllers: [AppController],
     providers: [AppResolver],
