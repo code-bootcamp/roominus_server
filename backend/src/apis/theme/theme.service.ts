@@ -27,7 +27,6 @@ export class ThemeService {
         });
 
         // const reusltCount = await this.themeRepository.count();
-        // console.log(reusltCount);
 
         if (result.length == 0) throw new UnprocessableEntityException('등록된 테마가 없습니다!!');
 

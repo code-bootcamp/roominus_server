@@ -76,7 +76,7 @@ export class BoardService {
     async update({ updateBoardInput }) {
         const { boardTags, content, like, view, mainImg, ...board } = updateBoardInput;
         const checkboard1 = await this.boardRepository.findOne({ title: board.title });
-        console.log(checkboard1);
+
         if (!checkboard1) {
             throw new ConflictException('기존 게시물이 없습니다.');
         }

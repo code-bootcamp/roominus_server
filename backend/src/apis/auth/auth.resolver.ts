@@ -104,7 +104,6 @@ export class AuthResolver {
     async restoreAccessToken(
         @CurrentUser() currentUser: any, //
     ) {
-        console.log(currentUser);
         // await this.cacheManager.set(`accessToken:${currentUser.accessToken}`, currentUser.id, {
         //     ttl: 0,
         // });
