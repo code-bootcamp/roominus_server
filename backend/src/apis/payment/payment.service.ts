@@ -1,4 +1,4 @@
-import { ConflictException, Injectable, UnprocessableEntityException } from '@nestjs/common';
+import { Injectable, UnprocessableEntityException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Connection, Repository } from 'typeorm';
 
@@ -20,6 +20,16 @@ export class PaymentService {
         private readonly iamportService: IamportService,
         private readonly connection: Connection,
     ) {}
+
+    async find({ userId }) {
+        const result = this.paymentRepository.find({
+            where: { user: userId },
+            relations: ['user', 'reservation'],
+        });
+
+        if (!result) throw new UnprocessableEntityException('결제 기록이 없습니다!!');
+        return result;
+    }
 
     async cancel({ reservationId, userId, merchantUid }) {
         const queryRunner = this.connection.createQueryRunner();
