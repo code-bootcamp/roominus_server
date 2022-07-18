@@ -25,7 +25,7 @@ import { PhoneModule } from './apis/phone/phone.module';
 
 @Module({
     imports: [
-        PhoneModule,
+        // PhoneModule,
         BoardsecondreviewModule,
         BoardreviewModule,
         AuthModule,
@@ -44,8 +44,9 @@ import { PhoneModule } from './apis/phone/phone.module';
             autoSchemaFile: 'src/commons/graphql/schema.gql',
             context: ({ req, res }) => ({ req, res }),
             cors: {
-                origin: '*',
-                credential: true,
+                origin: 'http://localhost:3000',
+                credential: 'include',
+                exposedHeaders: ['Authorization', 'Set-Cookie', 'Cookie'],
             },
         }),
         ///////MySQL
@@ -67,6 +68,7 @@ import { PhoneModule } from './apis/phone/phone.module';
             url: 'redis://localhost:6379',
             isGlobal: true,
         }),
+
     ],
     controllers: [AppController],
     providers: [AppResolver],

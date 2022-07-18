@@ -5,6 +5,6 @@ export class CreateBoardreviewInput {
     @Field(() => String)
     content: string;
 
-    @Field(() => String)
+    @Field(() => String, { nullable: true })
     board: string;
 }

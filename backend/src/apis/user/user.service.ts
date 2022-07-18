@@ -24,7 +24,13 @@ export class UserService {
     }
 
     async findOne({ email }) {
-        return await this.userRepository.findOne({ email });
+        const aaa = await this.userRepository.findOne({ email });
+        return aaa;
+    }
+
+    async findPassword({ email, phone }) {
+        const aaa = await this.userRepository.findOne({ email, phone });
+        return aaa;
     }
 
     async create({ createUserInput, hashedPassword }) {
