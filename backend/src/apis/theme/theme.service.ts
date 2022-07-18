@@ -20,11 +20,28 @@ export class ThemeService {
         private readonly genreRepository: Repository<Genre>,
     ) {}
 
-    async findAll() {
-        const result = await this.themeRepository.find({
-            relations: ['cafe', 'genre'],
-            order: { createdAt: 'DESC' },
-        });
+    async findAll({ genreId, page }) {
+        let result = [];
+        if (genreId) {
+            result = await this.themeRepository.find({
+                where: { genre: genreId },
+                relations: ['cafe', 'genre'],
+                take: 12,
+                skip: (page - 1) * 12,
+                // skip: 12 * page - 12,
+                order: { title: 'DESC' },
+            });
+        } else {
+            result = await this.themeRepository.find({
+                relations: ['cafe', 'genre'],
+                take: 12,
+                skip: (page - 1) * 12,
+                // skip: 12 * page - 12,
+                order: { title: 'DESC' },
+            });
+        }
+
+        console.log(result);
 
         if (result.length == 0) throw new UnprocessableEntityException('등록된 테마가 없습니다!!');
 

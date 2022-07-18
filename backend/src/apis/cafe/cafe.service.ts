@@ -17,11 +17,24 @@ export class CafeService {
         private readonly cafeImgRepository: Repository<CafeImg>,
     ) {}
 
-    async findAll() {
-        const result = await this.cafeRepository.find({
-            relations: ['users'],
-            order: { createdAt: 'DESC' },
-        });
+    async findAll({ address, page }) {
+        let result = [];
+        if (address) {
+            result = await this.cafeRepository.find({
+                where: { address },
+                relations: ['users'],
+                take: 8,
+                skip: (page - 1) * 8,
+                order: { name: 'DESC' },
+            });
+        } else {
+            result = await this.cafeRepository.find({
+                relations: ['users'],
+                take: 8,
+                skip: (page - 1) * 8,
+                order: { name: 'DESC' },
+            });
+        }
 
         if (result.length == 0) throw new UnprocessableEntityException('등록된 카페가 없습니다!!');
 
