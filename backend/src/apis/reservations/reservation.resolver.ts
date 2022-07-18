@@ -60,6 +60,8 @@ export class ReservationResolver {
         // @Args('userId') userId: string,
         @Args('merchantUid') merchantUid: string,
     ) {
+        console.log('=================Reservation', reservationId);
+        console.log('================MerchantUid', merchantUid);
         const resultCancelPayment = this.paymentService.cancel({
             reservationId, //
             userId: '8acc2ac3-24a1-469f-a2a4-6b267bb51f09',
