@@ -39,8 +39,7 @@ export class UserService {
             password: hashedPassword,
             name: maskingname,
         });
-
-        return result;      
+        return result;
     }
 
     async delete({ email }) {
