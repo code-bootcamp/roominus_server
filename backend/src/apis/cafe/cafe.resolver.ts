@@ -1,4 +1,4 @@
-import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
 
 import { CafeService } from './cafe.service';
 import { CreateCafeInput } from './dto/createCafe.input';
@@ -13,6 +13,11 @@ export class CafeResolver {
     @Query(() => [Cafe])
     fetchCafes() {
         return this.cafeService.findAll();
+    }
+
+    @Query(() => Int)
+    fetchCafesCount() {
+        return this.cafeService.findAllCount();
     }
 
     @Query(() => Cafe)
