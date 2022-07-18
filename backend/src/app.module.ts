@@ -25,7 +25,7 @@ import { PhoneModule } from './apis/phone/phone.module';
 
 @Module({
     imports: [
-        // PhoneModule,
+        PhoneModule,
         BoardsecondreviewModule,
         BoardreviewModule,
         AuthModule,
