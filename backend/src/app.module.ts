@@ -50,7 +50,7 @@ import { PhoneModule } from './apis/phone/phone.module';
         }),
         ///////MySQL
         TypeOrmModule.forRoot({
-            type: 'mysql',
+            type: 'mysql',            
             host: process.env.MYSQL_HOST, // 배포
             // host: 'localhost', // local            
             port: 3306,
