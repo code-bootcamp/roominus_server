@@ -26,22 +26,18 @@ export class ThemeService {
             result = await this.themeRepository.find({
                 where: { genre: genreId },
                 relations: ['cafe', 'genre'],
-                take: 12,
-                skip: (page - 1) * 12,
-                // skip: 12 * page - 12,
+                take: 6,
+                skip: (page - 1) * 6,
                 order: { title: 'DESC' },
             });
         } else {
             result = await this.themeRepository.find({
                 relations: ['cafe', 'genre'],
-                take: 12,
-                skip: (page - 1) * 12,
-                // skip: 12 * page - 12,
+                take: 6,
+                skip: (page - 1) * 6,
                 order: { title: 'DESC' },
             });
         }
-
-        console.log(result);
 
         if (result.length == 0) throw new UnprocessableEntityException('등록된 테마가 없습니다!!');
 
