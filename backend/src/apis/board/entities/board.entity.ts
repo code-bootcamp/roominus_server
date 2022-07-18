@@ -65,6 +65,6 @@ export class Board {
     boardTags: BoardTag[];
 
     @ManyToOne(() => User)
-    @Field(() => User)
+    @Field(() => User, { nullable: true })
     user: User;
 }

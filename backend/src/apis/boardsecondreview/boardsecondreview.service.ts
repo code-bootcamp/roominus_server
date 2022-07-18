@@ -34,18 +34,21 @@ export class BoardsecondreviewService {
             where: { id: boardreview },
         });
 
-        console.log(findBoardreview);
-
-        const result = await this.boardsecondreviewRepository.save({
+        const boardsecondreviewresult = await this.boardsecondreviewRepository.save({
             ...items,
             boardreview: findBoardreview.id,
         });
 
-        await this.boardreviewRepository.save({
+        const boardreviewresult = await this.boardreviewRepository.save({
             ...findBoardreview,
-            boardsecondreview: [result],
+            boardsecondreview: [boardsecondreviewresult],
         });
-        return result;
+
+        const finalboardsecondreviewresult = await this.boardsecondreviewRepository.save({
+            ...createBoardsecondreviewInput,
+            boardreview: boardreviewresult,
+        });
+        return finalboardsecondreviewresult;
     }
 
     async delete({ id }) {
