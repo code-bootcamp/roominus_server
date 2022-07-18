@@ -4,7 +4,6 @@ import { Repository } from 'typeorm';
 import { BoardTag } from '../boardTag/entities/boardTag.entity';
 import { User } from '../user/entities/user.entity';
 import { Board } from './entities/board.entity';
-import { BoardImg } from './entities/boardImg.entity';
 
 @Injectable()
 export class BoardService {
@@ -17,9 +16,6 @@ export class BoardService {
 
         @InjectRepository(User)
         private readonly userRepository: Repository<User>,
-
-        @InjectRepository(BoardImg)
-        private readonly boardImgRepository: Repository<BoardImg>,
     ) {}
 
     async findAll() {
@@ -40,40 +36,40 @@ export class BoardService {
         return result;
     }
     async create({ createBoardInput }) {
-        // const { boardImg, boardTags, ...board } = createBoardInput;
-        // // const hasCafe = await this.cafeRepository.findOne({ name: cafeName });
-        // // const hasTheme = await this.themeRepository.findOne({ title: themeTitle });
-        // // const hasUser = await this.UserRepository.findOne({ name: userName });
-        // const hasBoard = await this.boardRepository.findOne({ title: board.title });
-        // // const hasBoardTags = await this.boardTagRepository.findOne({ title: boardTags.title });
-        // if (hasBoard) throw new ConflictException('이미 등록된 게시글입니다.');
-        // const result = [];
-        // for (let i = 0; i < boardTags.length; i++) {
-        //     const tagtitle = boardTags[i].replace('#', '');
-        //     const prevTag = await this.boardTagRepository.findOne({ title: tagtitle });
-        //     if (prevTag) {
-        //         result.push(prevTag);
-        //     } else {
-        //         const newTag = await this.boardTagRepository.save({ title: tagtitle });
-        //         result.push(newTag);
-        //     }
-        // }
-        // //게시물 중복여부 확인(안해도 됨)
-        // // const checkBoard = await this.boardRepository.findOne({ id: createBoardInput.id });
-        // // if (checkBoard) throw new ConflictException('이미 등록된 게시물입니다.');
-        // const { user, ...items } = createBoardInput;
-        // const findUser = await this.userRepository.findOne({
-        //     where: { id: user },
-        // });
-        // const result = await this.boardRepository.save({
-        //     ...items,
-        //     user: findUser.id,
-        // });
-        // await this.userRepository.save({
-        //     ...findUser,
-        //     board: [result],
-        // });
-        // return result;
+        //게시물 중복여부 확인(안해도 됨)
+        // const checkBoard = await this.boardRepository.findOne({ id: createBoardInput.id });
+        // if (checkBoard) throw new ConflictException('이미 등록된 게시물입니다.');
+        const { user, boardTags, ...items } = createBoardInput;
+        const findUser = await this.userRepository.findOne({
+            where: { id: user },
+        });
+
+        const boardTagresult = [];
+        for (let i = 0; i < boardTags.length; i++) {
+            const tagtitle = boardTags[i].replace('#', '');
+            const prevTag = await this.boardTagRepository.findOne({ title: tagtitle });
+
+            if (prevTag) {
+                boardTagresult.push(prevTag);
+            } else {
+                const newTag = await this.boardTagRepository.save({ title: tagtitle });
+                boardTagresult.push(newTag);
+            }
+        }
+
+        const result = await this.boardRepository.save({
+            ...items,
+            user: findUser.id,
+            boardTags: boardTagresult,
+        });
+
+        await this.userRepository.save({
+            ...findUser,
+            board: [result],
+            boardTags: boardTagresult,
+        });
+
+        return result;
     }
     /////
 
@@ -90,7 +86,7 @@ export class BoardService {
         await this.boardRepository.delete({ title: board.title, content, like, view });
         const myboard = await this.boardRepository.findOne({
             where: { title: board.title, content, like, view, mainImg, boardTags },
-            relations: ['boardTags'],
+            relations: ['boardTags', 'user'],
         });
 
         // const myboard = await this.boardRepository.update({ title: board.title }, { ...boardTags });
