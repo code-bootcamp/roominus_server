@@ -28,20 +28,23 @@ export class UserResolver {
         return await this.userService.create({ createUserInput, hashedPassword });
     }
 
-    @UseGuards(GqlAuthAccessGuard)
+    // @UseGuards(GqlAuthAccessGuard)
     @Query(() => User)
-    fetchUser(@Args('email') email: string) {
-        return this.userService.findOne({ email });
+    fetchFindPassword(
+        @Args('email') email: string, //
+        @Args('phone') phone: string,
+    ) {
+        return this.userService.findPassword({ email, phone });
     }
 
-    @Mutation(() => Boolean)
+    // @Mutation(() => Boolean)
     deleteUser(
         @Args('email') email: string, //
     ) {
         return this.userService.delete({ email });
     }
 
-    @UseGuards(GqlAuthAccessGuard)
+    // @UseGuards(GqlAuthAccessGuard)
     @Query(() => String)
     testAuthGuard(@CurrentUser() currentUser: ICurrentUser) {
         console.log(currentUser);

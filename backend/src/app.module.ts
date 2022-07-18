@@ -25,7 +25,7 @@ import { PhoneModule } from './apis/phone/phone.module';
 
 @Module({
     imports: [
-        PhoneModule,
+        // PhoneModule,
         BoardsecondreviewModule,
         BoardreviewModule,
         AuthModule,
@@ -44,15 +44,16 @@ import { PhoneModule } from './apis/phone/phone.module';
             autoSchemaFile: 'src/commons/graphql/schema.gql',
             context: ({ req, res }) => ({ req, res }),
             cors: {
-                origin: '*',
-                credential: true,
+                origin: 'http://localhost:3000',
+                credential: 'include',
+                exposedHeaders: ['Authorization', 'Set-Cookie', 'Cookie'],
             },
         }),
         ///////MySQL
         TypeOrmModule.forRoot({
             type: 'mysql',
-            host: process.env.MYSQL_HOST, // 배포
-            // host: 'localhost', // local
+            // host: process.env.MYSQL_HOST, // 배포
+            host: 'localhost', // local
             // host: 'my-database', // docker redis 확인
             port: 3306,
             username: process.env.MYSQL_USER,
@@ -62,11 +63,12 @@ import { PhoneModule } from './apis/phone/phone.module';
             synchronize: true,
             logging: true,
         }),
-        CacheModule.register<RedisClientOptions>({
-            store: redisStore,
-            url: '172.19.209.0/29',
-            isGlobal: true,
-        }),
+        // CacheModule.register<RedisClientOptions>({
+        //     store: redisStore,
+        //     url: 'redis://my-redis:6379',
+        //     // url: '172.19.209.0/29' // redis 전용
+        //     isGlobal: true,
+        // }),
     ],
     controllers: [AppController],
     providers: [AppResolver],

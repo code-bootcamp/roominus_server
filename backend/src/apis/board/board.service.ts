@@ -29,10 +29,11 @@ export class BoardService {
 
     async findOne({ id }) {
         const result = await this.boardRepository.findOne({
-            where: { id },
+            where: [{ id }],
             relations: ['boardTags', 'user'],
         });
 
+        console.log(result);
         return result;
     }
     async create({ createBoardInput }) {
@@ -56,20 +57,25 @@ export class BoardService {
                 boardTagresult.push(newTag);
             }
         }
-
-        const result = await this.boardRepository.save({
+        const boardresult = await this.boardRepository.save({
             ...items,
-            user: findUser.id,
+            user: findUser,
             boardTags: boardTagresult,
         });
 
-        await this.userRepository.save({
+        const userresult = await this.userRepository.save({
             ...findUser,
-            board: [result],
-            boardTags: boardTagresult,
+            board: [boardresult.id],
+            user: [boardresult.user],
+            // boardTags: boardTagresult,
         });
 
-        return result;
+        const finalresult = await this.boardRepository.save({
+            ...boardresult,
+            user: userresult,
+        });
+        console.log(finalresult);
+        return finalresult;
     }
     /////
 
