@@ -51,14 +51,8 @@ import { PhoneModule } from './apis/phone/phone.module';
         ///////MySQL
         TypeOrmModule.forRoot({
             type: 'mysql',
-<<<<<<< HEAD
-            // host: process.env.MYSQL_HOST,
-            host: 'localhost',
-=======
             host: process.env.MYSQL_HOST, // 배포
             // host: 'localhost', // local
-            // host: 'my-database', // docker redis 확인
->>>>>>> aaa767e59fc52e8bd4aa69ad1aa4d81b3c01bb2b
             port: 3306,
             username: process.env.MYSQL_USER,
             password: process.env.MYSQL_PASS,
