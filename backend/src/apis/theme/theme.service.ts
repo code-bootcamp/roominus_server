@@ -37,14 +37,14 @@ export class ThemeService {
                 relations: ['cafe', 'genre'],
                 take: 6,
                 skip: (page - 1) * 6,
-                order: { title: 'DESC' },
+                order: { createdAt: 'DESC' },
             });
         } else {
             result = await this.themeRepository.find({
                 relations: ['cafe', 'genre'],
                 take: 6,
                 skip: (page - 1) * 6,
-                order: { title: 'DESC' },
+                order: { createdAt: 'DESC' },
             });
         }
 
