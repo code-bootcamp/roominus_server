@@ -50,9 +50,9 @@ import { PhoneModule } from './apis/phone/phone.module';
         }),
         ///////MySQL
         TypeOrmModule.forRoot({
-            type: 'mysql',            
+            type: 'mysql',
             host: process.env.MYSQL_HOST, // 배포
-            // host: 'localhost', // local            
+            // host: 'localhost', // local
             port: 3306,
             username: process.env.MYSQL_USER,
             password: process.env.MYSQL_PASS,
