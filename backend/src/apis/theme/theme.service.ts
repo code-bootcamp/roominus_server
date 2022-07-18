@@ -26,11 +26,13 @@ export class ThemeService {
             order: { createdAt: 'DESC' },
         });
 
-        // const reusltCount = await this.themeRepository.count();
-
         if (result.length == 0) throw new UnprocessableEntityException('등록된 테마가 없습니다!!');
 
         return result;
+    }
+
+    async findAllCount() {
+        return await this.themeImgRepository.count();
     }
 
     async findOne({ themeId }) {
