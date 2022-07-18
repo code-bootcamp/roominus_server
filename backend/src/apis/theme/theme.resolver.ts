@@ -14,11 +14,16 @@ export class ThemeResolver {
     ) {}
 
     @Query(() => [Theme])
+    fetchThemesAll() {
+        return this.themeService.findAll();
+    }
+
+    @Query(() => [Theme])
     async fetchThemes(
         @Args('genreId', { nullable: true }) genreId: string, //
         @Args('page', { defaultValue: 1 }) page: number,
     ) {
-        return await this.themeService.findAll({ genreId, page });
+        return await this.themeService.findPagination({ genreId, page });
     }
 
     @Query(() => Int)
