@@ -52,4 +52,17 @@ export class UserService {
         const result = await this.userRepository.softDelete({ email });
         return result.affected ? true : false;
     }
+
+    async update({ userId, updateUserInput }) {
+        const { cafe, board, ...items } = updateUserInput;
+        const checkResult = await this.userRepository.findOne({
+            relations: ['cafe', 'board'],
+            where: { id: userId },
+        });
+        console.log(checkResult.cafe);
+        // checkResult.cafe.map(async el => {
+        //     console.log(el);
+        //     await this.cafeRepository.delete({ id: el.id });
+        // });
+    }
 }

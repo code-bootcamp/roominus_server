@@ -65,7 +65,7 @@ export class CafeService {
         for (let i = 0; i < users.length; i++) {
             const hasUser = await this.userRepository.findOne({ name: users[i] });
 
-            if (hasUser) {
+            if (!hasUser) {
                 userArr.push(hasUser);
             } else {
                 throw new ConflictException('존재하는 않는 사용자입니다!!');

@@ -11,6 +11,7 @@ import { JwtService } from '@nestjs/jwt';
 
 import { User } from './entities/user.entity';
 import { Theme } from '../theme/entities/theme.entity';
+import { UpdateUserInput } from './dto/updateUser.input';
 
 @Resolver()
 export class UserResolver {
@@ -37,11 +38,21 @@ export class UserResolver {
         return this.userService.findPassword({ email, phone });
     }
 
-    // @Mutation(() => Boolean)
+    @Mutation(() => Boolean)
     deleteUser(
         @Args('email') email: string, //
     ) {
         return this.userService.delete({ email });
+    }
+
+    @Mutation(() => User)
+    async updateUser(
+        @Args('userId') userId: string, //
+        @Args('updateUserInput') updateUserInput: UpdateUserInput,
+    ) {
+        console.log(userId);
+        console.log(updateUserInput);
+        await this.userService.update({ userId, updateUserInput });
     }
 
     // @UseGuards(GqlAuthAccessGuard)

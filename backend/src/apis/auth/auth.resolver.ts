@@ -58,7 +58,7 @@ export class AuthResolver {
         console.log('Input acceessToken');
         console.log(context.req.headers.authorization);
         console.log('Input refreshToken');
-        console.log(context.req.headers.cookie);
+        console.log(context.req.headers);
         const accessToken = context.req.headers.authorization.replace('Bearer ', '');
         ///const accessToken = context.req.headers.authorization.split(' ')[1];
         const refreshToken = context.req.headers.cookie.replace('refreshToken=', '');

@@ -52,7 +52,7 @@ import { PhoneModule } from './apis/phone/phone.module';
         ///////MySQL
         TypeOrmModule.forRoot({
             type: 'mysql',
-            // host: process.env.MYSQL_HOST, // 배포
+            host: process.env.MYSQL_HOST, // 배포
             // host: 'localhost', // local
             port: 3306,
             username: process.env.MYSQL_USER,
@@ -64,11 +64,10 @@ import { PhoneModule } from './apis/phone/phone.module';
         }),
         CacheModule.register<RedisClientOptions>({
             store: redisStore,
-            // url: 'redis://172.19.209.3:6379',
-            url: 'redis://localhost:6379',
+            url: 'redis://172.19.209.3:6379', // 배포
+            // url: 'redis://localhost:6379',
             isGlobal: true,
         }),
-
     ],
     controllers: [AppController],
     providers: [AppResolver],
