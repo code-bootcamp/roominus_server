@@ -11,8 +11,11 @@ export class CafeResolver {
     constructor(private readonly cafeService: CafeService) {}
 
     @Query(() => [Cafe])
-    fetchCafes() {
-        return this.cafeService.findAll();
+    fetchCafes(
+        @Args('address', { nullable: true }) address: string, //
+        @Args('page', { defaultValue: 1 }) page: number,
+    ) {
+        return this.cafeService.findAll({ address, page });
     }
 
     @Query(() => Int)
