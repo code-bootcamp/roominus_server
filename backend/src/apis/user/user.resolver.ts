@@ -37,7 +37,7 @@ export class UserResolver {
         return this.userService.findPassword({ email, phone });
     }
 
-    // @Mutation(() => Boolean)
+    @Mutation(() => Boolean)
     deleteUser(
         @Args('email') email: string, //
     ) {
