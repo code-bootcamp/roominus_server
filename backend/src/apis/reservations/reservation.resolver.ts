@@ -16,11 +16,11 @@ export class ReservationResolver {
     ) {}
 
     @Query(() => [Reservation])
-    fetchReservatoins(
+    async fetchReservatoins(
         @Args('cafeId') cafeId: string, //
         @Args('reservationDate') reservationDate: string,
     ) {
-        return this.reservationService.findAll({ cafeId, reservationDate });
+        return await this.reservationService.findAll({ cafeId, reservationDate });
     }
 
     @Query(() => [Reservation])

@@ -1,10 +1,11 @@
-import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
 
 import { ThemeService } from './theme.service';
 
-import { Theme } from './entities/theme.entity';
 import { CreateThemeInput } from './dto/createTheme.input';
 import { UpdateThemeInput } from './dto/updateTheme.input';
+
+import { Theme } from './entities/theme.entity';
 
 @Resolver()
 export class ThemeResolver {
@@ -14,7 +15,14 @@ export class ThemeResolver {
 
     @Query(() => [Theme])
     async fetchThemes() {
-        return await this.themeService.findAll();
+        const result = await this.themeService.findAll();
+
+        return result;
+    }
+
+    @Query(() => Int)
+    fetchThemesCount() {
+        return this.themeService.findAllCount();
     }
 
     @Query(() => Theme)

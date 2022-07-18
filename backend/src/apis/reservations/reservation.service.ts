@@ -28,12 +28,12 @@ export class ReservationService {
     ) {}
 
     async findAll({ cafeId, reservationDate }) {
-        const result = this.reservationRepository.find({
+        const result = await this.reservationRepository.find({
             where: { cafe: cafeId, reservation_date: reservationDate },
-            relations: ['cafe', 'user', 'theme_menu'],
+            relations: ['cafe', 'user', 'theme_menu', 'payment'],
         });
 
-        if (!result || (await result).length === 0) throw new UnprocessableEntityException('예약이 없습니다!!');
+        if (!result || result.length === 0) throw new UnprocessableEntityException('예약이 없습니다!!');
 
         return result;
     }
