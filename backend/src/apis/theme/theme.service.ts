@@ -23,7 +23,7 @@ export class ThemeService {
     async findAll() {
         const result = await this.themeRepository.find({
             relations: ['cafe', 'genre'],
-            order: { createdAt: 'DESC' },
+            order: { title: 'DESC' },
         });
 
         if (result.length == 0) throw new UnprocessableEntityException('등록된 테마가 없습니다!!');

@@ -20,7 +20,7 @@ export class CafeService {
     async findAll() {
         const result = await this.cafeRepository.find({
             relations: ['users'],
-            order: { createdAt: 'DESC' },
+            order: { name: 'DESC' },
         });
 
         if (result.length == 0) throw new UnprocessableEntityException('등록된 카페가 없습니다!!');
