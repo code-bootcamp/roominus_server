@@ -35,15 +35,15 @@ export class ThemeService {
             result = await this.themeRepository.find({
                 where: { genre: genreId },
                 relations: ['cafe', 'genre'],
-                take: 6,
-                skip: (page - 1) * 6,
+                take: 12,
+                skip: (page - 1) * 12,
                 order: { createdAt: 'DESC' },
             });
         } else {
             result = await this.themeRepository.find({
                 relations: ['cafe', 'genre'],
-                take: 6,
-                skip: (page - 1) * 6,
+                take: 12,
+                skip: (page - 1) * 12,
                 order: { createdAt: 'DESC' },
             });
         }
