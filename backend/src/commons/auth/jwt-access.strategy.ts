@@ -10,11 +10,11 @@ export class JwtAccessStreategy extends PassportStrategy(Strategy, 'access') {
         super({
             jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(), //
             secretOrKey: process.env.ACCESS_TOKEN_KEY,
+            passReqToCallback: true,
         });
     }
 
-    validate(payload) {
-        console.log(payload);
+    validate(req, payload) {
         return {
             email: payload.email, //
             id: payload.id,
