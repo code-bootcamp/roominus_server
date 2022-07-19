@@ -49,7 +49,7 @@ export class UserResolver {
         return this.userService.delete({ email });
     }
 
-    // @UseGuards(GqlAuthAccessGuard)
+    @UseGuards(GqlAuthAccessGuard)
     @Query(() => String)
     testAuthGuard(@CurrentUser() currentUser: ICurrentUser) {
         console.log(currentUser);

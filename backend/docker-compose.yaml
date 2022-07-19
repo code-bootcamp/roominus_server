@@ -4,7 +4,6 @@ services:
     roominus-server:
         platform: linux/x86_64
         image: asia.gcr.io/codecamp-main-project/roominus:1.45
-
         build:
             context: .
             dockerfile: Dockerfile
