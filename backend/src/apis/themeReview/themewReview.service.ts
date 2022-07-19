@@ -17,16 +17,22 @@ export class ThemeReivewService {
         private readonly themeRepository: Repository<Theme>,
     ) {}
 
-    async findAll({ themeId }) {
+    async findAll({ themeId, page }) {
         const result = await this.themeReviewRepository.find({
             where: { theme: themeId },
             relations: ['theme', 'user'],
+            take: 12,
+            skip: (page - 1) * 12,
             order: { createdAt: 'DESC' },
         });
 
         if (result.length == 0) throw new UnprocessableEntityException('등록된 후기가 없습니다!!');
 
         return result;
+    }
+
+    async findAllCount() {
+        return await this.themeReviewRepository.count();
     }
 
     async create({ themeId, createThemeReviewInput }) {
