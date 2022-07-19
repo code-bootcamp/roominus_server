@@ -22,9 +22,11 @@ import { BoardsecondreviewModule } from './apis/boardsecondreview/boardsecondrev
 import { AppController } from './app.controller';
 import { AppResolver } from './app.resolver';
 import { PhoneModule } from './apis/phone/phone.module';
+import { SocialUserModule } from './apis/socialUser/socialUser.module';
 
 @Module({
     imports: [
+        SocialUserModule,
         PhoneModule,
         BoardsecondreviewModule,
         BoardreviewModule,

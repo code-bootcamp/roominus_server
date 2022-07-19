@@ -3,6 +3,7 @@ import { JwtService } from '@nestjs/jwt';
 import { UserService } from '../user/user.service';
 import * as jwt from 'jsonwebtoken';
 import { Cache } from 'cache-manager';
+import { SocialUserService } from '../socialUser/socialUser.service';
 
 interface IlogoutToken {
     email: string;
@@ -18,6 +19,7 @@ export class AuthService {
         private readonly userService: UserService,
         @Inject(CACHE_MANAGER)
         private readonly cacheMananger: Cache,
+        private readonly socialuserService: SocialUserService,
     ) {}
 
     setRefreshToken({ user, res }) {
@@ -51,6 +53,28 @@ export class AuthService {
         return this.jwtService.sign(
             { email: user.email, id: user.id, isServiceProvider: user.isserviceprovider },
             { secret: process.env.ACCESS_TOKEN_KEY, expiresIn: '1h' },
+        );
+    }
+
+    getSocialAccessToken({ socialUser }) {
+        return this.jwtService.sign(
+            { email: socialUser.email, phone: socialUser.phone },
+            { secret: process.env.ACCESS_TOKEN_KEY, expiresIn: '1h' },
+        );
+    }
+
+    setSocialRefreshToken({ socialUser, res }) {
+        const socialrefreshToken = this.jwtService.sign(
+            { email: socialUser.email, phone: socialUser.phone },
+            { secret: process.env.REFRESH_TOKEN_KEY, expiresIn: '1h' },
+        );
+        // res.setHeader('Set-Cookie', `refreshToken=${refreshToken}; path=/;`);
+
+        // 배포환경
+        res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+        res.setHeader(
+            'Set-Cookie',
+            `refreshToken=${socialrefreshToken}; path=/; domain=.wawoong.shop; SameSite=None; Secure; httpOnly;`,
         );
     }
 

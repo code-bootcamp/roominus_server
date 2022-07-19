@@ -29,7 +29,8 @@ export class AuthResolver {
         private readonly userService: UserService, //
         private readonly authService: AuthService, //
         @Inject(CACHE_MANAGER)
-        private readonly cacheManager: Cache, // private readonly socialuserService: SocialUserService,
+        private readonly cacheManager: Cache, //
+        private readonly socialuserService: SocialUserService,
     ) {}
 
     @Mutation(() => String)
@@ -55,28 +56,28 @@ export class AuthResolver {
         return this.authService.getAccessToken({ user });
     }
 
-    // @Mutation(() => String)
-    // async SocialLogin(
-    //     @Args('email') email: string, //
-    //     @Args('phone') phone: string,
-    //     @Context() context: IContext,
-    // ) {
-    //     // 1. 로그인 @@
-    //     const socialUser = await this.userService.findOne({ email });
+    @Mutation(() => String)
+    async SocialLogin(
+        @Args('email') email: string, //
+        @Args('phone') phone: string,
+        @Context() context: IContext,
+    ) {
+        // 1. 로그인 @@
+        const socialUser = await this.socialuserService.findOne({ email });
+        console.log(socialUser);
+        // 2. 일치하는 유저가 없으면?! 에러 던지기!!!
+        if (!socialUser) throw new UnprocessableEntityException('아이디가 없습니다.');
 
-    //     // 2. 일치하는 유저가 없으면?! 에러 던지기!!!
-    //     if (!socialUser) throw new UnprocessableEntityException('아이디가 없습니다.');
+        // 3. 일치하는 유저가 있지만,   전화번호가 틀렸다면?! 에러 던지기!!!
+        // const isAuth = await bcrypt.compare(phone, socialUser.);
+        // if (!isAuth) throw new UnprocessableEntityException('암호가 틀렸습니다.');
 
-    //     // 3. 일치하는 유저가 있지만, 비밀번호가 틀렸다면?! 에러 던지기!!!
-    //     const isAuth = await bcrypt.compare(phone, user.password);
-    //     if (!isAuth) throw new UnprocessableEntityException('암호가 틀렸습니다.');
+        // 4. refreshToken(=JWT)을 만들어서 프론트엔드(쿠키)에 보내주기
+        // this.authService.setRefreshToken({ socialUser, res: context.res });
 
-    //     // 4. refreshToken(=JWT)을 만들어서 프론트엔드(쿠키)에 보내주기
-    //     this.authService.setRefreshToken({ user, res: context.res });
-
-    //     // 5. 일치하는 유저가 있으면?! accessToken(=JWT)을 만들어서 브라우저에 전달하기
-    //     return this.authService.getAccessToken({ user });
-    // }
+        // 5. 일치하는 유저가 있으면?! accessToken(=JWT)을 만들어서 브라우저에 전달하기
+        return this.authService.getSocialAccessToken({ socialUser });
+    }
 
     @Query(() => User)
     async fetchUserLoggedIn(
@@ -115,14 +116,21 @@ export class AuthResolver {
         const refreshToken = context.req.headers.cookie.replace('refreshToken=', '');
         // const refreshToken = context.req.headers.cookie.split('=')[1];
 
-        const aaa = jwt.verify(accessToken, 'myAccessKey');
+        console.log('-------------------');
+        console.log(accessToken);
+        console.log('-------------------');
+        console.log('-------------------');
+        console.log(refreshToken);
+        console.log('-------------------');
 
+        const aaa = jwt.verify(accessToken, 'myAccessKey');
         const isValidation = this.authService.validationToken({
             accessToken,
             refreshToken,
         });
+
         if (isValidation === true) {
-            return await this.userService.findOne({ email: aaa['email'] });
+            return await this.socialuserService.findOne({ email: aaa['email'] });
         } else {
             return '오류';
         }
