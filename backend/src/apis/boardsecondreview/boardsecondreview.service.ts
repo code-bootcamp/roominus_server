@@ -36,19 +36,10 @@ export class BoardsecondreviewService {
 
         const boardsecondreviewresult = await this.boardsecondreviewRepository.save({
             ...items,
-            boardreview: findBoardreview.id,
+            boardreview: findBoardreview,
         });
 
-        const boardreviewresult = await this.boardreviewRepository.save({
-            ...findBoardreview,
-            boardsecondreview: [boardsecondreviewresult],
-        });
-
-        const finalboardsecondreviewresult = await this.boardsecondreviewRepository.save({
-            ...createBoardsecondreviewInput,
-            boardreview: boardreviewresult,
-        });
-        return finalboardsecondreviewresult;
+        return boardsecondreviewresult;
     }
 
     async delete({ id }) {
