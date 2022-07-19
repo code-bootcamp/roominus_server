@@ -28,6 +28,11 @@ export class UserResolver {
         return await this.userService.create({ createUserInput, hashedPassword });
     }
 
+    @Query(() => User)
+    fetchUser(@Args('email') email: string) {
+        return this.userService.findOne({ email });
+    }
+
     // @UseGuards(GqlAuthAccessGuard)
     @Query(() => User)
     fetchFindPassword(

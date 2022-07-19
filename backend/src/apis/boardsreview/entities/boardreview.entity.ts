@@ -34,7 +34,7 @@ export class Boardreview {
     deletedAt: Date;
 
     @ManyToOne(() => Board)
-    @Field(() => Board)
+    @Field(() => Board, { nullable: true })
     board: Board;
 
     @OneToMany(() => Boardsecondreview, boardsecondreview => boardsecondreview.boardreview)
