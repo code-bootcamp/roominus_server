@@ -25,14 +25,14 @@ export class CafeService {
                 relations: ['users'],
                 take: 8,
                 skip: (page - 1) * 8,
-                order: { name: 'DESC' },
+                order: { createdAt: 'DESC' },
             });
         } else {
             result = await this.cafeRepository.find({
                 relations: ['users'],
                 take: 8,
                 skip: (page - 1) * 8,
-                order: { name: 'DESC' },
+                order: { createdAt: 'DESC' },
             });
         }
 

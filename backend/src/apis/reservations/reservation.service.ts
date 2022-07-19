@@ -38,12 +38,26 @@ export class ReservationService {
     }
 
     async findOne({ reservationId }) {
-        const result = await this.reservationRepository.findOne({
+        const findReservation = await this.reservationRepository.findOne({
             where: { id: reservationId },
             relations: ['cafe', 'user', 'theme_menu', 'payment'],
         });
 
-        if (!result) throw new UnprocessableEntityException('예약이 없습니다!!');
+        if (!findReservation) throw new UnprocessableEntityException('예약이 없습니다!!');
+
+        const { theme_menu, ...reservation } = findReservation;
+
+        const themeMenu = await this.themeMenuRepository.findOne({
+            where: { id: findReservation.theme_menu.id },
+            relations: ['cafe', 'theme'],
+        });
+
+        const result = {
+            ...reservation,
+            theme_menu: themeMenu,
+        };
+        console.log(result);
+
         return result;
     }
 

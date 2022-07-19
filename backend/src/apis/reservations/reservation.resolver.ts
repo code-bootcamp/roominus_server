@@ -25,7 +25,7 @@ export class ReservationResolver {
 
     @Query(() => Reservation)
     async fetchReservation(
-        @Args('reservationid') reservationId: string, //
+        @Args('reservationId') reservationId: string, //
     ) {
         return await this.reservationService.findOne({ reservationId });
     }

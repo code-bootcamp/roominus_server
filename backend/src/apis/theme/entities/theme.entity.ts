@@ -4,6 +4,7 @@ import {
     CreateDateColumn,
     DeleteDateColumn,
     Entity,
+    ManyToMany,
     ManyToOne,
     PrimaryGeneratedColumn,
     UpdateDateColumn,
@@ -11,6 +12,7 @@ import {
 
 import { Cafe } from 'src/apis/cafe/entities/cafe.entity';
 import { Genre } from 'src/apis/genre/entities/genre.entity';
+import { User } from 'src/apis/user/entities/user.entity';
 
 @Entity()
 @ObjectType()
@@ -71,4 +73,8 @@ export class Theme {
     @ManyToOne(() => Genre)
     @Field(() => Genre)
     genre: Genre;
+
+    // @ManyToMany(())
+    // @Field(() => [User])
+    // users: User[];
 }
