@@ -25,7 +25,9 @@ interface IContext {
 export class AuthResolver {
     constructor(
         private readonly userService: UserService, //
-        private readonly authService: AuthService, // @Inject(CACHE_MANAGER) // private readonly cacheManager: Cache,
+        private readonly authService: AuthService, //
+        @Inject(CACHE_MANAGER)
+        private readonly cacheManager: Cache,
     ) {}
 
     @Mutation(() => String)
@@ -79,11 +81,9 @@ export class AuthResolver {
     @UseGuards(GqlAuthAccessGuard)
     @Mutation(() => String)
     async logout(@Context() context: any) {
-        console.log(context);
-        const accessToken = context.req.headers.anthorization.replace('Bearer ', '');
+        const accessToken = context.req.headers.authorization.replace('Bearer ', '');
         const refreshToken = context.req.headers.cookie.replace('refreshToken=', '');
 
-        console.log(jwt.verify(accessToken, 'myAccessKey'));
         try {
             jwt.verify(accessToken, 'myAccessKey');
             jwt.verify(refreshToken, 'myRefreshKey');
@@ -91,11 +91,11 @@ export class AuthResolver {
             throw new UnauthorizedException('오류');
         }
 
-        // const userId = jwt.decode(accessToken).sub;
-        // await this.cacheManager.set(`accessToken:${accessToken}`, userId, { ttl: 0 });
-        // await this.cacheManager.set(`refreshToken:${refreshToken}`, userId, {
-        //     ttl: 0,
-        // });
+        const userId = jwt.decode(accessToken)['id'];
+        await this.cacheManager.set(`accessToken:${accessToken}`, userId, { ttl: 0 });
+        await this.cacheManager.set(`refreshToken:${refreshToken}`, userId, {
+            ttl: 0,
+        });
         return '로그아웃';
     }
 
