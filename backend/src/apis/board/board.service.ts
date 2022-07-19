@@ -50,6 +50,7 @@ export class BoardService {
             where: [{ board: boardId }],
             skip: (page - 1) * 10,
             take: 10,
+            order: { createdAt: 'DESC' },
         });
 
         boardresult.boardreview = pageresult;

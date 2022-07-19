@@ -1,13 +1,23 @@
-import { ConflictException, Injectable, UnauthorizedException } from '@nestjs/common';
+import { CACHE_MANAGER, ConflictException, Inject, Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UserService } from '../user/user.service';
 import * as jwt from 'jsonwebtoken';
-// import { Cache } from 'cache-manager';
+import { Cache } from 'cache-manager';
+
+interface IlogoutToken {
+    email: string;
+    id: string;
+    iat: number;
+    exp: number;
+}
+
 @Injectable()
 export class AuthService {
     constructor(
         private readonly jwtService: JwtService, //
         private readonly userService: UserService,
+        @Inject(CACHE_MANAGER)
+        private readonly cacheMananger: Cache,
     ) {}
 
     setRefreshToken({ user, res }) {
@@ -31,7 +41,6 @@ export class AuthService {
             jwt.verify(accessToken, process.env.ACCESS_TOKEN_KEY);
             jwt.verify(refreshToken, process.env.REFRESH_TOKEN_KEY);
 
-            // console.log('=====', verifyAccess, verifyRefresh);
             return true;
         } catch (error) {
             throw new UnauthorizedException('유효하지 않은 엑세스 토큰입니다', error);
@@ -45,23 +54,23 @@ export class AuthService {
         );
     }
 
-    // async saveToken({ accessToken, refreshToken }) {
-    //     const verifyAccess: any = jwt.verify(accessToken, process.env.AccessKey);
-    //     const verifyRefresh: any = jwt.verify(refreshToken, process.env.RefreshKey);
+    async saveToken({ accessToken, refreshToken }) {
+        const verifyAccess: any = jwt.verify(accessToken, process.env.ACCESS_TOKEN_KEY);
+        const verifyRefresh: any = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_KEY);
 
-    //     try {
-    //         // 토큰 저장
-    //         const saveAccess = await this.cacheManager.set(`accessToken:${accessToken}`, 'accessToken', {
-    //             ttl: verifyAccess.exp - verifyAccess.iat,
-    //         });
+        try {
+            // 토큰 저장
+            const saveAccess = await this.cacheMananger.set(`accessToken:${accessToken}`, 'accessToken', {
+                ttl: verifyAccess.exp - verifyAccess.iat,
+            });
 
-    //         const saveRefresh = await this.cacheManager.set(`refreshToken:${refreshToken}`, 'refreshToken', {
-    //             ttl: verifyRefresh.exp - verifyRefresh.iat,
-    //         });
+            const saveRefresh = await this.cacheMananger.set(`refreshToken:${refreshToken}`, 'refreshToken', {
+                ttl: verifyRefresh.exp - verifyRefresh.iat,
+            });
 
-    //         if (saveAccess === 'OK' && saveRefresh === 'OK') return true;
-    //     } catch (error) {
-    //         throw new ConflictException('토큰을 저장하지 못했습니다!!', error);
-    //     }
-    // }
+            if (saveAccess === 'OK' && saveRefresh === 'OK') return true;
+        } catch (error) {
+            throw new ConflictException('토큰을 저장하지 못했습니다!!', error);
+        }
+    }
 }
