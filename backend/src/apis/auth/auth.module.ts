@@ -6,6 +6,8 @@ import { Board } from '../board/entities/board.entity';
 import { CafeService } from '../cafe/cafe.service';
 import { Cafe } from '../cafe/entities/cafe.entity';
 import { CafeImg } from '../cafe/entities/cafeImg.entity';
+import { SocialUser } from '../socialUser/entities/socialUser.entity';
+import { SocialUserService } from '../socialUser/socialUser.service';
 import { User } from '../user/entities/user.entity';
 import { UserService } from '../user/user.service';
 import { AuthController } from './auth.controller';
@@ -15,7 +17,7 @@ import { AuthService } from './auth.service';
 @Module({
     imports: [
         JwtModule.register({}), //
-        TypeOrmModule.forFeature([User, Cafe, CafeImg, Board]),
+        TypeOrmModule.forFeature([User, Cafe, CafeImg, Board, SocialUser]),
     ],
     providers: [
         JwtRefreshStrategy, //
@@ -23,6 +25,7 @@ import { AuthService } from './auth.service';
         AuthService,
         UserService,
         CafeService,
+        SocialUserService,
     ],
     controllers: [
         AuthController, //

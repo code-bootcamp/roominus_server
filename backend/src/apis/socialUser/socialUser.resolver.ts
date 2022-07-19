@@ -1,4 +1,5 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { SocialUser } from './entities/socialUser.entity';
 import { SocialUserService } from './socialUser.service';
 
 @Resolver()
@@ -7,16 +8,17 @@ export class SocialUserResolver {
         private readonly socialuserService: SocialUserService, //
     ) {}
     @Query(() => String)
-    async fetchSocialuser(
+    async fetchSocialUser(
         @Args('email') email: string, //
     ) {
         return await this.socialuserService.findOne({ email });
     }
 
-    @Mutation(() => String)
+    @Mutation(() => SocialUser)
     async createSocialUser(
         @Args('email') email: string, //
+        @Args('phone') phone: string,
     ) {
-        return await this.socialuserService.create({ email });
+        return await this.socialuserService.create({ email, phone });
     }
 }

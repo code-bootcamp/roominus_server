@@ -14,10 +14,10 @@ export class SocialUserService {
         return await this.socialuserRepository.find({ email });
     }
 
-    async create({ email }) {
+    async create({ email, phone }) {
         const checkUser = await this.socialuserRepository.findOne({ email });
         if (checkUser) throw new ConflictException('이미 등록된 유저입니다.');
 
-        return await this.socialuserRepository.save({ email });
+        return await this.socialuserRepository.save({ email, phone });
     }
 }
