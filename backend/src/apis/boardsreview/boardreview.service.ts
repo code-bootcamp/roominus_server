@@ -24,7 +24,7 @@ export class BoardreviewService {
     async findOne({ id }) {
         return await this.boardreviewRepository.findOne({
             where: { id },
-            relations: ['board'],
+            relations: ['board', 'boardsecondreview'],
         });
     }
 
@@ -40,18 +40,7 @@ export class BoardreviewService {
             board: findBoard,
         });
 
-        const boardresult = await this.boardRepository.save({
-            ...findBoard,
-            user: findBoard.user,
-            boardreview: [boardreviewresult.id],
-        });
-
-        const finalresult = await this.boardreviewRepository.save({
-            ...boardreviewresult,
-            board: boardresult,
-        });
-
-        return finalresult;
+        return boardreviewresult;
     }
 
     async delete({ id }) {

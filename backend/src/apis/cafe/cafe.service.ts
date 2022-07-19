@@ -36,7 +36,7 @@ export class CafeService {
             });
         }
 
-        if (result.length == 0) throw new UnprocessableEntityException('등록된 카페가 없습니다!!');
+        if (result.length == 0) throw new UnprocessableEntityException('더이상 등록된 매장이 없습니다!');
 
         return result;
     }

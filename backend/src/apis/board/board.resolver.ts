@@ -27,11 +27,20 @@ export class BoardResolver {
         return this.boardService.findOne({ id });
     }
 
+    @Query(() => Board)
+    fetchBoardComments(
+        @Args('page') page: number, //
+        @Args('boardId') boardId: string,
+    ) {
+        return this.boardService.findboardcomments({ page, boardId });
+    }
+
     @Mutation(() => Board)
     async updateBoard(
+        @Args('boardId') boardId: string,
         @Args('updateBoardInput') updateBoardInput: UpdateBoardInput, //
     ) {
-        return await this.boardService.update({ updateBoardInput });
+        return await this.boardService.update({ boardId, updateBoardInput });
     }
 
     @Mutation(() => Boolean)
