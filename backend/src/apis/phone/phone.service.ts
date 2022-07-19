@@ -22,10 +22,10 @@ export class PhoneService {
     async sendToken({ phone }) {
         // 인증번호 생성
         const token = this.generateToken();
-        const content = `[roominus] 인증번호 ${token}을 입력해주세요.`;
+        const content = `[roominus] 인증번호 ${token}을 입력해주세요..`;
 
         // 발송전에 휴대폰 형식 확인
-        if (!this.checklength) return '휴대폰 번호를 다시 확인해주세요.';
+        if (!this.checklength) return '휴대폰 번호를 다시 확인해주세요..';
 
         const SMS_ID = process.env.COOLSMS_CLIENT_API_ID;
         const SMS_SECRET = process.env.COOLSMS_CLIENT_API_SECRET;
