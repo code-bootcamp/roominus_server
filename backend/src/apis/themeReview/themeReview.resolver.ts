@@ -1,4 +1,4 @@
-import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
 
 import { ThemeReivewService } from './themewReview.service';
 import { CreateThemeReviewInput } from './dto/createThemeReview.input';
@@ -15,8 +15,14 @@ export class ThemeReivewResolver {
     @Query(() => [ThemeReview])
     async fetchThemeReviews(
         @Args('themeId') themeId: string, //
+        @Args('page', { defaultValue: 1 }) page: number,
     ) {
-        return await this.themeReviewService.findAll({ themeId });
+        return await this.themeReviewService.findAll({ themeId, page });
+    }
+
+    @Query(() => Int)
+    fetchThemeReviewsCount() {
+        return this.themeReviewService.findAllCount();
     }
 
     @Mutation(() => ThemeReview)
