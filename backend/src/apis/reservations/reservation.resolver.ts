@@ -1,6 +1,9 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { UseGuards } from '@nestjs/common';
 
 import { PaymentService } from '../payment/payment.service';
+import { GqlAuthAccessGuard } from 'src/commons/auth/gql-auth.guard';
+import { CurrentUser, ICurrentUser } from 'src/commons/auth/gql-user.param';
 
 import { ReservationService } from './reservation.service';
 import { CreateReservationInput } from './dto/createReservation.input';
@@ -38,42 +41,40 @@ export class ReservationResolver {
     }
 
     // 트랜젝션
+    @UseGuards(GqlAuthAccessGuard)
     @Mutation(() => Reservation)
     async createReservation(
         @Args('cafeId') cafeId: string, //
-        // @Args('userId') userId: string, // 토큰이 잘 되면 토큰에 있는 사용자 정보로 대체
         @Args('themeMenuId') themeMenuId: string,
         @Args('createReservationInput') createReservationInput: CreateReservationInput,
         @Args('createPaymentInput') createPaymentInput: CreatePaymentInput,
+        @CurrentUser('userInfo') userInfo: ICurrentUser,
     ) {
         return await this.reservationService.create({
             cafeId,
-            userId: '8acc2ac3-24a1-469f-a2a4-6b267bb51f09',
-            // userId: '5a78a9a6-633a-4ba9-871f-9a74c9fd2970',
             themeMenuId,
             createReservationInput,
             createPaymentInput,
+            userId: userInfo.id,
+            // userId: '8acc2ac3-24a1-469f-a2a4-6b267bb51f09',
+            // userId: '5a78a9a6-633a-4ba9-871f-9a74c9fd2970',
         });
     }
 
     // 트랜젝션
-    @Mutation(() => Reservation)
-    updateReservation() {}
-
-    // 트랜젝션
+    @UseGuards(GqlAuthAccessGuard)
     @Mutation(() => Boolean)
     async deleteReservation(
-        @Args('reservationId') reservationId: string,
-        // @Args('userId') userId: string,
+        @Args('reservationId') reservationId: string, //
         @Args('merchantUid') merchantUid: string,
+        @CurrentUser('userInfo') userInfo: ICurrentUser,
     ) {
-        console.log('=================Reservation', reservationId);
-        console.log('================MerchantUid', merchantUid);
         const resultCancelPayment = this.paymentService.cancel({
             reservationId, //
-            userId: '8acc2ac3-24a1-469f-a2a4-6b267bb51f09',
-            // userId: '5a78a9a6-633a-4ba9-871f-9a74c9fd2970',
             merchantUid,
+            userId: userInfo.id,
+            // userId: '8acc2ac3-24a1-469f-a2a4-6b267bb51f09',
+            // userId: '5a78a9a6-633a-4ba9-871f-9a74c9fd2970',
         });
 
         if (resultCancelPayment) return true;

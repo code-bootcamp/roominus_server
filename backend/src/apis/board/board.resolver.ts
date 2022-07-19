@@ -1,8 +1,13 @@
+import { UseGuards } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+
+import { GqlAuthAccessGuard } from 'src/commons/auth/gql-auth.guard';
+import { CurrentUser, ICurrentUser } from 'src/commons/auth/gql-user.param';
 
 import { BoardService } from './board.service';
 import { CreateBoardInput } from './dto/createBoard.input';
 import { UpdateBoardInput } from './dto/updateBoard.input';
+
 import { Board } from './entities/board.entity';
 
 @Resolver()
@@ -33,6 +38,14 @@ export class BoardResolver {
         @Args('boardId') boardId: string,
     ) {
         return this.boardService.findboardcomments({ page, boardId });
+    }
+
+    @UseGuards(GqlAuthAccessGuard)
+    @Query(() => [Board])
+    fetchBoardsUser(
+        @CurrentUser('userInfo') userInfo: ICurrentUser, //
+    ) {
+        return this.boardService.findwithUser({ userInfo });
     }
 
     @Mutation(() => Board)

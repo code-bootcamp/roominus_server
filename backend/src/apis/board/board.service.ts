@@ -1,6 +1,7 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import { ConflictException, Injectable, UnprocessableEntityException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+
 import { Boardreview } from '../boardsreview/entities/boardreview.entity';
 import { BoardTag } from '../boardTag/entities/boardTag.entity';
 import { User } from '../user/entities/user.entity';
@@ -56,10 +57,18 @@ export class BoardService {
         boardresult.boardreview = pageresult;
 
         return boardresult;
+    }
 
-        // console.log('--------------');
-        // console.log(pageresult);
-        // console.log('--------------');
+    async findwithUser({ userInfo }) {
+        const result = await this.boardRepository.find({
+            where: { user: userInfo.id },
+            relations: ['boardreview', 'boardTags', 'user'],
+            order: { createdAt: 'DESC' },
+        });
+
+        if (result.length == 0) throw new UnprocessableEntityException('작성하신 글이 없습니다!!');
+
+        return result;
     }
 
     async create({ createBoardInput }) {
@@ -100,7 +109,7 @@ export class BoardService {
             ...boardresult,
             user: userresult,
         });
-        console.log(finalresult);
+
         return finalresult;
     }
     /////
@@ -111,7 +120,10 @@ export class BoardService {
             { ...updateBoardInput },
         );
         if (result.affected) {
-            return await this.boardRepository.findOne({ id: boardId });
+            return await this.boardRepository.findOne({
+                where: { id: boardId },
+                relations: ['boardreview', 'boardTags', 'user'],
+            });
         } else {
             throw new ConflictException('수정을 실패했습니다.');
         }
