@@ -15,12 +15,6 @@ export class BoardResolver {
     constructor(
         private readonly boardService: BoardService, //
     ) {}
-    @Mutation(() => Board)
-    async createBoard(
-        @Args('createBoardInput') createBoardInput: CreateBoardInput, //
-    ) {
-        return this.boardService.create({ createBoardInput });
-    }
 
     @Query(() => [Board])
     fetchBoards() {
@@ -48,18 +42,31 @@ export class BoardResolver {
         return this.boardService.findwithUser({ userInfo });
     }
 
+    @UseGuards(GqlAuthAccessGuard)
+    @Mutation(() => Board)
+    async createBoard(
+        @CurrentUser('userInfo') userInfo: ICurrentUser,
+        @Args('createBoardInput') createBoardInput: CreateBoardInput, //
+    ) {
+        return this.boardService.create({ userInfo, createBoardInput });
+    }
+
+    @UseGuards(GqlAuthAccessGuard)
     @Mutation(() => Board)
     async updateBoard(
+        @CurrentUser('userInfo') userInfo: ICurrentUser,
         @Args('boardId') boardId: string,
         @Args('updateBoardInput') updateBoardInput: UpdateBoardInput, //
     ) {
-        return await this.boardService.update({ boardId, updateBoardInput });
+        return await this.boardService.update({ userInfo, boardId, updateBoardInput });
     }
 
+    @UseGuards(GqlAuthAccessGuard)
     @Mutation(() => Boolean)
     deleteBoard(
-        @Args('title') title: string, //
+        @CurrentUser('userInfo') userInfo: ICurrentUser,
+        @Args('boardId') boardId: string, //
     ) {
-        return this.boardService.delete({ title });
+        return this.boardService.delete({ userInfo, boardId });
     }
 }

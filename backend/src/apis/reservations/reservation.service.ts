@@ -56,7 +56,6 @@ export class ReservationService {
             ...reservation,
             theme_menu: themeMenu,
         };
-        console.log(result);
 
         return result;
     }

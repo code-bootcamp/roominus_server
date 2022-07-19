@@ -52,7 +52,6 @@ export class UserResolver {
     @UseGuards(GqlAuthAccessGuard)
     @Query(() => String)
     testAuthGuard(@CurrentUser() currentUser: ICurrentUser) {
-        console.log(currentUser);
         return '인증 성공!!';
     }
 }
