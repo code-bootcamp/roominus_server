@@ -10,7 +10,7 @@ import { Args, Context, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { UserService } from '../user/user.service';
 import { AuthService } from './auth.service';
 import * as bcrypt from 'bcrypt';
-import { CurrentUser, ICurrentUser } from 'src/commons/auth/gql-user.param';
+import { CurrentUser } from 'src/commons/auth/gql-user.param';
 import * as jwt from 'jsonwebtoken';
 import { GqlAuthAccessGuard, GqlAuthRefreshGuard } from 'src/commons/auth/gql-auth.guard';
 import { Cache } from 'cache-manager';
@@ -82,10 +82,6 @@ export class AuthResolver {
     async fetchUserLoggedIn(
         @Context() context: any, //
     ) {
-        console.log('Input acceessToken');
-        console.log(context.req.headers.authorization);
-        console.log('Input refreshToken');
-        console.log(context.req.headers.cookie);
         const accessToken = context.req.headers.authorization.replace('Bearer ', '');
         ///const accessToken = context.req.headers.authorization.split(' ')[1];
         const refreshToken = context.req.headers.cookie.replace('refreshToken=', '');
@@ -108,10 +104,12 @@ export class AuthResolver {
     async fetchSocialUserLoggedIn(
         @Context() context: any, //
     ) {
-        console.log('Input acceessToken');
-        console.log(context.req.headers.authorization);
-        console.log('Input refreshToken');
-        console.log(context.req.headers.cookie);
+        const headersAuthoriztion = context.req.headers.authorization;
+        const headersCookie = context.req.headers.cookie;
+
+        if (!headersAuthoriztion) throw new UnprocessableEntityException('엑세스 토큰이 없습니다!!');
+        if (!headersCookie) throw new UnprocessableEntityException('리프레쉬 토큰이 없습니다!!');
+
         const accessToken = context.req.headers.authorization.replace('Bearer ', '');
         ///const accessToken = context.req.headers.authorization.split(' ')[1];
         const refreshToken = context.req.headers.cookie.replace('refreshToken=', '');
@@ -129,36 +127,59 @@ export class AuthResolver {
             return '오류';
         }
     }
+    @UseGuards(GqlAuthAccessGuard)
     @Mutation(() => String)
     async logout(@Context() context: any) {
-        console.log(context);
-        const accessToken = context.req.headers.anthorization.replace('Bearer ', '');
+        const headersAuthoriztion = context.req.headers.authorization;
+        const headersCookie = context.req.headers.cookie;
+
+        if (!headersAuthoriztion) throw new UnprocessableEntityException('엑세스 토큰이 없습니다!!');
+        if (!headersCookie) throw new UnprocessableEntityException('리프레쉬 토큰이 없습니다!!');
+
+        const accessToken = context.req.headers.authorization.replace('Bearer ', '');
         const refreshToken = context.req.headers.cookie.replace('refreshToken=', '');
 
-        console.log(jwt.verify(accessToken, 'myAccessKey'));
-        try {
-            jwt.verify(accessToken, 'myAccessKey');
-            jwt.verify(refreshToken, 'myRefreshKey');
-        } catch {
-            throw new UnauthorizedException('오류');
+        const isValidation = this.authService.validationToken({
+            accessToken,
+            refreshToken,
+        });
+
+        if (isValidation) {
+            const isSave = this.authService.saveToken({ accessToken, refreshToken });
+
+            if (isSave) {
+                return '로그아웃에 성공했습니다.';
+            }
         }
 
-        // const userId = jwt.decode(accessToken).sub;
-        // await this.cacheManager.set(`accessToken:${accessToken}`, userId, { ttl: 0 });
-        // await this.cacheManager.set(`refreshToken:${refreshToken}`, userId, {
-        //     ttl: 0,
-        // });
-        return '로그아웃';
+        return '로그아웃 실패!!';
+
+        // console.log(jwt.verify(accessToken, 'myAccessKey'));
+        // try {
+        //     jwt.verify(accessToken, 'myAccessKey');
+        //     jwt.verify(refreshToken, 'myRefreshKey');
+        // } catch {
+        //     throw new UnauthorizedException('오류');
+        // }
+
+        // // const userId = jwt.decode(accessToken).sub;
+        // // await this.cacheManager.set(`accessToken:${accessToken}`, userId, { ttl: 0 });
+        // // await this.cacheManager.set(`refreshToken:${refreshToken}`, userId, {
+        // //     ttl: 0,
+        // // });
+        // return '로그아웃';
     }
+    @UseGuards(GqlAuthRefreshGuard)
     @Mutation(() => String)
-    async restoreAccessToken(
-        @CurrentUser() currentUser: ICurrentUser, //
+    restoreAccessToken(
+        @CurrentUser() currentUser: any, //
     ) {
         // await this.cacheManager.set(`accessToken:${currentUser.accessToken}`, currentUser.id, {
         //     ttl: 0,
         // });
 
-        const aaa = await this.authService.getAccessToken({ user: currentUser });
-        console.log(aaa);
+        const aaa = this.authService.getAccessToken({ user: currentUser });
+
+        return aaa;
     }
 }
