@@ -127,6 +127,7 @@ export class AuthResolver {
             return '오류';
         }
     }
+
     @UseGuards(GqlAuthAccessGuard)
     @Mutation(() => String)
     async logout(@Context() context: any) {
@@ -169,6 +170,7 @@ export class AuthResolver {
         // // });
         // return '로그아웃';
     }
+
     @UseGuards(GqlAuthRefreshGuard)
     @Mutation(() => String)
     restoreAccessToken(

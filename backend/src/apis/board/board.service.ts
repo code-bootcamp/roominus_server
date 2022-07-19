@@ -56,10 +56,6 @@ export class BoardService {
         boardresult.boardreview = pageresult;
 
         return boardresult;
-
-        // console.log('--------------');
-        // console.log(pageresult);
-        // console.log('--------------');
     }
 
     async create({ createBoardInput }) {
