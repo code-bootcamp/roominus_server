@@ -35,16 +35,24 @@ export class ThemeReivewService {
         return await this.themeReviewRepository.count();
     }
 
-    async findwithUser({ userInfo }) {
+    async findwithUser({ userInfo, page }) {
         const result = await this.themeReviewRepository.find({
             where: { user: userInfo.id },
             relations: ['theme', 'user'],
+            take: 10,
+            skip: (page - 1) * 10,
             order: { createdAt: 'DESC' },
         });
 
         if (result.length == 0) throw new UnprocessableEntityException('작성하신 후기가 없습니다!!');
 
         return result;
+    }
+
+    findwithUserCount({ userInfo }) {
+        return this.themeReviewRepository.count({
+            where: { user: userInfo.id },
+        });
     }
 
     async create({ themeId, createThemeReviewInput }) {

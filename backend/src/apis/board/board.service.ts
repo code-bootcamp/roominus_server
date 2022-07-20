@@ -59,16 +59,24 @@ export class BoardService {
         return boardresult;
     }
 
-    async findwithUser({ userInfo }) {
+    async findwithUser({ userInfo, page }) {
         const result = await this.boardRepository.find({
             where: { user: userInfo.id },
             relations: ['boardreview', 'boardTags', 'user'],
+            skip: (page - 1) * 10,
+            take: 10,
             order: { createdAt: 'DESC' },
         });
 
         if (result.length == 0) throw new UnprocessableEntityException('작성하신 글이 없습니다!!');
 
         return result;
+    }
+
+    async findUserCount({ userInfo }) {
+        return await this.boardRepository.count({
+            where: { user: userInfo.id },
+        });
     }
 
     async create({ userInfo, createBoardInput }) {
