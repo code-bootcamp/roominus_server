@@ -87,7 +87,6 @@ export class AuthService {
             const saveAccess = await this.cacheMananger.set(`accessToken:${accessToken}`, 'accessToken', {
                 ttl: verifyAccess.exp - verifyAccess.iat,
             });
-
             const saveRefresh = await this.cacheMananger.set(`refreshToken:${refreshToken}`, 'refreshToken', {
                 ttl: verifyRefresh.exp - verifyRefresh.iat,
             });

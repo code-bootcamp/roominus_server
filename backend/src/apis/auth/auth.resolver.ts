@@ -1,22 +1,18 @@
-import {
-    CACHE_MANAGER,
-    ConflictException,
-    Inject,
-    UnauthorizedException,
-    UnprocessableEntityException,
-    UseGuards,
-} from '@nestjs/common';
+import { CACHE_MANAGER, Inject, UnprocessableEntityException, UseGuards } from '@nestjs/common';
 import { Args, Context, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { UserService } from '../user/user.service';
-import { AuthService } from './auth.service';
-import * as bcrypt from 'bcrypt';
-import { CurrentUser } from 'src/commons/auth/gql-user.param';
-import * as jwt from 'jsonwebtoken';
-import { GqlAuthAccessGuard, GqlAuthRefreshGuard } from 'src/commons/auth/gql-auth.guard';
 import { Cache } from 'cache-manager';
+import * as jwt from 'jsonwebtoken';
+import * as bcrypt from 'bcrypt';
+
+import { SocialUserService } from '../socialUser/socialUser.service';
+import { AuthService } from './auth.service';
+
+import { GqlAuthAccessGuard, GqlAuthRefreshGuard } from 'src/commons/auth/gql-auth.guard';
+import { CurrentUser } from 'src/commons/auth/gql-user.param';
+import { UserService } from '../user/user.service';
+
 import { User } from '../user/entities/user.entity';
 import { SocialUser } from '../socialUser/entities/socialUser.entity';
-import { SocialUserService } from '../socialUser/socialUser.service';
 
 interface IContext {
     req: Request;
@@ -64,7 +60,7 @@ export class AuthResolver {
     ) {
         // 1. 로그인 @@
         const socialUser = await this.socialuserService.findOne({ email });
-        console.log(socialUser);
+        // console.log(socialUser);
         // 2. 일치하는 유저가 없으면?! 에러 던지기!!!
         if (!socialUser) throw new UnprocessableEntityException('아이디가 없습니다.');
 
@@ -116,12 +112,12 @@ export class AuthResolver {
         const refreshToken = context.req.headers.cookie.replace('refreshToken=', '');
         // const refreshToken = context.req.headers.cookie.split('=')[1];
 
-        console.log('-------------------');
-        console.log(accessToken);
-        console.log('-------------------');
-        console.log('-------------------');
-        console.log(refreshToken);
-        console.log('-------------------');
+        // console.log('-------------------');
+        // console.log(accessToken);
+        // console.log('-------------------');
+        // console.log('-------------------');
+        // console.log(refreshToken);
+        // console.log('-------------------');
 
         const aaa = jwt.verify(accessToken, 'myAccessKey');
         const isValidation = this.authService.validationToken({

@@ -1,12 +1,13 @@
-import { CACHE_MANAGER, Inject } from '@nestjs/common';
+import { CACHE_MANAGER, Inject, UnauthorizedException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { Cache } from 'cache-manager';
 
 export class JwtAccessStreategy extends PassportStrategy(Strategy, 'access') {
-    constructor() {
-        // private readonly cacheManager: Cache, // @Inject(CACHE_MANAGER)
-
+    constructor(
+        @Inject(CACHE_MANAGER)
+        private readonly cacheManager: Cache, //
+    ) {
         super({
             jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(), //
             secretOrKey: process.env.ACCESS_TOKEN_KEY,
@@ -14,7 +15,15 @@ export class JwtAccessStreategy extends PassportStrategy(Strategy, 'access') {
         });
     }
 
-    validate(req, payload) {
+    async validate(req, payload) {
+        const accessToken = req.headers.authorization.split(' ')[1];
+        const refreshToken = req.headers.cookie.split('=')[1];
+
+        const hasAccessToken = await this.cacheManager.get(`accessToken:${accessToken}`);
+        const hasRefreshToken = await this.cacheManager.get(`refreshToken:${refreshToken}`);
+
+        if (hasAccessToken || hasRefreshToken) throw new UnauthorizedException('로그인 후 사용해주세요!');
+
         return {
             email: payload.email, //
             id: payload.id,
