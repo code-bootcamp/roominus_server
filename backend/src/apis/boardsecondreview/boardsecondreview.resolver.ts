@@ -1,10 +1,12 @@
 import { UseGuards } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { userInfo } from 'os';
+
 import { GqlAuthAccessGuard } from 'src/commons/auth/gql-auth.guard';
 import { CurrentUser, ICurrentUser } from 'src/commons/auth/gql-user.param';
 import { BoardsecondreviewService } from './boardsecondreview.service';
 import { CreateBoardsecondreviewInput } from './dto/createBoardsecondreview.input';
+import { UpdateBoardSecondReviewInput } from './dto/updateBoardsecondreview.input';
+
 import { Boardsecondreview } from './entities/boardsecondreview.entity';
 
 @Resolver()
@@ -21,9 +23,20 @@ export class BoardsecondreviewResolver {
     @Mutation(() => Boardsecondreview)
     async createBoardsecondreview(
         @CurrentUser('userInfo') userInfo: ICurrentUser, //
+        @Args('boardReviewId') boardReviewId: string,
         @Args('createBoardsecondreviewInput') createBoardsecondreviewInput: CreateBoardsecondreviewInput,
     ) {
-        return await this.boardsecondreviewService.create({ userInfo, createBoardsecondreviewInput });
+        return await this.boardsecondreviewService.create({ userInfo, boardReviewId, createBoardsecondreviewInput });
+    }
+
+    @UseGuards(GqlAuthAccessGuard)
+    @Mutation(() => Boardsecondreview)
+    udpateBoardsecondreview(
+        @Args('secondReviewId') secondReviewId: string,
+        @CurrentUser('userInfo') userInfo: ICurrentUser, //
+        @Args('updateBoardSecondReviewInput') updateBoardSecondReviewInput: UpdateBoardSecondReviewInput,
+    ) {
+        return this.boardsecondreviewService.update({ secondReviewId, userInfo, updateBoardSecondReviewInput });
     }
 
     @UseGuards(GqlAuthAccessGuard)

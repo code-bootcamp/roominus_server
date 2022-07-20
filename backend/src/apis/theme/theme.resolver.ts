@@ -9,6 +9,7 @@ import { UpdateThemeInput } from './dto/updateTheme.input';
 
 import { Theme } from './entities/theme.entity';
 import { CurrentUser, ICurrentUser } from 'src/commons/auth/gql-user.param';
+import { Like } from '../user/entities/like.entity';
 
 @Resolver()
 export class ThemeResolver {
@@ -46,6 +47,14 @@ export class ThemeResolver {
         @Args('cafeId') cafeId: string, //
     ) {
         return this.themeService.findAllwithTheme({ cafeId });
+    }
+
+    @UseGuards(GqlAuthAccessGuard)
+    @Query(() => [Like])
+    fetchUserLikeThemes(
+        @CurrentUser('userInfo') userInfo: ICurrentUser, //
+    ) {
+        return this.themeService.findUserLikeList({ userInfo });
     }
 
     @UseGuards(GqlAuthAccessGuard)
