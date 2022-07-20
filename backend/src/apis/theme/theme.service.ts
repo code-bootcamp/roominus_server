@@ -25,7 +25,7 @@ export class ThemeService {
 
     async findAll() {
         const result = await this.themeRepository.find({
-            relations: ['cafe', 'genre'],
+            relations: ['cafe', 'genre', 'likeUsers'],
         });
 
         if (result.length === 0) throw new UnprocessableEntityException('등록된 테마가 없습니다!!');
@@ -37,14 +37,14 @@ export class ThemeService {
         if (genreId) {
             result = await this.themeRepository.find({
                 where: { genre: genreId },
-                relations: ['cafe', 'genre'],
+                relations: ['cafe', 'genre', 'likeUsers'],
                 take: 12,
                 skip: (page - 1) * 12,
                 order: { createdAt: 'DESC' },
             });
         } else {
             result = await this.themeRepository.find({
-                relations: ['cafe', 'genre'],
+                relations: ['cafe', 'genre', 'likeUsers'],
                 take: 12,
                 skip: (page - 1) * 12,
                 order: { createdAt: 'DESC' },

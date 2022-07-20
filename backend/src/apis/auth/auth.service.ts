@@ -25,7 +25,7 @@ export class AuthService {
     setRefreshToken({ user, res }) {
         const refreshToken = this.jwtService.sign(
             { email: user.email, id: user.id, isServiceProvider: user.isserviceprovider },
-            { secret: process.env.REFRESH_TOKEN_KEY, expiresIn: '1h' },
+            { secret: process.env.REFRESH_TOKEN_KEY, expiresIn: '24h' },
         );
 
         // res.setHeader('Set-Cookie', `refreshToken=${refreshToken}; path=/;`);
