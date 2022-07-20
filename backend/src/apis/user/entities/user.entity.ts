@@ -66,8 +66,8 @@ export class User {
     @Field(() => [Board], { nullable: true })
     board: Board[];
 
-    @JoinTable()
-    @OneToMany(() => Boardreview, boardreview => boardreview.user)
-    @Field(() => [Boardreview], { nullable: true })
-    boardreview: Boardreview[];
+    // @JoinTable()
+    // @OneToMany(() => Boardreview, boardreview => boardreview.user)
+    // @Field(() => [Boardreview], { nullable: true })
+    // boardreview: Boardreview[];
 }

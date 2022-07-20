@@ -72,7 +72,7 @@ export class BoardService {
     }
 
     async create({ userInfo, createBoardInput }) {
-        const { boardTags, ...items } = createBoardInput;
+        const { boardTags, user, ...items } = createBoardInput;
         const findUser = await this.userRepository.findOne({
             where: { id: userInfo.id },
         });
@@ -92,7 +92,7 @@ export class BoardService {
 
         const boardResult = await this.boardRepository.save({
             ...items,
-            user: userInfo.id,
+            user: findUser,
             boardTags: boardTagresult,
         });
         return await this.boardRepository.findOne({
