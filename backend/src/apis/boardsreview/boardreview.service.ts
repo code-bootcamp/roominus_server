@@ -1,4 +1,4 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import { ConflictException, Injectable, UnprocessableEntityException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Board } from '../board/entities/board.entity';
@@ -61,9 +61,15 @@ export class BoardreviewService {
         });
     }
 
-    async update({ boardreviewId, updateBoardreviewInput }) {
+    async update({ boardReviewId, updateBoardreviewInput, userInfo }) {
+        const hasBoardReview = await this.boardreviewRepository.findOne({
+            where: { id: boardReviewId },
+            relations: ['user'],
+        });
+        if (hasBoardReview.user.id !== userInfo.id) throw new UnprocessableEntityException('작성자가 아닙니다!');
+
         const result = await this.boardreviewRepository.update(
-            { id: boardreviewId }, //
+            { id: boardReviewId }, //
             {
                 ...updateBoardreviewInput,
             },
@@ -71,7 +77,7 @@ export class BoardreviewService {
 
         if (result.affected) {
             return await this.boardreviewRepository.findOne({
-                where: { id: boardreviewId },
+                where: { id: boardReviewId },
                 relations: ['board', 'user'],
             });
         } else {
@@ -79,8 +85,14 @@ export class BoardreviewService {
         }
     }
 
-    async delete({ id }) {
-        const result = await this.boardreviewRepository.softDelete({ id });
+    async delete({ boardReviewId, userInfo }) {
+        const hasBoardReview = await this.boardreviewRepository.findOne({
+            where: { id: boardReviewId },
+            relations: ['user'],
+        });
+        if (hasBoardReview.user.id !== userInfo.id) throw new UnprocessableEntityException('작성자가 아닙니다!');
+
+        const result = await this.boardreviewRepository.softDelete({ id: boardReviewId });
         return result.affected ? true : false;
     }
 }

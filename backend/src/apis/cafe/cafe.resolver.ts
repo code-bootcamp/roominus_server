@@ -1,4 +1,7 @@
+import { UseGuards } from '@nestjs/common';
 import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { GqlAuthAccessGuard } from 'src/commons/auth/gql-auth.guard';
+import { CurrentUser, ICurrentUser } from 'src/commons/auth/gql-user.param';
 
 import { CafeService } from './cafe.service';
 import { CreateCafeInput } from './dto/createCafe.input';
@@ -30,6 +33,7 @@ export class CafeResolver {
         return this.cafeService.findOne({ cafeId });
     }
 
+    @UseGuards(GqlAuthAccessGuard)
     @Mutation(() => Cafe)
     createCafe(
         @Args('createCafeInput') createCafeInput: CreateCafeInput, //
@@ -37,6 +41,7 @@ export class CafeResolver {
         return this.cafeService.create({ createCafeInput });
     }
 
+    @UseGuards(GqlAuthAccessGuard)
     @Mutation(() => Cafe)
     updateCafe(
         @Args('cafeId') cafeId: string,
@@ -45,6 +50,7 @@ export class CafeResolver {
         return this.cafeService.update({ cafeId, updateCafeInput });
     }
 
+    @UseGuards(GqlAuthAccessGuard)
     @Mutation(() => Boolean)
     deleteCafe(
         @Args('cafeId') cafeId: string, //

@@ -37,11 +37,11 @@ export class BoardResolver {
 
     @UseGuards(GqlAuthAccessGuard)
     @Query(() => [Board])
-    fetchBoardsUser(
+    async fetchBoardsUser(
         @Args('page', { defaultValue: 1 }) page: number,
         @CurrentUser('userInfo') userInfo: ICurrentUser, //
     ) {
-        return this.boardService.findwithUser({ userInfo, page });
+        return await this.boardService.findwithUser({ userInfo, page });
     }
 
     @UseGuards(GqlAuthAccessGuard)

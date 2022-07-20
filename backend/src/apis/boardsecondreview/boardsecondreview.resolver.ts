@@ -1,5 +1,6 @@
 import { UseGuards } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { userInfo } from 'os';
 import { GqlAuthAccessGuard } from 'src/commons/auth/gql-auth.guard';
 import { CurrentUser, ICurrentUser } from 'src/commons/auth/gql-user.param';
 import { BoardsecondreviewService } from './boardsecondreview.service';
@@ -25,10 +26,12 @@ export class BoardsecondreviewResolver {
         return await this.boardsecondreviewService.create({ userInfo, createBoardsecondreviewInput });
     }
 
+    @UseGuards(GqlAuthAccessGuard)
     @Mutation(() => Boolean)
     deleteBoardsecondreview(
-        @Args('id') id: string, //
+        @Args('secondReviewId') secondReviewId: string,
+        @CurrentUser('userInfo') userInfo: ICurrentUser, //
     ) {
-        return this.boardsecondreviewService.delete({ id });
+        return this.boardsecondreviewService.delete({ secondReviewId, userInfo });
     }
 }

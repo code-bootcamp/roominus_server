@@ -44,7 +44,7 @@ export class BoardService {
     async findboardcomments({ boardId }) {
         let boardresult = await this.boardRepository.findOne({
             where: [{ id: boardId }],
-            relations: ['boardreview'],
+            relations: ['boardreview', 'user'],
         });
 
         const pageresult = await this.boardReviewRepository.find({
@@ -52,6 +52,7 @@ export class BoardService {
             //     skip: (page - 1) * 10,
             //     take: 10,
             order: { createdAt: 'ASC' },
+            relations: ['user'],
         });
 
         boardresult.boardreview = pageresult;
@@ -112,7 +113,6 @@ export class BoardService {
     async update({ userInfo, boardId, updateBoardInput }) {
         const hasBoard = await this.boardRepository.findOne({
             where: { id: boardId },
-            relations: ['user'],
         });
         if (hasBoard.user.id !== userInfo.id) throw new UnprocessableEntityException('작성자가 아닙니다!');
 
