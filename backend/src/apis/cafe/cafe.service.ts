@@ -101,6 +101,7 @@ export class CafeService {
             {
                 ...cafe, //
                 mainImg: mainImg,
+                users,
             },
         );
 

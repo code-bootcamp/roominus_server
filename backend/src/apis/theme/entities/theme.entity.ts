@@ -4,7 +4,6 @@ import {
     CreateDateColumn,
     DeleteDateColumn,
     Entity,
-    ManyToMany,
     ManyToOne,
     OneToMany,
     PrimaryGeneratedColumn,
@@ -13,7 +12,6 @@ import {
 
 import { Cafe } from 'src/apis/cafe/entities/cafe.entity';
 import { Genre } from 'src/apis/genre/entities/genre.entity';
-import { User } from 'src/apis/user/entities/user.entity';
 import { Like } from 'src/apis/user/entities/like.entity';
 
 @Entity()
