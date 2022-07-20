@@ -180,10 +180,6 @@ export class AuthResolver {
     restoreAccessToken(
         @CurrentUser() currentUser: any, //
     ) {
-        // await this.cacheManager.set(`accessToken:${currentUser.accessToken}`, currentUser.id, {
-        //     ttl: 0,
-        // });
-
         const aaa = this.authService.getAccessToken({ user: currentUser });
 
         return aaa;

@@ -17,12 +17,9 @@ export class JwtAccessStreategy extends PassportStrategy(Strategy, 'access') {
 
     async validate(req, payload) {
         const accessToken = req.headers.authorization.split(' ')[1];
-        const refreshToken = req.headers.cookie.split('=')[1];
 
         const hasAccessToken = await this.cacheManager.get(`accessToken:${accessToken}`);
-        const hasRefreshToken = await this.cacheManager.get(`refreshToken:${refreshToken}`);
-
-        if (hasAccessToken || hasRefreshToken) throw new UnauthorizedException('로그인 후 사용해주세요!');
+        if (hasAccessToken) throw new UnauthorizedException('로그인 후 사용해주세요!');
 
         return {
             email: payload.email, //
