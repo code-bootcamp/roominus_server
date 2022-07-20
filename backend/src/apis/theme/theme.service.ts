@@ -83,6 +83,17 @@ export class ThemeService {
         return result;
     }
 
+    async findUserLikeList({ userInfo }) {
+        const result = await this.likeRepository.find({
+            where: { userId: userInfo.id },
+            relations: ['theme'],
+        });
+
+        if (result.length == 0) throw new UnprocessableEntityException('찜한 테마가 없습니다!!');
+
+        return result;
+    }
+
     async create({ cafeName, genreName, createThemeInput }) {
         const { mainImg, subImgs, ...theme } = createThemeInput;
 

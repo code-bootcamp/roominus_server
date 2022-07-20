@@ -20,11 +20,11 @@ export class Like {
 
     @JoinColumn({ name: 'userId' })
     @ManyToOne(() => User, user => user.likeThemes, { nullable: true })
-    // @Field(() => User)
+    @Field(() => User)
     user: User;
 
     @JoinColumn({ name: 'themeId' })
     @ManyToOne(() => Theme, theme => theme.likeUsers, { nullable: true })
-    // @Field(() => Theme)
+    @Field(() => Theme)
     theme: Theme;
 }
