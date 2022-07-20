@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 
 import { Cafe } from '../cafe/entities/cafe.entity';
 import { Genre } from '../genre/entities/genre.entity';
+import { Like } from '../user/entities/like.entity';
 import { Theme } from './entities/theme.entity';
 import { ThemeImg } from './entities/themeImg.entity';
 
@@ -18,6 +19,8 @@ export class ThemeService {
         private readonly cafeRepository: Repository<Cafe>,
         @InjectRepository(Genre)
         private readonly genreRepository: Repository<Genre>,
+        @InjectRepository(Like)
+        private readonly likeRepository: Repository<Like>,
     ) {}
 
     async findAll() {
@@ -149,5 +152,39 @@ export class ThemeService {
         } else {
             throw new ConflictException('삭제를 실패했습니다!!');
         }
+    }
+
+    async createLike({ themeId, userInfo }) {
+        const hasLike = await this.likeRepository.findOne({
+            where: { themeId: themeId, userId: userInfo.id },
+        });
+        if (hasLike) return false;
+
+        await this.likeRepository.save({
+            themeId: themeId,
+            userId: userInfo.id,
+        });
+
+        const theme = await this.themeRepository.findOne({ id: themeId });
+        await this.themeRepository.update({ id: themeId }, { like: theme.like + 1 });
+
+        return true;
+    }
+
+    async deleteLike({ themeId, userInfo }) {
+        const hasLike = await this.likeRepository.findOne({
+            where: { themeId: themeId, userId: userInfo.id },
+        });
+        if (!hasLike) return false;
+
+        await this.likeRepository.delete({
+            themeId: themeId,
+            userId: userInfo.id,
+        });
+
+        const theme = await this.themeRepository.findOne({ id: themeId });
+        await this.themeRepository.update({ id: themeId }, { like: theme.like - 1 });
+
+        return true;
     }
 }

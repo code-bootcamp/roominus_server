@@ -54,8 +54,8 @@ import { SocialUserModule } from './apis/socialUser/socialUser.module';
         ///////MySQL
         TypeOrmModule.forRoot({
             type: 'mysql',
-            host: process.env.MYSQL_HOST, // 배포
-            // host: 'localhost', // local
+            // host: process.env.MYSQL_HOST, // 배포
+            host: 'localhost', // local
             port: 3306,
             username: process.env.MYSQL_USER,
             password: process.env.MYSQL_PASS,
@@ -66,8 +66,8 @@ import { SocialUserModule } from './apis/socialUser/socialUser.module';
         }),
         CacheModule.register<RedisClientOptions>({
             store: redisStore,
-            url: 'redis://172.19.209.3:6379',
-            // url: 'redis://localhost:6379',
+            // url: 'redis://172.19.209.3:6379',
+            url: 'redis://localhost:6379',
             isGlobal: true,
         }),
     ],

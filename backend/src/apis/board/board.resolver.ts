@@ -29,7 +29,7 @@ export class BoardResolver {
 
     @Query(() => Board)
     fetchBoardComments(
-        // @Args('page') page: number, //
+        @Args('page', { nullable: true }) page: number, //
         @Args('boardId') boardId: string,
     ) {
         return this.boardService.findboardcomments({ boardId });

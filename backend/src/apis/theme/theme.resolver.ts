@@ -80,4 +80,22 @@ export class ThemeResolver {
         if (!userInfo.isServiceProvider) throw new ConflictException('관리자가 아닙니다!');
         return this.themeService.delete({ themeId });
     }
+
+    @UseGuards(GqlAuthAccessGuard)
+    @Mutation(() => Boolean)
+    createLikeTheme(
+        @Args('themeId') themeId: string,
+        @CurrentUser('userInfo') userInfo: ICurrentUser, //
+    ) {
+        return this.themeService.createLike({ themeId, userInfo });
+    }
+
+    @UseGuards(GqlAuthAccessGuard)
+    @Mutation(() => Boolean)
+    deleteLikeTheme(
+        @Args('themeId') themeId: string,
+        @CurrentUser('userInfo') userInfo: ICurrentUser, //
+    ) {
+        return this.themeService.deleteLike({ themeId, userInfo });
+    }
 }
