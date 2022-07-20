@@ -1,4 +1,4 @@
-import { CACHE_MANAGER, UnauthorizedException } from '@nestjs/common';
+import { CACHE_MANAGER, Inject, UnauthorizedException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { Cache } from 'cache-manager';
 import { Strategy } from 'passport-jwt';
