@@ -1,4 +1,4 @@
-import { CACHE_MANAGER, Inject, UnprocessableEntityException, UseGuards } from '@nestjs/common';
+import { CACHE_MANAGER, Inject, UnauthorizedException, UnprocessableEntityException, UseGuards } from '@nestjs/common';
 import { Args, Context, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { Cache } from 'cache-manager';
 import * as jwt from 'jsonwebtoken';
@@ -8,7 +8,7 @@ import { SocialUserService } from '../socialUser/socialUser.service';
 import { AuthService } from './auth.service';
 
 import { GqlAuthAccessGuard, GqlAuthRefreshGuard } from 'src/commons/auth/gql-auth.guard';
-import { CurrentUser } from 'src/commons/auth/gql-user.param';
+import { CurrentUser, ICurrentUser } from 'src/commons/auth/gql-user.param';
 import { UserService } from '../user/user.service';
 
 import { User } from '../user/entities/user.entity';
@@ -75,26 +75,13 @@ export class AuthResolver {
         return this.authService.getSocialAccessToken({ socialUser });
     }
 
+    @UseGuards(GqlAuthAccessGuard)
     @Query(() => User)
     async fetchUserLoggedIn(
-        @Context() context: any, //
+        // @Context() context: any, //
+        @CurrentUser('userInfo') userInfo: ICurrentUser,
     ) {
-        const accessToken = context.req.headers.authorization.replace('Bearer ', '');
-        ///const accessToken = context.req.headers.authorization.split(' ')[1];
-        const refreshToken = context.req.headers.cookie.replace('refreshToken=', '');
-        // const refreshToken = context.req.headers.cookie.split('=')[1];
-
-        const aaa = jwt.verify(accessToken, 'myAccessKey');
-
-        const isValidation = this.authService.validationToken({
-            accessToken,
-            refreshToken,
-        });
-        if (isValidation === true) {
-            return await this.userService.findOne({ email: aaa['email'] });
-        } else {
-            return '오류';
-        }
+        return await this.userService.findOne({ email: userInfo.email });
     }
 
     @Query(() => SocialUser)
@@ -148,7 +135,7 @@ export class AuthResolver {
             accessToken,
             refreshToken,
         });
-        console.log(isValidation);
+
         if (isValidation) {
             const isSave = this.authService.saveToken({ accessToken, refreshToken });
 
@@ -158,21 +145,6 @@ export class AuthResolver {
         }
 
         return '로그아웃 실패!!';
-
-        // console.log(jwt.verify(accessToken, 'myAccessKey'));
-        // try {
-        //     jwt.verify(accessToken, 'myAccessKey');
-        //     jwt.verify(refreshToken, 'myRefreshKey');
-        // } catch {
-        //     throw new UnauthorizedException('오류');
-        // }
-
-        // // const userId = jwt.decode(accessToken).sub;
-        // // await this.cacheManager.set(`accessToken:${accessToken}`, userId, { ttl: 0 });
-        // // await this.cacheManager.set(`refreshToken:${refreshToken}`, userId, {
-        // //     ttl: 0,
-        // // });
-        // return '로그아웃';
     }
 
     @UseGuards(GqlAuthRefreshGuard)
