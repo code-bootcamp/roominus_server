@@ -16,7 +16,10 @@ export class JwtAccessStreategy extends PassportStrategy(Strategy, 'access') {
     }
 
     async validate(req, payload) {
-        const accessToken = req.headers.authorization.split(' ')[1];
+        const authorization = req.headers.authorization;
+        if (!authorization) throw new UnauthorizedException('로그인 후 사용해주세요!');
+
+        const accessToken = authorization.split(' ')[1];
 
         const hasAccessToken = await this.cacheManager.get(`accessToken:${accessToken}`);
         if (hasAccessToken) throw new UnauthorizedException('로그인 후 사용해주세요!');
