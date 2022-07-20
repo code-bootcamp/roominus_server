@@ -89,25 +89,17 @@ export class BoardService {
                 boardTagresult.push(newTag);
             }
         }
-        const boardresult = await this.boardRepository.save({
+
+        const boardResult = await this.boardRepository.save({
             ...items,
-            user: findUser,
+            user: userInfo.id,
             boardTags: boardTagresult,
         });
 
-        const userresult = await this.userRepository.save({
-            ...findUser,
-            board: [boardresult.id],
-            user: [boardresult.user],
-            // boardTags: boardTagresult,
+        return await this.boardRepository.findOne({
+            where: { id: boardResult.id },
+            relations: ['boardreview', 'boardTags', 'user'],
         });
-
-        const finalresult = await this.boardRepository.save({
-            ...boardresult,
-            user: userresult,
-        });
-
-        return finalresult;
     }
 
     async update({ userInfo, boardId, updateBoardInput }) {
@@ -129,19 +121,6 @@ export class BoardService {
         } else {
             throw new ConflictException('수정을 실패했습니다.');
         }
-
-        // const { boardTags, content, like, view, mainImg, ...board } = updateBoardInput;
-        // const checkboard1 = await this.boardRepository.findOne({ title: board.title });
-        // if (!checkboard1) {
-        //     throw new ConflictException('기존 게시물이 없습니다.');
-        // }
-        // const checkboard2 = await this.boardRepository.findOne({ title: board.title, content, like, view, boardTags });
-        // if (checkboard2) throw new ConflictException('이미 수정 완료한 게시물입니다.');
-        // await this.boardRepository.delete({ title: board.title, content, like, view });
-        // const myboard = await this.boardRepository.findOne({
-        //     where: { title: board.title, content, like, view, mainImg, boardTags },
-        //     relations: ['boardTags', 'user'],
-        // });
     }
 
     async delete({ userInfo, boardId }) {
@@ -149,7 +128,6 @@ export class BoardService {
             where: { id: boardId },
             relations: ['user'],
         });
-        console.log(hasBoard);
         if (hasBoard.user.id !== userInfo.id) throw new UnprocessableEntityException('작성자가 아닙니다!');
 
         const check = await this.boardRepository.softDelete({ id: boardId });
