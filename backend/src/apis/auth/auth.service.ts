@@ -28,14 +28,14 @@ export class AuthService {
             { secret: process.env.REFRESH_TOKEN_KEY, expiresIn: '1h' },
         );
 
-        // res.setHeader('Set-Cookie', `refreshToken=${refreshToken}; path=/;`);
+        res.setHeader('Set-Cookie', `refreshToken=${refreshToken}; path=/;`);
 
-        // 배포환경
-        res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
-        res.setHeader(
-            'Set-Cookie',
-            `refreshToken=${refreshToken}; path=/; domain=.wawoong.shop; SameSite=None; Secure; httpOnly;`,
-        );
+        // // 배포환경
+        // res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+        // res.setHeader(
+        //     'Set-Cookie',
+        //     `refreshToken=${refreshToken}; path=/; domain=.wawoong.shop; SameSite=None; Secure; httpOnly;`,
+        // );
     }
 
     validationToken({ accessToken, refreshToken }) {
@@ -45,7 +45,7 @@ export class AuthService {
 
             return true;
         } catch (error) {
-            throw new UnauthorizedException('유효하지 않은 엑세스 토큰입니다', error);
+            throw new UnauthorizedException('유효하지 않은 소셜 엑세스 토큰입니다', error);
         }
     }
 

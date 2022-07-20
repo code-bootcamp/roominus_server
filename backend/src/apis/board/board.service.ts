@@ -41,7 +41,7 @@ export class BoardService {
         return result;
     }
 
-    async findboardcomments({ page, boardId }) {
+    async findboardcomments({ boardId }) {
         let boardresult = await this.boardRepository.findOne({
             where: [{ id: boardId }],
             relations: ['boardreview'],
@@ -49,9 +49,9 @@ export class BoardService {
 
         const pageresult = await this.boardReviewRepository.find({
             where: [{ board: boardId }],
-            skip: (page - 1) * 10,
-            take: 10,
-            order: { createdAt: 'DESC' },
+            //     skip: (page - 1) * 10,
+            //     take: 10,
+            order: { createdAt: 'ASC' },
         });
 
         boardresult.boardreview = pageresult;
@@ -98,19 +98,7 @@ export class BoardService {
             boardTags: boardTagresult,
         });
 
-        const userresult = await this.userRepository.save({
-            ...findUser,
-            board: [boardresult.id],
-            user: [boardresult.user],
-            // boardTags: boardTagresult,
-        });
-
-        const finalresult = await this.boardRepository.save({
-            ...boardresult,
-            user: userresult,
-        });
-
-        return finalresult;
+        return boardresult;
     }
     /////
 

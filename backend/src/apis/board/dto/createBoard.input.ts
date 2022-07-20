@@ -22,6 +22,6 @@ export class CreateBoardInput {
     @Field(() => [String], { nullable: true })
     boardTags: string[];
 
-    @Field(() => String, { nullable: true })
+    @Field(() => String)
     user: string;
 }
