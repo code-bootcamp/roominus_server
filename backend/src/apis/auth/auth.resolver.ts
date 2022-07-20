@@ -1,4 +1,4 @@
-import { CACHE_MANAGER, Inject, UnauthorizedException, UnprocessableEntityException, UseGuards } from '@nestjs/common';
+import { CACHE_MANAGER, Inject, UnprocessableEntityException, UseGuards } from '@nestjs/common';
 import { Args, Context, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { Cache } from 'cache-manager';
 import * as jwt from 'jsonwebtoken';

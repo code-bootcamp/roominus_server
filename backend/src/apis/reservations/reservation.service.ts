@@ -60,14 +60,14 @@ export class ReservationService {
         return result;
     }
 
-    async findwithUser({ userId }) {
-        const result = this.reservationRepository.find({
-            where: { user: userId },
+    async findwithUser({ userInfo }) {
+        const result = await this.reservationRepository.find({
+            where: { user: userInfo.id },
             relations: ['cafe', 'user', 'theme_menu'],
             order: { createdAt: 'DESC' },
         });
 
-        if (!result || (await result).length === 0) throw new UnprocessableEntityException('예약이 없습니다!!');
+        if (result.length === 0) throw new UnprocessableEntityException('예약이 없습니다!!');
 
         return result;
     }

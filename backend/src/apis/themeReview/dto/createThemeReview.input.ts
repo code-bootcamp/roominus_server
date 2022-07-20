@@ -2,9 +2,6 @@ import { Field, InputType, Int } from '@nestjs/graphql';
 
 @InputType()
 export class CreateThemeReviewInput {
-    @Field(() => String)
-    writerName: string;
-
     @Field(() => Boolean)
     clear: boolean;
 

@@ -49,24 +49,22 @@ export class ThemeReivewService {
         return result;
     }
 
-    findwithUserCount({ userInfo }) {
-        return this.themeReviewRepository.count({
-            where: { user: userInfo.id },
+    async findwithUserCount({ userInfo }) {
+        return await this.themeReviewRepository.count({
+            user: userInfo.id,
         });
     }
 
-    async create({ themeId, createThemeReviewInput }) {
-        const { writerName, ...themeReview } = createThemeReviewInput;
+    async create({ userInfo, themeId, createThemeReviewInput }) {
+        const { ...themeReview } = createThemeReviewInput;
 
         const hasTheme = await this.themeRepository.findOne({ id: themeId });
         if (!hasTheme) throw new UnprocessableEntityException('없는 테마입니다!!');
 
-        const currentUser = await this.userRepository.findOne({ name: writerName });
-
         const newThemeReview = await this.themeReviewRepository.save({
             ...themeReview,
             theme: themeId,
-            user: currentUser.id,
+            user: userInfo.id,
         });
 
         const result = await this.themeReviewRepository.findOne({
@@ -78,8 +76,14 @@ export class ThemeReivewService {
     }
 
     // 토큰 완성되면 작성자만 변경가능하게 수정
-    async update({ themeReviewId, updateThemeReviewInput }) {
+    async update({ userInfo, themeReviewId, updateThemeReviewInput }) {
         const { ...themeReview } = updateThemeReviewInput;
+
+        const hasThemeReview = await this.themeReviewRepository.findOne({
+            where: { id: themeReviewId },
+            relations: ['user'],
+        });
+        if (hasThemeReview.user.id !== userInfo.id) throw new UnprocessableEntityException('작성자가 아닙니다!');
 
         const result = await this.themeReviewRepository.update(
             { id: themeReviewId }, ///
@@ -96,7 +100,13 @@ export class ThemeReivewService {
         }
     }
 
-    async delete({ themeReviewId }) {
+    async delete({ userInfo, themeReviewId }) {
+        const hasThemeReview = await this.themeReviewRepository.findOne({
+            where: { id: themeReviewId },
+            relations: ['user'],
+        });
+        if (hasThemeReview.user.id !== userInfo.id) throw new UnprocessableEntityException('작성자가 아닙니다!');
+
         const result = await this.themeReviewRepository.softDelete({ id: themeReviewId });
 
         if (result.affected) {

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnprocessableEntityException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Boardreview } from '../boardsreview/entities/boardreview.entity';
@@ -43,8 +43,16 @@ export class BoardsecondreviewService {
         });
     }
 
-    async delete({ id }) {
-        const result = await this.boardsecondreviewRepository.softDelete({ id });
+    async delete({ secondReviewId, userInfo }) {
+        const hasSecondReview = await this.boardsecondreviewRepository.findOne({
+            where: { id: secondReviewId },
+            relations: ['user'],
+        });
+        if (hasSecondReview.user.id !== userInfo.id) throw new UnprocessableEntityException('작성자가 아닙니다!');
+
+        const result = await this.boardsecondreviewRepository.softDelete({
+            id: secondReviewId,
+        });
         return result.affected ? true : false;
     }
 }
