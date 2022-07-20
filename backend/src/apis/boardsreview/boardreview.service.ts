@@ -2,6 +2,7 @@ import { ConflictException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Board } from '../board/entities/board.entity';
+import { Boardsecondreview } from '../boardsecondreview/entities/boardsecondreview.entity';
 import { User } from '../user/entities/user.entity';
 import { Boardreview } from './entities/boardreview.entity';
 
@@ -11,11 +12,8 @@ export class BoardreviewService {
         @InjectRepository(Boardreview)
         private readonly boardreviewRepository: Repository<Boardreview>,
 
-        @InjectRepository(Board)
-        private readonly boardRepository: Repository<Board>,
-
-        @InjectRepository(Board)
-        private readonly userRepository: Repository<User>,
+        @InjectRepository(Boardsecondreview)
+        private readonly boardsecondreviewRepository: Repository<Boardsecondreview>,
     ) {}
     async FindAll() {
         return await this.boardreviewRepository.find({
@@ -31,31 +29,43 @@ export class BoardreviewService {
         });
     }
 
-    async create({ createBoardreviewInput }) {
-        const { board, user, ...items } = createBoardreviewInput;
-
-        const findBoard = await this.boardRepository.findOne({
-            where: { id: board },
+    async findboardreviewcomments({ boardreviewId }) {
+        let boardreviewresult = await this.boardreviewRepository.findOne({
+            where: [{ id: boardreviewId }],
+            relations: ['boardsecondreview'],
         });
 
-        const findUser = await this.userRepository.findOne({
-            where: { id: user },
+        const pageresult = await this.boardsecondreviewRepository.find({
+            where: [{ boardreview: boardreviewId }],
+            //     skip: (page - 1) * 10,
+            //     take: 10,
+            order: { createdAt: 'ASC' },
         });
 
-        const boardreviewresult = await this.boardreviewRepository.save({
-            ...items,
-            board: findBoard,
-            user: findUser,
-        });
+        boardreviewresult.boardsecondreview = pageresult;
 
         return boardreviewresult;
     }
 
-    async update(boardreviewId, updateBoardReviewInput) {
+    async create({ userInfo, createBoardreviewInput }) {
+        const { board, ...items } = createBoardreviewInput;
+
+        const boardreviewresult = await this.boardreviewRepository.save({
+            ...items,
+            board: board,
+            user: userInfo.id,
+        });
+        return await this.boardreviewRepository.findOne({
+            where: { id: boardreviewresult.id },
+            relations: ['board', 'user'],
+        });
+    }
+
+    async update({ boardreviewId, updateBoardreviewInput }) {
         const result = await this.boardreviewRepository.update(
             { id: boardreviewId }, //
             {
-                ...updateBoardReviewInput,
+                ...updateBoardreviewInput,
             },
         );
 

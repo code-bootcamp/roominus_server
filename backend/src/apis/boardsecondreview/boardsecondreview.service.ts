@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Boardreview } from '../boardsreview/entities/boardreview.entity';
+import { User } from '../user/entities/user.entity';
 import { Boardsecondreview } from './entities/boardsecondreview.entity';
 
 @Injectable()
@@ -27,19 +28,19 @@ export class BoardsecondreviewService {
         });
     }
 
-    async create({ createBoardsecondreviewInput }) {
+    async create({ userInfo, createBoardsecondreviewInput }) {
         const { boardreview, ...items } = createBoardsecondreviewInput;
-
-        const findBoardreview = await this.boardreviewRepository.findOne({
-            where: { id: boardreview },
-        });
 
         const boardsecondreviewresult = await this.boardsecondreviewRepository.save({
             ...items,
-            boardreview: findBoardreview,
+            boardreview: boardreview,
+            user: userInfo.id,
         });
 
-        return boardsecondreviewresult;
+        return await this.boardsecondreviewRepository.findOne({
+            where: { id: boardsecondreviewresult.id },
+            relations: ['boardreview', 'user'],
+        });
     }
 
     async delete({ id }) {

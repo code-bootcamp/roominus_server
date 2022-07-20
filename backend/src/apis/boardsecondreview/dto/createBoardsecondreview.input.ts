@@ -8,4 +8,7 @@ export class CreateBoardsecondreviewInput {
 
     @Field(() => String)
     boardreview: string;
+
+    @Field(() => String)
+    user: string;
 }
