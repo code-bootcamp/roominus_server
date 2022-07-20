@@ -8,6 +8,7 @@ import { ThemeReview } from './entities/themeReview.entity';
 import { UseGuards } from '@nestjs/common';
 import { GqlAuthAccessGuard } from 'src/commons/auth/gql-auth.guard';
 import { CurrentUser, ICurrentUser } from 'src/commons/auth/gql-user.param';
+import { userInfo } from 'os';
 
 @Resolver()
 export class ThemeReivewResolver {
@@ -30,10 +31,18 @@ export class ThemeReivewResolver {
 
     @UseGuards(GqlAuthAccessGuard)
     @Query(() => [ThemeReview])
-    fetchThemesUser(
+    fetchThemeReviewsUser(
+        @Args('page') page: number,
         @CurrentUser('userInfo') userInfo: ICurrentUser, //
     ) {
-        return this.themeReviewService.findwithUser({ userInfo });
+        return this.themeReviewService.findwithUser({ userInfo, page });
+    }
+
+    @UseGuards(GqlAuthAccessGuard)
+    fetchThemeReviewsUserCount(
+        @CurrentUser('userInfo') userInfo: ICurrentUser, //
+    ) {
+        return this.themeReviewService.findwithUserCount({ userInfo });
     }
 
     @Mutation(() => ThemeReview)
