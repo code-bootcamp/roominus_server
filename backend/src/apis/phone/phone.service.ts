@@ -2,6 +2,7 @@ import { CACHE_MANAGER, Inject, Injectable, UnprocessableEntityException } from 
 import { Cache } from 'cache-manager';
 import coolsms from 'coolsms-node-sdk';
 import 'dotenv/config';
+import { retry } from 'rxjs';
 
 @Injectable()
 export class PhoneService {
@@ -16,7 +17,18 @@ export class PhoneService {
     }
 
     generateToken() {
-        return String(Math.floor(Math.random() * 10 ** 6)).padStart(6, '0');
+        const mycount = 6;
+        if (mycount === undefined) {
+            console.log('에러 발생!!! 갯수를 제대로 입력해 주세요!!!');
+            return;
+        } else if (mycount <= 0) {
+            console.log('에러 발생!!! 갯수가 너무 적습니다!!!');
+            return;
+        } else if (mycount > 10) {
+            console.log('에러 발생!!! 갯수가 너무 많습니다!!!');
+            return;
+        }
+        return String(Math.floor(Math.random() * 10 ** mycount)).padStart(mycount, '0');
     }
 
     async sendToken({ phone }) {
@@ -54,6 +66,9 @@ export class PhoneService {
 
     async checkToken({ phone, tokenInput }) {
         const tokenSent = await this.cacheManager.get(phone);
-        return tokenSent === tokenInput;
+        if (tokenSent === tokenInput) return true;
+        else {
+            return false;
+        }
     }
 }

@@ -7,4 +7,7 @@ export class CreateBoardreviewInput {
 
     @Field(() => String, { nullable: true })
     board: string;
+
+    @Field(() => String)
+    user: string;
 }

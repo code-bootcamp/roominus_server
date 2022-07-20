@@ -7,7 +7,7 @@ export class SocialUserResolver {
     constructor(
         private readonly socialuserService: SocialUserService, //
     ) {}
-    @Query(() => String)
+    @Query(() => SocialUser)
     async fetchSocialUser(
         @Args('email') email: string, //
     ) {
