@@ -28,10 +28,10 @@ export class BoardResolver {
 
     @Query(() => Board)
     fetchBoardComments(
-        @Args('page') page: number, //
+        // @Args('page') page: number, //
         @Args('boardId') boardId: string,
     ) {
-        return this.boardService.findboardcomments({ page, boardId });
+        return this.boardService.findboardcomments({ boardId });
     }
 
     @UseGuards(GqlAuthAccessGuard)

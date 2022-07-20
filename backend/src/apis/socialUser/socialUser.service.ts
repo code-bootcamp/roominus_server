@@ -11,7 +11,7 @@ export class SocialUserService {
     ) {}
 
     async findOne({ email }) {
-        return await this.socialuserRepository.find({ email });
+        return await this.socialuserRepository.findOne({ email });
     }
 
     async create({ email, phone }) {

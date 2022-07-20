@@ -23,8 +23,6 @@ export class PhoneResolver {
         @Args('phone') phone: string, //
         @Args('tokenInput') tokenInput: string,
     ) {
-        const tokenresult = await this.phoneService.checkToken({ phone, tokenInput });
-        if (tokenresult) return true;
-        return false;
+        return await this.phoneService.checkToken({ phone, tokenInput });
     }
 }

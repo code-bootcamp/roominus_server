@@ -33,7 +33,7 @@ export class Board {
     content: string;
 
     @Column()
-    @Field(() => String)
+    @Field(() => String, { nullable: true })
     mainImg: string;
 
     @CreateDateColumn()

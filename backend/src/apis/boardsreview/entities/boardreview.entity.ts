@@ -1,6 +1,7 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 import { Board } from 'src/apis/board/entities/board.entity';
 import { Boardsecondreview } from 'src/apis/boardsecondreview/entities/boardsecondreview.entity';
+import { User } from 'src/apis/user/entities/user.entity';
 import {
     Column,
     CreateDateColumn,
@@ -32,6 +33,10 @@ export class Boardreview {
 
     @DeleteDateColumn()
     deletedAt: Date;
+
+    @ManyToOne(() => User)
+    @Field(() => User, { nullable: true })
+    user: User;
 
     @ManyToOne(() => Board)
     @Field(() => Board, { nullable: true })

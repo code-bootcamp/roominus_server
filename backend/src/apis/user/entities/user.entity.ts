@@ -1,5 +1,6 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql';
 import { Board } from 'src/apis/board/entities/board.entity';
+import { Boardreview } from 'src/apis/boardsreview/entities/boardreview.entity';
 import { Cafe } from 'src/apis/cafe/entities/cafe.entity';
 import {
     Column,
@@ -64,4 +65,9 @@ export class User {
     @OneToMany(() => Board, board => board.user)
     @Field(() => [Board], { nullable: true })
     board: Board[];
+
+    @JoinTable()
+    @OneToMany(() => Boardreview, boardreview => boardreview.user)
+    @Field(() => [Boardreview], { nullable: true })
+    boardreview: Boardreview[];
 }
