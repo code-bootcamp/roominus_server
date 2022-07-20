@@ -13,7 +13,7 @@ export class PhoneResolver {
         @Args('phone') phone: string, //
     ) {
         const check = await this.phoneService.checklength({ phone });
-        console.log('check');
+
         if (check) return await this.phoneService.sendToken({ phone });
         return await new ConflictException('오류');
     }

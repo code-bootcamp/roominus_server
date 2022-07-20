@@ -71,13 +71,10 @@ export class BoardService {
         return result;
     }
 
-    async create({ createBoardInput }) {
-        //게시물 중복여부 확인(안해도 됨)
-        // const checkBoard = await this.boardRepository.findOne({ id: createBoardInput.id });
-        // if (checkBoard) throw new ConflictException('이미 등록된 게시물입니다.');
-        const { user, boardTags, ...items } = createBoardInput;
+    async create({ userInfo, createBoardInput }) {
+        const { boardTags, ...items } = createBoardInput;
         const findUser = await this.userRepository.findOne({
-            where: { id: user },
+            where: { id: userInfo.id },
         });
 
         const boardTagresult = [];
@@ -92,17 +89,25 @@ export class BoardService {
                 boardTagresult.push(newTag);
             }
         }
-        const boardresult = await this.boardRepository.save({
+
+        const boardResult = await this.boardRepository.save({
             ...items,
-            user: findUser,
+            user: userInfo.id,
             boardTags: boardTagresult,
         });
-
-        return boardresult;
+        return await this.boardRepository.findOne({
+            where: { id: boardResult.id },
+            relations: ['boardreview', 'boardTags', 'user'],
+        });
     }
-    /////
 
-    async update({ boardId, updateBoardInput }) {
+    async update({ userInfo, boardId, updateBoardInput }) {
+        const hasBoard = await this.boardRepository.findOne({
+            where: { id: boardId },
+            relations: ['user'],
+        });
+        if (hasBoard.user.id !== userInfo.id) throw new UnprocessableEntityException('작성자가 아닙니다!');
+
         const result = await this.boardRepository.update(
             { id: boardId }, //
             { ...updateBoardInput },
@@ -115,23 +120,16 @@ export class BoardService {
         } else {
             throw new ConflictException('수정을 실패했습니다.');
         }
-
-        // const { boardTags, content, like, view, mainImg, ...board } = updateBoardInput;
-        // const checkboard1 = await this.boardRepository.findOne({ title: board.title });
-        // if (!checkboard1) {
-        //     throw new ConflictException('기존 게시물이 없습니다.');
-        // }
-        // const checkboard2 = await this.boardRepository.findOne({ title: board.title, content, like, view, boardTags });
-        // if (checkboard2) throw new ConflictException('이미 수정 완료한 게시물입니다.');
-        // await this.boardRepository.delete({ title: board.title, content, like, view });
-        // const myboard = await this.boardRepository.findOne({
-        //     where: { title: board.title, content, like, view, mainImg, boardTags },
-        //     relations: ['boardTags', 'user'],
-        // });
     }
 
-    async delete({ title }) {
-        const check = await this.boardRepository.softDelete({ title });
+    async delete({ userInfo, boardId }) {
+        const hasBoard = await this.boardRepository.findOne({
+            where: { id: boardId },
+            relations: ['user'],
+        });
+        if (hasBoard.user.id !== userInfo.id) throw new UnprocessableEntityException('작성자가 아닙니다!');
+
+        const check = await this.boardRepository.softDelete({ id: boardId });
         if (check.affected) {
             return true;
         } else {
