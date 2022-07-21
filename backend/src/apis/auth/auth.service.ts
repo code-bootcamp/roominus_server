@@ -39,6 +39,13 @@ export class AuthService {
     }
 
     validationToken({ accessToken, refreshToken }) {
+        console.log('-----------------');
+        console.log(accessToken);
+        console.log('-----------------');
+        console.log('-----------------');
+        console.log(refreshToken);
+        console.log('-----------------');
+
         try {
             jwt.verify(accessToken, process.env.ACCESS_TOKEN_KEY);
             jwt.verify(refreshToken, process.env.REFRESH_TOKEN_KEY);

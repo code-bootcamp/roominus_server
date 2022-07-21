@@ -18,7 +18,7 @@ export class PhoneResolver {
         return await new ConflictException('오류');
     }
 
-    @Mutation(() => String)
+    @Mutation(() => Boolean)
     async checkinputToken(
         @Args('phone') phone: string, //
         @Args('tokenInput') tokenInput: string,

@@ -48,6 +48,21 @@ export class UserService {
         return result;
     }
 
+    async update({ hashedPassword, updateUserInput }) {
+        const { password, ...items } = updateUserInput;
+        const result = await this.userRepository.update(
+            { ...updateUserInput }, //
+            { password: hashedPassword },
+        );
+        if (result.affected) {
+            return await this.userRepository.findOne({
+                relations: ['cafe', 'board'],
+            });
+        } else {
+            throw new ConflictException('삭제 실패하였습니다.');
+        }
+    }
+
     async delete({ email }) {
         const result = await this.userRepository.softDelete({ email });
         return result.affected ? true : false;

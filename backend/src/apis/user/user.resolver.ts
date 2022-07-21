@@ -11,6 +11,7 @@ import { JwtService } from '@nestjs/jwt';
 
 import { User } from './entities/user.entity';
 import { Theme } from '../theme/entities/theme.entity';
+import { UpdateUserInput } from './dto/updateUser.input';
 
 @Resolver()
 export class UserResolver {
@@ -40,6 +41,16 @@ export class UserResolver {
         @Args('phone') phone: string,
     ) {
         return this.userService.findPassword({ email, phone });
+    }
+
+    @Mutation(() => User)
+    async updateUser(
+        // @Args('userId') userId: string, //
+        @Args('updateUserInput') updateUserInput: UpdateUserInput,
+    ) {
+        const hashedPassword = await bcrypt.hash(updateUserInput.password, 10.2);
+
+        return await this.userService.update({ hashedPassword, updateUserInput });
     }
 
     @Mutation(() => Boolean)
