@@ -83,10 +83,13 @@ export class ThemeService {
         return result;
     }
 
-    async findUserLikeList({ userInfo }) {
+    async findUserLikeList({ page, userInfo }) {
         const result = await this.likeRepository.find({
             where: { userId: userInfo.id },
             relations: ['theme'],
+            take: 10,
+            skip: (page - 1) * 10,
+            order: { createdAt: 'DESC' },
         });
 
         if (result.length == 0) throw new UnprocessableEntityException('찜한 테마가 없습니다!!');
@@ -94,11 +97,16 @@ export class ThemeService {
         return result;
     }
 
+    async findUserLikeListCount({ userInfo }) {
+        return await this.likeRepository.count({
+            userId: userInfo.id,
+        });
+    }
+
     async create({ cafeName, genreName, createThemeInput }) {
         const { mainImg, subImgs, ...theme } = createThemeInput;
 
         const hasCafe = await this.cafeRepository.findOne({ name: cafeName });
-
         const hasGenre = await this.genreRepository.findOne({ name: genreName });
 
         const hasTheme = await this.themeRepository.findOne({ title: theme.title });
@@ -169,7 +177,18 @@ export class ThemeService {
         const hasLike = await this.likeRepository.findOne({
             where: { themeId: themeId, userId: userInfo.id },
         });
-        if (hasLike) return false;
+
+        if (hasLike) {
+            await this.likeRepository.delete({
+                themeId: themeId,
+                userId: userInfo.id,
+            });
+
+            const theme = await this.themeRepository.findOne({ id: themeId });
+            await this.themeRepository.update({ id: themeId }, { like: theme.like - 1 });
+
+            return false;
+        }
 
         await this.likeRepository.save({
             themeId: themeId,
@@ -182,20 +201,20 @@ export class ThemeService {
         return true;
     }
 
-    async deleteLike({ themeId, userInfo }) {
-        const hasLike = await this.likeRepository.findOne({
-            where: { themeId: themeId, userId: userInfo.id },
-        });
-        if (!hasLike) return false;
+    // async deleteLike({ themeId, userInfo }) {
+    //     const hasLike = await this.likeRepository.findOne({
+    //         where: { themeId: themeId, userId: userInfo.id },
+    //     });
+    //     if (!hasLike) return false;
 
-        await this.likeRepository.delete({
-            themeId: themeId,
-            userId: userInfo.id,
-        });
+    //     await this.likeRepository.delete({
+    //         themeId: themeId,
+    //         userId: userInfo.id,
+    //     });
 
-        const theme = await this.themeRepository.findOne({ id: themeId });
-        await this.themeRepository.update({ id: themeId }, { like: theme.like - 1 });
+    //     const theme = await this.themeRepository.findOne({ id: themeId });
+    //     await this.themeRepository.update({ id: themeId }, { like: theme.like - 1 });
 
-        return true;
-    }
+    //     return true;
+    // }
 }

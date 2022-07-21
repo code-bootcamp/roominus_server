@@ -99,13 +99,6 @@ export class AuthResolver {
         const refreshToken = context.req.headers.cookie.replace('refreshToken=', '');
         // const refreshToken = context.req.headers.cookie.split('=')[1];
 
-        // console.log('-------------------');
-        // console.log(accessToken);
-        // console.log('-------------------');
-        // console.log('-------------------');
-        // console.log(refreshToken);
-        // console.log('-------------------');
-
         const aaa = jwt.verify(accessToken, 'myAccessKey');
         const isValidation = this.authService.validationToken({
             accessToken,
@@ -150,9 +143,9 @@ export class AuthResolver {
     @UseGuards(GqlAuthRefreshGuard)
     @Mutation(() => String)
     restoreAccessToken(
-        @CurrentUser() currentUser: any, //
+        @CurrentUser('userInfo') userInfo: ICurrentUser, //
     ) {
-        const aaa = this.authService.getAccessToken({ user: currentUser });
+        const aaa = this.authService.getAccessToken({ user: userInfo });
 
         return aaa;
     }

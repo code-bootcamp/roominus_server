@@ -52,9 +52,18 @@ export class ThemeResolver {
     @UseGuards(GqlAuthAccessGuard)
     @Query(() => [Like])
     fetchUserLikeThemes(
+        @Args('page') page: number,
         @CurrentUser('userInfo') userInfo: ICurrentUser, //
     ) {
-        return this.themeService.findUserLikeList({ userInfo });
+        return this.themeService.findUserLikeList({ userInfo, page });
+    }
+
+    @UseGuards(GqlAuthAccessGuard)
+    @Query(() => [Like])
+    fetchUserLikeThemesCount(
+        @CurrentUser('userInfo') userInfo: ICurrentUser, //
+    ) {
+        return this.themeService.findUserLikeListCount({ userInfo });
     }
 
     @UseGuards(GqlAuthAccessGuard)
@@ -65,7 +74,7 @@ export class ThemeResolver {
         @Args('createThemeInput') createThemeInput: CreateThemeInput,
         @CurrentUser('userInfo') userInfo: ICurrentUser,
     ) {
-        if (!userInfo.isServiceProvider) throw new ConflictException('관리자가 아닙니다!');
+        if (!userInfo.isserviceprovider) throw new ConflictException('관리자가 아닙니다!');
         return this.themeService.create({ cafeName, genreName, createThemeInput });
     }
 
@@ -76,7 +85,7 @@ export class ThemeResolver {
         @Args('updateThemeInput') updateThemeInput: UpdateThemeInput, //
         @CurrentUser('userInfo') userInfo: ICurrentUser,
     ) {
-        if (!userInfo.isServiceProvider) throw new ConflictException('관리자가 아닙니다!');
+        if (!userInfo.isserviceprovider) throw new ConflictException('관리자가 아닙니다!');
         return this.themeService.update({ themeId, updateThemeInput });
     }
 
@@ -86,7 +95,7 @@ export class ThemeResolver {
         @Args('themeId') themeId: string, //
         @CurrentUser('userInfo') userInfo: ICurrentUser,
     ) {
-        if (!userInfo.isServiceProvider) throw new ConflictException('관리자가 아닙니다!');
+        if (!userInfo.isserviceprovider) throw new ConflictException('관리자가 아닙니다!');
         return this.themeService.delete({ themeId });
     }
 
@@ -99,12 +108,12 @@ export class ThemeResolver {
         return this.themeService.createLike({ themeId, userInfo });
     }
 
-    @UseGuards(GqlAuthAccessGuard)
-    @Mutation(() => Boolean)
-    deleteLikeTheme(
-        @Args('themeId') themeId: string,
-        @CurrentUser('userInfo') userInfo: ICurrentUser, //
-    ) {
-        return this.themeService.deleteLike({ themeId, userInfo });
-    }
+    // @UseGuards(GqlAuthAccessGuard)
+    // @Mutation(() => Boolean)
+    // deleteLikeTheme(
+    //     @Args('themeId') themeId: string,
+    //     @CurrentUser('userInfo') userInfo: ICurrentUser, //
+    // ) {
+    //     return this.themeService.deleteLike({ themeId, userInfo });
+    // }
 }

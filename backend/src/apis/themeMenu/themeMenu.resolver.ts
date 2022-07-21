@@ -28,7 +28,7 @@ export class ThemeMenuResolver {
         @Args('createThemeMenuInput') createThemeMenuInput: CreateThemeMenuInput, //
         @CurrentUser('userInfo') userInfo: ICurrentUser,
     ) {
-        if (!userInfo.isServiceProvider) throw new ConflictException('관리자가 아닙니다!');
+        if (!userInfo.isserviceprovider) throw new ConflictException('관리자가 아닙니다!');
 
         return this.themeMenuService.create({ createThemeMenuInput });
     }
@@ -39,7 +39,7 @@ export class ThemeMenuResolver {
         @Args('themeMenuId') themeMenuId: string, //
         @CurrentUser('userInfo') userInfo: ICurrentUser,
     ) {
-        if (!userInfo.isServiceProvider) throw new ConflictException('관리자가 아닙니다!');
+        if (!userInfo.isserviceprovider) throw new ConflictException('관리자가 아닙니다!');
 
         return this.themeMenuService.delete({ themeMenuId });
     }
