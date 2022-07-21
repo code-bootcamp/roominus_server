@@ -10,9 +10,13 @@ export class JwtRefreshStrategy extends PassportStrategy(Strategy, 'refresh') {
     ) {
         super({
             jwtFromRequest: req => {
-                const cookie = req.headers.cookie;
-                const refreshToken = cookie.replace('refreshToken=', '');
-                return refreshToken;
+                try {
+                    const cookie = req.headers.cookie;
+                    const refreshToken = cookie.replace('refreshToken=', '');
+                    return refreshToken;
+                } catch (error) {
+                    console.log(error);
+                }
             },
             secretOrKey: process.env.REFRESH_TOKEN_KEY,
             passReqToCallback: true,
@@ -20,9 +24,6 @@ export class JwtRefreshStrategy extends PassportStrategy(Strategy, 'refresh') {
     }
 
     async validate(req, payload) {
-        // const cookie = req.headers.cookie;
-        // if (!cookie) throw new UnauthorizedException('로그인 후 사용해주세요!');
-
         const refreshToken = req.headers.cookie.split('=')[1];
 
         const hasRefreshToken = await this.cacheManager.get(`refreshToken:${refreshToken}`);
@@ -31,7 +32,7 @@ export class JwtRefreshStrategy extends PassportStrategy(Strategy, 'refresh') {
         return {
             email: payload.email,
             id: payload.id,
-            isServiceProvider: payload.isServiceProvider,
+            isserviceprovider: payload.isserviceprovider,
         };
     }
 }

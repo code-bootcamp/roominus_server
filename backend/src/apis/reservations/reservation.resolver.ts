@@ -1,4 +1,4 @@
-import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
 
 import { PaymentService } from '../payment/payment.service';
@@ -36,9 +36,18 @@ export class ReservationResolver {
     @UseGuards(GqlAuthAccessGuard)
     @Query(() => [Reservation])
     fetchReservationsUser(
+        @Args('page') page: number,
         @CurrentUser('userInfo') userInfo: ICurrentUser, //
     ) {
-        return this.reservationService.findwithUser({ userInfo });
+        return this.reservationService.findwithUser({ page, userInfo });
+    }
+
+    @UseGuards(GqlAuthAccessGuard)
+    @Query(() => Int)
+    fetchReservationUserCount(
+        @CurrentUser('userInfo') userInfo: ICurrentUser, //
+    ) {
+        return this.reservationService.findwithUserCount({ userInfo });
     }
 
     // 트랜젝션

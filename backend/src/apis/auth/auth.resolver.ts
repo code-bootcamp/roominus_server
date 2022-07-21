@@ -147,9 +147,9 @@ export class AuthResolver {
     @UseGuards(GqlAuthRefreshGuard)
     @Mutation(() => String)
     restoreAccessToken(
-        @CurrentUser() currentUser: any, //
+        @CurrentUser('userInfo') userInfo: ICurrentUser, //
     ) {
-        const aaa = this.authService.getAccessToken({ user: currentUser });
+        const aaa = this.authService.getAccessToken({ user: userInfo });
 
         return aaa;
     }

@@ -51,7 +51,7 @@ export class Reservation {
     user: User;
 
     // 예약할 테마와 시간
-    @ManyToOne(() => ThemeMenu)
+    @ManyToOne(() => ThemeMenu, { eager: true })
     @Field(() => ThemeMenu)
     theme_menu: ThemeMenu;
 

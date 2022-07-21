@@ -21,14 +21,23 @@ export class PaymentService {
         private readonly connection: Connection,
     ) {}
 
-    async find({ userId }) {
-        const result = this.paymentRepository.find({
-            where: { user: userId },
+    async find({ userInfo, page }) {
+        const result = await this.paymentRepository.find({
+            where: { user: userInfo.id },
             relations: ['user', 'reservation'],
+            take: 10,
+            skip: (page - 1) * 10,
+            order: { createdAt: 'DESC' },
         });
 
-        if (!result) throw new UnprocessableEntityException('결제 기록이 없습니다!!');
+        if (result.length === 0) throw new UnprocessableEntityException('결제 기록이 없습니다!!');
         return result;
+    }
+
+    async findCount({ userInfo }) {
+        return await this.paymentRepository.count({
+            where: { user: userInfo.id },
+        });
     }
 
     async cancel({ reservationId, userId, merchantUid }) {
