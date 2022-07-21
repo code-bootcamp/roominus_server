@@ -45,12 +45,12 @@ export class UserResolver {
 
     @Mutation(() => User)
     async updateUser(
-        // @Args('userId') userId: string, //
+        @Args('userId') userId: string, //
         @Args('updateUserInput') updateUserInput: UpdateUserInput,
     ) {
         const hashedPassword = await bcrypt.hash(updateUserInput.password, 10.2);
 
-        return await this.userService.update({ hashedPassword, updateUserInput });
+        return await this.userService.update({ userId, hashedPassword, updateUserInput });
     }
 
     @Mutation(() => Boolean)
