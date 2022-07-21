@@ -52,14 +52,14 @@ export class ThemeResolver {
     @UseGuards(GqlAuthAccessGuard)
     @Query(() => [Like])
     fetchUserLikeThemes(
-        @Args('page') page: number,
+        @Args('page', { defaultValue: 1 }) page: number,
         @CurrentUser('userInfo') userInfo: ICurrentUser, //
     ) {
         return this.themeService.findUserLikeList({ userInfo, page });
     }
 
     @UseGuards(GqlAuthAccessGuard)
-    @Query(() => [Like])
+    @Query(() => Int)
     fetchUserLikeThemesCount(
         @CurrentUser('userInfo') userInfo: ICurrentUser, //
     ) {
