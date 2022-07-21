@@ -1,7 +1,7 @@
 import { ConflictException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { FragmentsOnCompositeTypesRule } from 'graphql';
 import { Repository } from 'typeorm';
+
 import { Board } from '../board/entities/board.entity';
 import { Cafe } from '../cafe/entities/cafe.entity';
 import { User } from './entities/user.entity';

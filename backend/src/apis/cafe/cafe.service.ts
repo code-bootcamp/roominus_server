@@ -3,8 +3,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import { User } from '../user/entities/user.entity';
-import { Cafe } from './entities/cafe.entity';
 import { CafeImg } from './entities/cafeImg.entity';
+import { Cafe } from './entities/cafe.entity';
 
 @Injectable()
 export class CafeService {

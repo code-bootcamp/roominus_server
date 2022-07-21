@@ -1,4 +1,3 @@
-import { Injectable } from '@nestjs/common';
 import { Field, InputType } from '@nestjs/graphql';
 
 @InputType()

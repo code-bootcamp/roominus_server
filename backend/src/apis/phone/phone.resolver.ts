@@ -1,5 +1,6 @@
-import { ConflictException } from '@nestjs/common';
 import { Args, Mutation, Resolver } from '@nestjs/graphql';
+import { ConflictException } from '@nestjs/common';
+
 import { PhoneService } from './phone.service';
 
 @Resolver()

@@ -1,8 +1,9 @@
 import { CACHE_MANAGER, ConflictException, Inject, Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { UserService } from '../user/user.service';
 import * as jwt from 'jsonwebtoken';
 import { Cache } from 'cache-manager';
+
+import { UserService } from '../user/user.service';
 import { SocialUserService } from '../socialUser/socialUser.service';
 
 interface IlogoutToken {
@@ -16,10 +17,8 @@ interface IlogoutToken {
 export class AuthService {
     constructor(
         private readonly jwtService: JwtService, //
-        private readonly userService: UserService,
         @Inject(CACHE_MANAGER)
         private readonly cacheMananger: Cache,
-        private readonly socialuserService: SocialUserService,
     ) {}
 
     setRefreshToken({ user, res }) {

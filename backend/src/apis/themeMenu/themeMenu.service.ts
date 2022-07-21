@@ -2,9 +2,9 @@ import { ConflictException, Injectable, UnprocessableEntityException } from '@ne
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { Cafe } from '../cafe/entities/cafe.entity';
-import { Theme } from '../theme/entities/theme.entity';
 import { ThemeMenu } from './entities/themeMenu.entity';
+import { Theme } from '../theme/entities/theme.entity';
+import { Cafe } from '../cafe/entities/cafe.entity';
 
 @Injectable()
 export class ThemeMenuService {

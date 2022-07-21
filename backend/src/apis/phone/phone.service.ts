@@ -2,7 +2,6 @@ import { CACHE_MANAGER, ConflictException, Inject, Injectable, UnprocessableEnti
 import { Cache } from 'cache-manager';
 import coolsms from 'coolsms-node-sdk';
 import 'dotenv/config';
-import { retry } from 'rxjs';
 
 @Injectable()
 export class PhoneService {

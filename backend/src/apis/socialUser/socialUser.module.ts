@@ -1,9 +1,11 @@
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { SocialUser } from './entities/socialUser.entity';
+
 import { SocialUserResolver } from './socialUser.resolver';
 import { SocialUserService } from './socialUser.service';
+
+import { SocialUser } from './entities/socialUser.entity';
 
 @Module({
     imports: [

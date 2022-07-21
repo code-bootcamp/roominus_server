@@ -1,12 +1,12 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { ConflictException, UseGuards } from '@nestjs/common';
+
+import { CurrentUser, ICurrentUser } from 'src/commons/auth/gql-user.param';
+import { GqlAuthAccessGuard } from 'src/commons/auth/gql-auth.guard';
 
 import { GenreService } from './genre.service';
 
-import { ConflictException, UseGuards } from '@nestjs/common';
-import { GqlAuthAccessGuard } from 'src/commons/auth/gql-auth.guard';
-
 import { Genre } from './entities/genre.entity';
-import { CurrentUser, ICurrentUser } from 'src/commons/auth/gql-user.param';
 
 @Resolver()
 export class GenreResolver {

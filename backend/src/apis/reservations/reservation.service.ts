@@ -4,10 +4,10 @@ import { Connection, Repository } from 'typeorm';
 
 import { IamportService } from '../iamport/iamport.service';
 
-import { Payment } from '../payment/entities/payment.entity';
 import { ThemeMenu } from '../themeMenu/entities/themeMenu.entity';
-import { User } from '../user/entities/user.entity';
+import { Payment } from '../payment/entities/payment.entity';
 import { Reservation } from './entities/reservation.entity';
+import { User } from '../user/entities/user.entity';
 import { Cafe } from '../cafe/entities/cafe.entity';
 
 @Injectable()

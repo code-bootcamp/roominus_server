@@ -10,10 +10,10 @@ import {
     PrimaryGeneratedColumn,
 } from 'typeorm';
 
-import { Cafe } from 'src/apis/cafe/entities/cafe.entity';
-import { User } from 'src/apis/user/entities/user.entity';
 import { ThemeMenu } from 'src/apis/themeMenu/entities/themeMenu.entity';
 import { Payment } from 'src/apis/payment/entities/payment.entity';
+import { Cafe } from 'src/apis/cafe/entities/cafe.entity';
+import { User } from 'src/apis/user/entities/user.entity';
 
 @Entity()
 @ObjectType()
