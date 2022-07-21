@@ -23,9 +23,14 @@ export class UserService {
         return await this.userRepository.find();
     }
 
+    async findEmail({ phone }) {
+        const result = await this.userRepository.findOne({ phone });
+        return result;
+    }
+
     async findOne({ email }) {
-        const aaa = await this.userRepository.findOne({ email });
-        return aaa;
+        const result = await this.userRepository.findOne({ email });
+        return result;
     }
 
     async findPassword({ email, phone }) {
