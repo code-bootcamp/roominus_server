@@ -4,21 +4,21 @@ import { Repository } from 'typeorm';
 
 import { Boardreview } from '../boardsreview/entities/boardreview.entity';
 import { BoardTag } from '../boardTag/entities/boardTag.entity';
+import { BoardLike } from './entities/boardLike.entity';
 import { User } from '../user/entities/user.entity';
 import { Board } from './entities/board.entity';
 
 @Injectable()
 export class BoardService {
     constructor(
-        @InjectRepository(Board)
-        private readonly boardRepository: Repository<Board>,
-
-        @InjectRepository(BoardTag)
-        private readonly boardTagRepository: Repository<BoardTag>,
-
         @InjectRepository(User)
         private readonly userRepository: Repository<User>,
-
+        @InjectRepository(Board)
+        private readonly boardRepository: Repository<Board>,
+        @InjectRepository(BoardTag)
+        private readonly boardTagRepository: Repository<BoardTag>,
+        @InjectRepository(BoardLike)
+        private readonly boardLikeRepository: Repository<BoardLike>,
         @InjectRepository(Boardreview)
         private readonly boardReviewRepository: Repository<Boardreview>,
     ) {}
@@ -35,14 +35,16 @@ export class BoardService {
     async findOne({ id }) {
         const result = await this.boardRepository.findOne({
             where: [{ id }],
-            relations: ['boardTags', 'user', 'boardreview'],
+            relations: ['boardTags', 'user', 'boardreview', 'likeUsers'],
         });
+
+        if (!result) throw new UnprocessableEntityException('찾으시는 글이 없습니다!!');
 
         return result;
     }
 
     async findboardcomments({ boardId }) {
-        let boardresult = await this.boardRepository.findOne({
+        const boardresult = await this.boardRepository.findOne({
             where: [{ id: boardId }],
             relations: ['boardreview', 'user'],
         });
@@ -81,7 +83,7 @@ export class BoardService {
     }
 
     async create({ userInfo, createBoardInput }) {
-        const { boardTags, user, ...items } = createBoardInput;
+        const { boardTags, ...items } = createBoardInput;
         const findUser = await this.userRepository.findOne({
             where: { id: userInfo.id },
         });
@@ -143,5 +145,39 @@ export class BoardService {
         } else {
             throw new ConflictException('삭제 실패하였습니다.');
         }
+    }
+
+    async createLike({ boardId, userInfo }) {
+        const hasLike = await this.boardLikeRepository.findOne({
+            where: { boardId, userId: userInfo.id },
+        });
+
+        if (hasLike) {
+            await this.boardLikeRepository.delete({
+                boardId,
+                userId: userInfo.id,
+            });
+
+            const board = await this.boardRepository.findOne({ id: boardId });
+            await this.boardRepository.update(
+                { id: boardId }, //
+                { like: board.like - 1 },
+            );
+
+            return false;
+        }
+
+        await this.boardLikeRepository.save({
+            boardId,
+            userId: userInfo.id,
+        });
+
+        const board = await this.boardRepository.findOne({ id: boardId });
+        await this.boardRepository.update(
+            { id: boardId }, //
+            { like: board.like + 1 },
+        );
+
+        return true;
     }
 }

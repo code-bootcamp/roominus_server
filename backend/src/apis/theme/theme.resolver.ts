@@ -107,13 +107,4 @@ export class ThemeResolver {
     ) {
         return this.themeService.createLike({ themeId, userInfo });
     }
-
-    // @UseGuards(GqlAuthAccessGuard)
-    // @Mutation(() => Boolean)
-    // deleteLikeTheme(
-    //     @Args('themeId') themeId: string,
-    //     @CurrentUser('userInfo') userInfo: ICurrentUser, //
-    // ) {
-    //     return this.themeService.deleteLike({ themeId, userInfo });
-    // }
 }

@@ -11,6 +11,7 @@ import {
     UpdateDateColumn,
 } from 'typeorm';
 
+import { BoardLike } from 'src/apis/board/entities/boardLike.entity';
 import { Board } from 'src/apis/board/entities/board.entity';
 import { Cafe } from 'src/apis/cafe/entities/cafe.entity';
 import { Like } from './like.entity';
@@ -69,4 +70,8 @@ export class User {
     @OneToMany(() => Like, like => like.user)
     @Field(() => [Like])
     likeThemes: Like[];
+
+    @OneToMany(() => BoardLike, like => like.user)
+    @Field(() => [BoardLike])
+    likeBoards: BoardLike[];
 }

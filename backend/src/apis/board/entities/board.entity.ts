@@ -15,6 +15,7 @@ import {
 import { Boardreview } from 'src/apis/boardsreview/entities/boardreview.entity';
 import { BoardTag } from 'src/apis/boardTag/entities/boardTag.entity';
 import { User } from 'src/apis/user/entities/user.entity';
+import { BoardLike } from './boardLike.entity';
 
 @Entity()
 @ObjectType()
@@ -66,4 +67,8 @@ export class Board {
     @ManyToOne(() => User)
     @Field(() => User, { nullable: true })
     user: User;
+
+    @OneToMany(() => BoardLike, like => like.board, { nullable: true })
+    @Field(() => [BoardLike], { nullable: true })
+    likeUsers: BoardLike[];
 }
