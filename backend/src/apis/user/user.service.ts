@@ -53,11 +53,11 @@ export class UserService {
         return result;
     }
 
-    async update({ hashedPassword, updateUserInput }) {
-        const { password, phone, ...items } = updateUserInput;
+    async update({ userId, hashedPassword, updateUserInput }) {
+        const { password, ...items } = updateUserInput;
         const result = await this.userRepository.update(
-            { ...updateUserInput }, //
-            { password: hashedPassword },
+            { id: userId }, //
+            { password: hashedPassword, ...items },
         );
         if (result.affected) {
             return await this.userRepository.findOne({
