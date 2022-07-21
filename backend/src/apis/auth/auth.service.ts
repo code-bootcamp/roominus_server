@@ -39,13 +39,6 @@ export class AuthService {
     }
 
     validationToken({ accessToken, refreshToken }) {
-        console.log('-----------------');
-        console.log(accessToken);
-        console.log('-----------------');
-        console.log('-----------------');
-        console.log(refreshToken);
-        console.log('-----------------');
-
         try {
             jwt.verify(accessToken, process.env.ACCESS_TOKEN_KEY);
             jwt.verify(refreshToken, process.env.REFRESH_TOKEN_KEY);
@@ -75,14 +68,14 @@ export class AuthService {
             { email: socialUser.email, phone: socialUser.phone },
             { secret: process.env.REFRESH_TOKEN_KEY, expiresIn: '1h' },
         );
-        // res.setHeader('Set-Cookie', `refreshToken=${refreshToken}; path=/;`);
+        res.setHeader('Set-Cookie', `refreshToken=${socialrefreshToken}; path=/;`);
 
         // 배포환경
-        res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
-        res.setHeader(
-            'Set-Cookie',
-            `refreshToken=${socialrefreshToken}; path=/; domain=.wawoong.shop; SameSite=None; Secure; httpOnly;`,
-        );
+        // res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+        // res.setHeader(
+        //     'Set-Cookie',
+        //     `refreshToken=${socialrefreshToken}; path=/; domain=.wawoong.shop; SameSite=None; Secure; httpOnly;`,
+        // );
     }
 
     async saveToken({ accessToken, refreshToken }) {

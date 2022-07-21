@@ -21,7 +21,7 @@ export class BoardreviewResolver {
     }
 
     @Query(() => Boardreview)
-    fetchBoardReviewComments(
+    fetchReviewComments(
         // @Args('page') page: number, //
         @Args('boardreviewId') boardreviewId: string,
     ) {
