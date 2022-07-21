@@ -13,6 +13,7 @@ import { UserService } from '../user/user.service';
 
 import { User } from '../user/entities/user.entity';
 import { SocialUser } from '../socialUser/entities/socialUser.entity';
+import { userInfo } from 'os';
 
 interface IContext {
     req: Request;
@@ -66,7 +67,7 @@ export class AuthResolver {
 
         // 3. 일치하는 유저가 있지만,   전화번호가 틀렸다면?! 에러 던지기!!!
 
-        if (phone !== socialUser.phone) throw new UnprocessableEntityException('암호가 틀렸습니다.');
+        if (phone !== socialUser.phone) throw new UnprocessableEntityException('전화번호가 틀렸습니다.');
 
         // 4. refreshToken(=JWT)을 만들어서 프론트엔드(쿠키)에 보내주기
         this.authService.setSocialRefreshToken({ socialUser, res: context.res });
@@ -83,33 +84,35 @@ export class AuthResolver {
     ) {
         return await this.userService.findOne({ email: userInfo.email });
     }
-
+    @UseGuards(GqlAuthAccessGuard)
     @Query(() => SocialUser)
     async fetchSocialUserLoggedIn(
-        @Context() context: any, //
+        // @Context() context: any, //
+        @CurrentUser('userInfo') userInfo: ICurrentUser,
     ) {
-        const headersAuthoriztion = context.req.headers.authorization;
-        const headersCookie = context.req.headers.cookie;
+        return await this.socialuserService.findOne({ email: userInfo.email });
+        // const headersAuthoriztion = context.req.headers.authorization;
+        // const headersCookie = context.req.headers.cookie;
 
-        if (!headersAuthoriztion) throw new UnprocessableEntityException('엑세스 토큰이 없습니다!!');
-        if (!headersCookie) throw new UnprocessableEntityException('리프레쉬 토큰이 없습니다!!');
+        // if (!headersAuthoriztion) throw new UnprocessableEntityException('엑세스 토큰이 없습니다!!');
+        // if (!headersCookie) throw new UnprocessableEntityException('리프레쉬 토큰이 없습니다!!');
 
-        const accessToken = context.req.headers.authorization.replace('Bearer ', '');
-        ///const accessToken = context.req.headers.authorization.split(' ')[1];
-        const refreshToken = context.req.headers.cookie.replace('refreshToken=', '');
-        // const refreshToken = context.req.headers.cookie.split('=')[1];
+        // const accessToken = context.req.headers.authorization.replace('Bearer ', '');
+        // ///const accessToken = context.req.headers.authorization.split(' ')[1];
+        // const refreshToken = context.req.headers.cookie.replace('refreshToken=', '');
+        // // const refreshToken = context.req.headers.cookie.split('=')[1];
 
-        const aaa = jwt.verify(accessToken, 'myAccessKey');
-        const isValidation = this.authService.validationToken({
-            accessToken,
-            refreshToken,
-        });
+        // const aaa = jwt.verify(accessToken, 'myAccessKey');
+        // const isValidation = this.authService.validationToken({
+        //     accessToken,
+        //     refreshToken,
+        // });
 
-        if (isValidation === true) {
-            return await this.socialuserService.findOne({ email: aaa['email'] });
-        } else {
-            return '오류';
-        }
+        // if (isValidation === true) {
+        //     return await this.socialuserService.findOne({ email: aaa['email'] });
+        // } else {
+        //     return '오류';
+        // }
     }
 
     @UseGuards(GqlAuthAccessGuard)
