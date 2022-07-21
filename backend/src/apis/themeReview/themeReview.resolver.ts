@@ -8,6 +8,7 @@ import { ThemeReview } from './entities/themeReview.entity';
 import { UseGuards } from '@nestjs/common';
 import { GqlAuthAccessGuard } from 'src/commons/auth/gql-auth.guard';
 import { CurrentUser, ICurrentUser } from 'src/commons/auth/gql-user.param';
+import { userInfo } from 'os';
 
 @Resolver()
 export class ThemeReivewResolver {
@@ -30,32 +31,47 @@ export class ThemeReivewResolver {
 
     @UseGuards(GqlAuthAccessGuard)
     @Query(() => [ThemeReview])
-    fetchThemesUser(
+    fetchThemeReviewsUser(
+        @Args('page', { defaultValue: 1 }) page: number,
         @CurrentUser('userInfo') userInfo: ICurrentUser, //
     ) {
-        return this.themeReviewService.findwithUser({ userInfo });
+        return this.themeReviewService.findwithUser({ userInfo, page });
     }
 
+    @UseGuards(GqlAuthAccessGuard)
+    @Query(() => Int)
+    async fetchThemeReviewsUserCount(
+        @CurrentUser('userInfo') userInfo: ICurrentUser, //
+    ) {
+        return await this.themeReviewService.findwithUserCount({ userInfo });
+    }
+
+    @UseGuards(GqlAuthAccessGuard)
     @Mutation(() => ThemeReview)
     createThemeReview(
         @Args('themeId') themeId: string,
+        @CurrentUser('userInfo') userInfo: ICurrentUser,
         @Args('createThemeReviewInput') createThemeReviewInput: CreateThemeReviewInput,
     ) {
-        return this.themeReviewService.create({ themeId, createThemeReviewInput });
+        return this.themeReviewService.create({ userInfo, themeId, createThemeReviewInput });
     }
 
+    @UseGuards(GqlAuthAccessGuard)
     @Mutation(() => ThemeReview)
     updateThemeReview(
         @Args('themeReviewId') themeReviewId: string,
+        @CurrentUser('userInfo') userInfo: ICurrentUser,
         @Args('updateThemeReviewInput') updateThemeReviewInput: UpdateThemeReviewInput,
     ) {
-        return this.themeReviewService.update({ themeReviewId, updateThemeReviewInput });
+        return this.themeReviewService.update({ userInfo, themeReviewId, updateThemeReviewInput });
     }
 
+    @UseGuards(GqlAuthAccessGuard)
     @Mutation(() => Boolean)
     deleteThemeReview(
         @Args('themeReviewId') themeReviewId: string, //
+        @CurrentUser('userInfo') userInfo: ICurrentUser,
     ) {
-        return this.themeReviewService.delete({ themeReviewId });
+        return this.themeReviewService.delete({ userInfo, themeReviewId });
     }
 }

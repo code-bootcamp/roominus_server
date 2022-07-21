@@ -33,11 +33,12 @@ export class ReservationResolver {
         return await this.reservationService.findOne({ reservationId });
     }
 
+    @UseGuards(GqlAuthAccessGuard)
     @Query(() => [Reservation])
     fetchReservationsUser(
-        @Args('userId') userId: string, //
+        @CurrentUser('userInfo') userInfo: ICurrentUser, //
     ) {
-        return this.reservationService.findwithUser({ userId });
+        return this.reservationService.findwithUser({ userInfo });
     }
 
     // 트랜젝션
@@ -56,8 +57,6 @@ export class ReservationResolver {
             createReservationInput,
             createPaymentInput,
             userId: userInfo.id,
-            // userId: '8acc2ac3-24a1-469f-a2a4-6b267bb51f09',
-            // userId: '5a78a9a6-633a-4ba9-871f-9a74c9fd2970',
         });
     }
 
@@ -73,8 +72,6 @@ export class ReservationResolver {
             reservationId, //
             merchantUid,
             userId: userInfo.id,
-            // userId: '8acc2ac3-24a1-469f-a2a4-6b267bb51f09',
-            // userId: '5a78a9a6-633a-4ba9-871f-9a74c9fd2970',
         });
 
         if (resultCancelPayment) return true;

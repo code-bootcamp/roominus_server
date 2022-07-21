@@ -1,5 +1,6 @@
 import { UseGuards } from '@nestjs/common';
-import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { userInfo } from 'os';
 
 import { GqlAuthAccessGuard } from 'src/commons/auth/gql-auth.guard';
 import { CurrentUser, ICurrentUser } from 'src/commons/auth/gql-user.param';
@@ -28,7 +29,7 @@ export class BoardResolver {
 
     @Query(() => Board)
     fetchBoardComments(
-        // @Args('page') page: number, //
+        @Args('page', { nullable: true }) page: number, //
         @Args('boardId') boardId: string,
     ) {
         return this.boardService.findboardcomments({ boardId });
@@ -36,10 +37,19 @@ export class BoardResolver {
 
     @UseGuards(GqlAuthAccessGuard)
     @Query(() => [Board])
-    fetchBoardsUser(
+    async fetchBoardsUser(
+        @Args('page', { defaultValue: 1 }) page: number,
         @CurrentUser('userInfo') userInfo: ICurrentUser, //
     ) {
-        return this.boardService.findwithUser({ userInfo });
+        return await this.boardService.findwithUser({ userInfo, page });
+    }
+
+    @UseGuards(GqlAuthAccessGuard)
+    @Query(() => Int)
+    async fetchBoardsUserCount(
+        @CurrentUser('userInfo') userInfo: ICurrentUser, //
+    ) {
+        return this.boardService.findUserCount({ userInfo });
     }
 
     @UseGuards(GqlAuthAccessGuard)

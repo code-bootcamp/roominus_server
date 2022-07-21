@@ -1,5 +1,6 @@
 import { UseGuards } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { userInfo } from 'os';
 import { async } from 'rxjs';
 import { GqlAuthAccessGuard } from 'src/commons/auth/gql-auth.guard';
 import { CurrentUser, ICurrentUser } from 'src/commons/auth/gql-user.param';
@@ -36,18 +37,22 @@ export class BoardreviewResolver {
         return await this.boardreviewService.create({ userInfo, createBoardreviewInput });
     }
 
+    @UseGuards(GqlAuthAccessGuard)
     @Mutation(() => Boardreview)
     async updateBoardreview(
-        @Args('boardreviewId') boardreviewId: string,
+        @Args('boardReviewId') boardReviewId: string,
+        @CurrentUser('userInfo') userInfo: ICurrentUser,
         @Args('updateBoardreviewInput') updateBoardreviewInput: UpdateBoardReviewInput, //
     ) {
-        return await this.boardreviewService.update({ boardreviewId, updateBoardreviewInput });
+        return await this.boardreviewService.update({ boardReviewId, updateBoardreviewInput, userInfo });
     }
 
+    @UseGuards(GqlAuthAccessGuard)
     @Mutation(() => Boolean)
     deleteBoardreview(
-        @Args('id') id: string, //
+        @Args('boardReviewId') boardReviewId: string, //
+        @CurrentUser('userInfo') userInfo: ICurrentUser,
     ) {
-        return this.boardreviewService.delete({ id });
+        return this.boardreviewService.delete({ boardReviewId, userInfo });
     }
 }

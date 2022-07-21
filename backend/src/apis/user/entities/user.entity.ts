@@ -14,6 +14,7 @@ import {
     PrimaryGeneratedColumn,
     UpdateDateColumn,
 } from 'typeorm';
+import { Like } from './like.entity';
 
 @Entity()
 @ObjectType()
@@ -66,8 +67,7 @@ export class User {
     @Field(() => [Board], { nullable: true })
     board: Board[];
 
-    // @JoinTable()
-    // @OneToMany(() => Boardreview, boardreview => boardreview.user)
-    // @Field(() => [Boardreview], { nullable: true })
-    // boardreview: Boardreview[];
+    @OneToMany(() => Like, like => like.user)
+    @Field(() => [Like])
+    likeThemes: Like[];
 }

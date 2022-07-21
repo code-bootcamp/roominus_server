@@ -1,11 +1,15 @@
 import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { ConflictException, UseGuards } from '@nestjs/common';
 
 import { ThemeService } from './theme.service';
 
+import { GqlAuthAccessGuard } from 'src/commons/auth/gql-auth.guard';
 import { CreateThemeInput } from './dto/createTheme.input';
 import { UpdateThemeInput } from './dto/updateTheme.input';
 
 import { Theme } from './entities/theme.entity';
+import { CurrentUser, ICurrentUser } from 'src/commons/auth/gql-user.param';
+import { Like } from '../user/entities/like.entity';
 
 @Resolver()
 export class ThemeResolver {
@@ -45,28 +49,62 @@ export class ThemeResolver {
         return this.themeService.findAllwithTheme({ cafeId });
     }
 
+    @UseGuards(GqlAuthAccessGuard)
+    @Query(() => [Like])
+    fetchUserLikeThemes(
+        @CurrentUser('userInfo') userInfo: ICurrentUser, //
+    ) {
+        return this.themeService.findUserLikeList({ userInfo });
+    }
+
+    @UseGuards(GqlAuthAccessGuard)
     @Mutation(() => Theme)
     createTheme(
         @Args('cafeName') cafeName: string, //
         @Args('genreName') genreName: string, //
         @Args('createThemeInput') createThemeInput: CreateThemeInput,
+        @CurrentUser('userInfo') userInfo: ICurrentUser,
     ) {
+        if (!userInfo.isServiceProvider) throw new ConflictException('관리자가 아닙니다!');
         return this.themeService.create({ cafeName, genreName, createThemeInput });
     }
 
+    @UseGuards(GqlAuthAccessGuard)
     @Mutation(() => Theme)
     updateTheme(
         @Args('themeId') themeId: string,
-        @Args('updateThemeInput')
-        updateThemeInput: UpdateThemeInput, //
+        @Args('updateThemeInput') updateThemeInput: UpdateThemeInput, //
+        @CurrentUser('userInfo') userInfo: ICurrentUser,
     ) {
+        if (!userInfo.isServiceProvider) throw new ConflictException('관리자가 아닙니다!');
         return this.themeService.update({ themeId, updateThemeInput });
     }
 
+    @UseGuards(GqlAuthAccessGuard)
     @Mutation(() => Boolean)
     deleteTheme(
         @Args('themeId') themeId: string, //
+        @CurrentUser('userInfo') userInfo: ICurrentUser,
     ) {
+        if (!userInfo.isServiceProvider) throw new ConflictException('관리자가 아닙니다!');
         return this.themeService.delete({ themeId });
+    }
+
+    @UseGuards(GqlAuthAccessGuard)
+    @Mutation(() => Boolean)
+    createLikeTheme(
+        @Args('themeId') themeId: string,
+        @CurrentUser('userInfo') userInfo: ICurrentUser, //
+    ) {
+        return this.themeService.createLike({ themeId, userInfo });
+    }
+
+    @UseGuards(GqlAuthAccessGuard)
+    @Mutation(() => Boolean)
+    deleteLikeTheme(
+        @Args('themeId') themeId: string,
+        @CurrentUser('userInfo') userInfo: ICurrentUser, //
+    ) {
+        return this.themeService.deleteLike({ themeId, userInfo });
     }
 }

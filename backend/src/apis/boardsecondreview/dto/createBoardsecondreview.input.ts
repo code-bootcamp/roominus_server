@@ -5,10 +5,4 @@ import { Field, InputType } from '@nestjs/graphql';
 export class CreateBoardsecondreviewInput {
     @Field(() => String)
     content: string;
-
-    @Field(() => String)
-    boardreview: string;
-
-    @Field(() => String)
-    user: string;
 }

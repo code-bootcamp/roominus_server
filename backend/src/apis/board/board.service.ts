@@ -44,7 +44,7 @@ export class BoardService {
     async findboardcomments({ boardId }) {
         let boardresult = await this.boardRepository.findOne({
             where: [{ id: boardId }],
-            relations: ['boardreview'],
+            relations: ['boardreview', 'user'],
         });
 
         const pageresult = await this.boardReviewRepository.find({
@@ -52,6 +52,7 @@ export class BoardService {
             //     skip: (page - 1) * 10,
             //     take: 10,
             order: { createdAt: 'ASC' },
+            relations: ['user'],
         });
 
         boardresult.boardreview = pageresult;
@@ -59,16 +60,24 @@ export class BoardService {
         return boardresult;
     }
 
-    async findwithUser({ userInfo }) {
+    async findwithUser({ userInfo, page }) {
         const result = await this.boardRepository.find({
             where: { user: userInfo.id },
             relations: ['boardreview', 'boardTags', 'user'],
+            skip: (page - 1) * 10,
+            take: 10,
             order: { createdAt: 'DESC' },
         });
 
         if (result.length == 0) throw new UnprocessableEntityException('작성하신 글이 없습니다!!');
 
         return result;
+    }
+
+    async findUserCount({ userInfo }) {
+        return await this.boardRepository.count({
+            where: { user: userInfo.id },
+        });
     }
 
     async create({ userInfo, createBoardInput }) {
@@ -104,7 +113,6 @@ export class BoardService {
     async update({ userInfo, boardId, updateBoardInput }) {
         const hasBoard = await this.boardRepository.findOne({
             where: { id: boardId },
-            relations: ['user'],
         });
         if (hasBoard.user.id !== userInfo.id) throw new UnprocessableEntityException('작성자가 아닙니다!');
 

@@ -20,10 +20,10 @@ export class JwtRefreshStrategy extends PassportStrategy(Strategy, 'refresh') {
     }
 
     async validate(req, payload) {
-        const cookie = req.headers.cookie;
-        if (!cookie) throw new UnauthorizedException('로그인 후 사용해주세요!');
+        // const cookie = req.headers.cookie;
+        // if (!cookie) throw new UnauthorizedException('로그인 후 사용해주세요!');
 
-        const refreshToken = cookie.split('=')[1];
+        const refreshToken = req.headers.cookie.split('=')[1];
 
         const hasRefreshToken = await this.cacheManager.get(`refreshToken:${refreshToken}`);
         if (hasRefreshToken) throw new UnauthorizedException('로그인 후 사용해주세요!');

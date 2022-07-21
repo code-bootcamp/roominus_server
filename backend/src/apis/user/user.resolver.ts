@@ -65,4 +65,11 @@ export class UserResolver {
     testAuthGuard(@CurrentUser() currentUser: ICurrentUser) {
         return '인증 성공!!';
     }
+
+    @Mutation(() => Boolean)
+    updateUserStatus(
+        @Args('email') email: string, //
+    ) {
+        return this.userService.updateStatus({ email });
+    }
 }

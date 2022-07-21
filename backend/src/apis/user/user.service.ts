@@ -67,4 +67,12 @@ export class UserService {
         const result = await this.userRepository.softDelete({ email });
         return result.affected ? true : false;
     }
+
+    async updateStatus({ email }) {
+        await this.userRepository.update(
+            { email }, //
+            { isserviceprovider: true },
+        );
+        return true;
+    }
 }

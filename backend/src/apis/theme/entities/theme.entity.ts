@@ -4,15 +4,15 @@ import {
     CreateDateColumn,
     DeleteDateColumn,
     Entity,
-    ManyToMany,
     ManyToOne,
+    OneToMany,
     PrimaryGeneratedColumn,
     UpdateDateColumn,
 } from 'typeorm';
 
 import { Cafe } from 'src/apis/cafe/entities/cafe.entity';
 import { Genre } from 'src/apis/genre/entities/genre.entity';
-import { User } from 'src/apis/user/entities/user.entity';
+import { Like } from 'src/apis/user/entities/like.entity';
 
 @Entity()
 @ObjectType()
@@ -74,7 +74,7 @@ export class Theme {
     @Field(() => Genre)
     genre: Genre;
 
-    // @ManyToMany(())
-    // @Field(() => [User])
-    // users: User[];
+    @OneToMany(() => Like, like => like.theme)
+    @Field(() => [Like])
+    likeUsers: Like[];
 }

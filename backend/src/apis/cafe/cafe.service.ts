@@ -101,6 +101,7 @@ export class CafeService {
             {
                 ...cafe, //
                 mainImg: mainImg,
+                users,
             },
         );
 
@@ -114,7 +115,10 @@ export class CafeService {
         }
 
         if (result.affected) {
-            return await this.cafeRepository.findOne({ id: cafeId });
+            return await this.cafeRepository.findOne({
+                where: { id: cafeId },
+                relations: ['users'],
+            });
         } else {
             throw new ConflictException('수정을 실패했습니다!!');
         }
