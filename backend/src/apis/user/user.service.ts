@@ -54,7 +54,7 @@ export class UserService {
     }
 
     async update({ hashedPassword, updateUserInput }) {
-        const { password, ...items } = updateUserInput;
+        const { password, phone, ...items } = updateUserInput;
         const result = await this.userRepository.update(
             { ...updateUserInput }, //
             { password: hashedPassword },
