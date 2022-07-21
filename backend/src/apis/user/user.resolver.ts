@@ -30,8 +30,8 @@ export class UserResolver {
     }
 
     @Query(() => User)
-    fetchUser(@Args('email') email: string) {
-        return this.userService.findOne({ email });
+    fetchUser(@Args('phone') phone: string) {
+        return this.userService.findEmail({ phone });
     }
 
     // @UseGuards(GqlAuthAccessGuard)
