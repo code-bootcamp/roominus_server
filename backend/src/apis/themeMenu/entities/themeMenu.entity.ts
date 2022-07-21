@@ -44,7 +44,7 @@ export class ThemeMenu {
     @Field(() => Cafe)
     cafe: Cafe;
 
-    @ManyToOne(() => Theme)
+    @ManyToOne(() => Theme, { eager: true })
     @Field(() => Theme)
     theme: Theme;
 }
