@@ -60,10 +60,10 @@ export class AuthResolver {
         @Context() context: IContext,
     ) {
         // 1. 로그인 @@
-        const socialUser = await this.socialuserService.findOne({ email });
+        const socialUser = await this.socialuserService.findsocialUserEmail({ email });
         // console.log(socialUser);
         // 2. 일치하는 유저가 없으면?! 에러 던지기!!!
-        if (!socialUser) throw new UnprocessableEntityException('아이디가 없습니다.');
+        if (!socialUser) throw new UnprocessableEntityException('이메일이 틀렸습니다.');
 
         // 3. 일치하는 유저가 있지만,   전화번호가 틀렸다면?! 에러 던지기!!!
 
@@ -90,7 +90,7 @@ export class AuthResolver {
         // @Context() context: any, //
         @CurrentUser('userInfo') userInfo: ICurrentUser,
     ) {
-        return await this.socialuserService.findOne({ email: userInfo.email });
+        return await this.socialuserService.findsocialUserEmail({ email: userInfo.email });
         // const headersAuthoriztion = context.req.headers.authorization;
         // const headersCookie = context.req.headers.cookie;
 
@@ -119,10 +119,11 @@ export class AuthResolver {
     @Mutation(() => String)
     async logout(@Context() context: any) {
         const headersAuthoriztion = context.req.headers.authorization;
+
         const headersCookie = context.req.headers.cookie;
 
-        if (!headersAuthoriztion) throw new UnprocessableEntityException('엑세스 토큰이 없습니다!!');
-        if (!headersCookie) throw new UnprocessableEntityException('리프레쉬 토큰이 없습니다!!');
+        if (!headersAuthoriztion) throw new UnprocessableEntityException('소셜 엑세스 토큰이 없습니다!!');
+        if (!headersCookie) throw new UnprocessableEntityException('소셜 리프레쉬 토큰이 없습니다!!');
 
         const accessToken = context.req.headers.authorization.replace('Bearer ', '');
         const refreshToken = context.req.headers.cookie.replace('refreshToken=', '');
