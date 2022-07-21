@@ -63,7 +63,7 @@ export class ThemeService {
     async findOne({ themeId }) {
         const result = await this.themeRepository.findOne({
             where: { id: themeId },
-            relations: ['cafe', 'genre'],
+            relations: ['cafe', 'genre', 'likeUsers'],
         });
 
         if (!result) throw new UnprocessableEntityException('찾으시는 테마가 없습니다!!');
