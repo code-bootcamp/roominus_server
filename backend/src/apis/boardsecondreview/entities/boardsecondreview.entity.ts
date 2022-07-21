@@ -1,7 +1,4 @@
 import { Field, ObjectType } from '@nestjs/graphql';
-import { Board } from 'src/apis/board/entities/board.entity';
-import { Boardreview } from 'src/apis/boardsreview/entities/boardreview.entity';
-import { User } from 'src/apis/user/entities/user.entity';
 import {
     Column,
     CreateDateColumn,
@@ -11,6 +8,9 @@ import {
     PrimaryGeneratedColumn,
     UpdateDateColumn,
 } from 'typeorm';
+
+import { Boardreview } from 'src/apis/boardsreview/entities/boardreview.entity';
+import { User } from 'src/apis/user/entities/user.entity';
 
 @Entity()
 @ObjectType()

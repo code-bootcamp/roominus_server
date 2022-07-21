@@ -1,7 +1,7 @@
 import { CACHE_MANAGER, Inject, UnauthorizedException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
-import { Cache } from 'cache-manager';
 import { Strategy } from 'passport-jwt';
+import { Cache } from 'cache-manager';
 
 export class JwtRefreshStrategy extends PassportStrategy(Strategy, 'refresh') {
     constructor(

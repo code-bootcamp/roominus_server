@@ -1,11 +1,10 @@
-import { UseGuards } from '@nestjs/common';
 import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { GqlAuthAccessGuard } from 'src/commons/auth/gql-auth.guard';
-import { CurrentUser, ICurrentUser } from 'src/commons/auth/gql-user.param';
+import { UseGuards } from '@nestjs/common';
 
-import { CafeService } from './cafe.service';
 import { CreateCafeInput } from './dto/createCafe.input';
 import { UpdateCafeInput } from './dto/updateCafe.input';
+import { CafeService } from './cafe.service';
 
 import { Cafe } from './entities/cafe.entity';
 

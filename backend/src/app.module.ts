@@ -1,28 +1,28 @@
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
+import * as redisStore from 'cache-manager-redis-store';
 import { CacheModule, Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import 'dotenv/config';
-import * as redisStore from 'cache-manager-redis-store';
 import { RedisClientOptions } from 'redis';
+import 'dotenv/config';
 
-import { UserModule } from './apis/user/user.module';
-import { CafeModule } from './apis/cafe/cafe.module';
-import { ThemeModule } from './apis/theme/theme.module';
+import { BoardsecondreviewModule } from './apis/boardsecondreview/boardsecondreview.module';
+import { ReservationModule } from './apis/reservations/reservation.module';
+import { BoardreviewModule } from './apis/boardsreview/boardreview.module';
 import { ThemeReviewModule } from './apis/themeReview/themeReview.module';
+import { SocialUserModule } from './apis/socialUser/socialUser.module';
+import { ThemeMenuModule } from './apis/themeMenu/themeMenu.module';
+import { IamportModule } from './apis/iamport/iamport.module';
+import { ThemeModule } from './apis/theme/theme.module';
 import { GenreModule } from './apis/genre/genre.module';
 import { BoardModule } from './apis/board/board.module';
-import { ThemeMenuModule } from './apis/themeMenu/themeMenu.module';
-import { ReservationModule } from './apis/reservations/reservation.module';
-import { IamportModule } from './apis/iamport/iamport.module';
+import { PhoneModule } from './apis/phone/phone.module';
+import { UserModule } from './apis/user/user.module';
+import { CafeModule } from './apis/cafe/cafe.module';
 import { AuthModule } from './apis/auth/auth.module';
-import { BoardreviewModule } from './apis/boardsreview/boardreview.module';
-import { BoardsecondreviewModule } from './apis/boardsecondreview/boardsecondreview.module';
 
 import { AppController } from './app.controller';
 import { AppResolver } from './app.resolver';
-import { PhoneModule } from './apis/phone/phone.module';
-import { SocialUserModule } from './apis/socialUser/socialUser.module';
 
 @Module({
     imports: [

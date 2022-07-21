@@ -1,17 +1,17 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
-import * as bcrypt from 'bcrypt';
 import { UseGuards } from '@nestjs/common';
-import { GqlAuthAccessGuard } from 'src/commons/auth/gql-auth.guard';
-import { CurrentUser, ICurrentUser } from 'src/commons/auth/gql-user.param';
-
-import { UserService } from './user.service';
-import { CreateUserInput } from './dto/createUser.input';
-import { AuthService } from '../auth/auth.service';
 import { JwtService } from '@nestjs/jwt';
+import * as bcrypt from 'bcrypt';
+
+import { CurrentUser, ICurrentUser } from 'src/commons/auth/gql-user.param';
+import { GqlAuthAccessGuard } from 'src/commons/auth/gql-auth.guard';
+import { AuthService } from '../auth/auth.service';
+
+import { CreateUserInput } from './dto/createUser.input';
+import { UpdateUserInput } from './dto/updateUser.input';
+import { UserService } from './user.service';
 
 import { User } from './entities/user.entity';
-import { Theme } from '../theme/entities/theme.entity';
-import { UpdateUserInput } from './dto/updateUser.input';
 
 @Resolver()
 export class UserResolver {

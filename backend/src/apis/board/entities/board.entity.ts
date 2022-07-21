@@ -1,9 +1,4 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql';
-import { Boardreview } from 'src/apis/boardsreview/entities/boardreview.entity';
-import { BoardTag } from 'src/apis/boardTag/entities/boardTag.entity';
-import { Cafe } from 'src/apis/cafe/entities/cafe.entity';
-import { Theme } from 'src/apis/theme/entities/theme.entity';
-import { User } from 'src/apis/user/entities/user.entity';
 import {
     Column,
     CreateDateColumn,
@@ -16,6 +11,10 @@ import {
     PrimaryGeneratedColumn,
     UpdateDateColumn,
 } from 'typeorm';
+
+import { Boardreview } from 'src/apis/boardsreview/entities/boardreview.entity';
+import { BoardTag } from 'src/apis/boardTag/entities/boardTag.entity';
+import { User } from 'src/apis/user/entities/user.entity';
 
 @Entity()
 @ObjectType()

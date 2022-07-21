@@ -13,7 +13,6 @@ import { UserService } from '../user/user.service';
 
 import { User } from '../user/entities/user.entity';
 import { SocialUser } from '../socialUser/entities/socialUser.entity';
-import { userInfo } from 'os';
 
 interface IContext {
     req: Request;

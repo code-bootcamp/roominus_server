@@ -1,9 +1,8 @@
 import { ConflictException, Injectable, UnprocessableEntityException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Board } from '../board/entities/board.entity';
+
 import { Boardsecondreview } from '../boardsecondreview/entities/boardsecondreview.entity';
-import { User } from '../user/entities/user.entity';
 import { Boardreview } from './entities/boardreview.entity';
 
 @Injectable()

@@ -1,5 +1,5 @@
-import { ExecutionContext } from '@nestjs/common';
 import { GqlExecutionContext } from '@nestjs/graphql';
+import { ExecutionContext } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 
 export class GqlAuthAccessGuard extends AuthGuard('access') {

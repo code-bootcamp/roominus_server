@@ -10,8 +10,8 @@ import {
     UpdateDateColumn,
 } from 'typeorm';
 
-import { Cafe } from 'src/apis/cafe/entities/cafe.entity';
 import { Genre } from 'src/apis/genre/entities/genre.entity';
+import { Cafe } from 'src/apis/cafe/entities/cafe.entity';
 import { Like } from 'src/apis/user/entities/like.entity';
 
 @Entity()

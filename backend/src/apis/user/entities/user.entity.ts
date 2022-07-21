@@ -1,7 +1,4 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql';
-import { Board } from 'src/apis/board/entities/board.entity';
-import { Boardreview } from 'src/apis/boardsreview/entities/boardreview.entity';
-import { Cafe } from 'src/apis/cafe/entities/cafe.entity';
 import {
     Column,
     CreateDateColumn,
@@ -9,11 +6,13 @@ import {
     Entity,
     JoinTable,
     ManyToMany,
-    ManyToOne,
     OneToMany,
     PrimaryGeneratedColumn,
     UpdateDateColumn,
 } from 'typeorm';
+
+import { Board } from 'src/apis/board/entities/board.entity';
+import { Cafe } from 'src/apis/cafe/entities/cafe.entity';
 import { Like } from './like.entity';
 
 @Entity()

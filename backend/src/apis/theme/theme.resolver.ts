@@ -1,15 +1,15 @@
 import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { ConflictException, UseGuards } from '@nestjs/common';
 
-import { ThemeService } from './theme.service';
-
+import { CurrentUser, ICurrentUser } from 'src/commons/auth/gql-user.param';
 import { GqlAuthAccessGuard } from 'src/commons/auth/gql-auth.guard';
+
 import { CreateThemeInput } from './dto/createTheme.input';
 import { UpdateThemeInput } from './dto/updateTheme.input';
+import { ThemeService } from './theme.service';
 
-import { Theme } from './entities/theme.entity';
-import { CurrentUser, ICurrentUser } from 'src/commons/auth/gql-user.param';
 import { Like } from '../user/entities/like.entity';
+import { Theme } from './entities/theme.entity';
 
 @Resolver()
 export class ThemeResolver {

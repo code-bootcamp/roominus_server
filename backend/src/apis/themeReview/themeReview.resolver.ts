@@ -1,14 +1,14 @@
 import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { UseGuards } from '@nestjs/common';
 
-import { ThemeReivewService } from './themewReview.service';
+import { CurrentUser, ICurrentUser } from 'src/commons/auth/gql-user.param';
+import { GqlAuthAccessGuard } from 'src/commons/auth/gql-auth.guard';
+
 import { CreateThemeReviewInput } from './dto/createThemeReview.input';
 import { UpdateThemeReviewInput } from './dto/updateThemeReview.input';
+import { ThemeReivewService } from './themewReview.service';
 
 import { ThemeReview } from './entities/themeReview.entity';
-import { UseGuards } from '@nestjs/common';
-import { GqlAuthAccessGuard } from 'src/commons/auth/gql-auth.guard';
-import { CurrentUser, ICurrentUser } from 'src/commons/auth/gql-user.param';
-import { userInfo } from 'os';
 
 @Resolver()
 export class ThemeReivewResolver {
