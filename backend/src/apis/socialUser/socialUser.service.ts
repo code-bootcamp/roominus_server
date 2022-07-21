@@ -10,14 +10,18 @@ export class SocialUserService {
         private readonly socialuserRepository: Repository<SocialUser>,
     ) {}
 
-    async findOne({ email }) {
+    async findsocialUserPhone({ phone }) {
+        return await this.socialuserRepository.findOne({ phone });
+    }
+
+    async findsocialUserEmail({ email }) {
         return await this.socialuserRepository.findOne({ email });
     }
 
-    async create({ email, phone }) {
+    async create({ email }) {
         const checkUser = await this.socialuserRepository.findOne({ email });
         if (checkUser) throw new ConflictException('이미 등록된 유저입니다.');
 
-        return await this.socialuserRepository.save({ email, phone });
+        return await this.socialuserRepository.save({ email });
     }
 }

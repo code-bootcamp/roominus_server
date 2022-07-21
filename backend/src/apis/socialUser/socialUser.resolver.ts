@@ -9,16 +9,15 @@ export class SocialUserResolver {
     ) {}
     @Query(() => SocialUser)
     async fetchSocialUser(
-        @Args('email') email: string, //
+        @Args('phone') phone: string, //
     ) {
-        return await this.socialuserService.findOne({ email });
+        return await this.socialuserService.findsocialUserPhone({ phone });
     }
 
     @Mutation(() => SocialUser)
     async createSocialUser(
         @Args('email') email: string, //
-        @Args('phone') phone: string,
     ) {
-        return await this.socialuserService.create({ email, phone });
+        return await this.socialuserService.create({ email });
     }
 }

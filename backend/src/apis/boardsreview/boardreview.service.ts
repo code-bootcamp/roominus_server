@@ -32,7 +32,7 @@ export class BoardreviewService {
     async findboardreviewcomments({ boardreviewId }) {
         let boardreviewresult = await this.boardreviewRepository.findOne({
             where: [{ id: boardreviewId }],
-            relations: ['boardsecondreview'],
+            relations: ['boardsecondreview', 'user'],
         });
 
         const pageresult = await this.boardsecondreviewRepository.find({
@@ -40,6 +40,7 @@ export class BoardreviewService {
             //     skip: (page - 1) * 10,
             //     take: 10,
             order: { createdAt: 'ASC' },
+            relations: ['boardreview', 'user'],
         });
 
         boardreviewresult.boardsecondreview = pageresult;

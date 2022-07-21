@@ -1,4 +1,4 @@
-import { CACHE_MANAGER, Inject, Injectable, UnprocessableEntityException } from '@nestjs/common';
+import { CACHE_MANAGER, ConflictException, Inject, Injectable, UnprocessableEntityException } from '@nestjs/common';
 import { Cache } from 'cache-manager';
 import coolsms from 'coolsms-node-sdk';
 import 'dotenv/config';
@@ -66,9 +66,13 @@ export class PhoneService {
 
     async checkToken({ phone, tokenInput }) {
         const tokenSent = await this.cacheManager.get(phone);
-        if (tokenSent === tokenInput) return true;
+        console.log('----------------');
+        console.log(tokenSent);
+        console.log('----------------');
+
+        if (tokenSent === tokenInput) return tokenSent;
         else {
-            return false;
+            return new ConflictException('인증번호가 틀렸습니다.');
         }
     }
 }
