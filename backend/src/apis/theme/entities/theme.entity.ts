@@ -67,7 +67,7 @@ export class Theme {
     deletedAt: Date;
 
     @ManyToOne(() => Cafe)
-    @Field(() => Cafe)
+    @Field(() => Cafe, { nullable: true })
     cafe: Cafe;
 
     @ManyToOne(() => Genre)
@@ -75,6 +75,6 @@ export class Theme {
     genre: Genre;
 
     @OneToMany(() => Like, like => like.theme)
-    @Field(() => [Like])
+    @Field(() => [Like], { nullable: true })
     likeUsers: Like[];
 }

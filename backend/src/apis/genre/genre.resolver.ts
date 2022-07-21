@@ -25,7 +25,7 @@ export class GenreResolver {
         @Args('name') name: string, //
         @CurrentUser('userInfo') userInfo: ICurrentUser,
     ) {
-        if (!userInfo.isServiceProvider) throw new ConflictException('관리자가 아닙니다!');
+        if (!userInfo.isserviceprovider) throw new ConflictException('관리자가 아닙니다!');
         return await this.genreService.create({ name });
     }
 
@@ -35,7 +35,7 @@ export class GenreResolver {
         @Args('genreId') genreId: string, //
         @CurrentUser('userInfo') userInfo: ICurrentUser,
     ) {
-        if (!userInfo.isServiceProvider) throw new ConflictException('관리자가 아닙니다!');
+        if (!userInfo.isserviceprovider) throw new ConflictException('관리자가 아닙니다!');
         return this.genreService.delete({ genreId });
     }
 }

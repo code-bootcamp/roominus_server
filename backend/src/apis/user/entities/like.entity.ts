@@ -1,5 +1,5 @@
 import { Field, ObjectType } from '@nestjs/graphql';
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 import { User } from './user.entity';
 import { Theme } from 'src/apis/theme/entities/theme.entity';
@@ -17,6 +17,9 @@ export class Like {
     @Column()
     @Field(() => String)
     themeId: string;
+
+    @CreateDateColumn()
+    createdAt: Date;
 
     @JoinColumn({ name: 'userId' })
     @ManyToOne(() => User, user => user.likeThemes, { nullable: true })
