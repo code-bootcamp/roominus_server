@@ -56,7 +56,6 @@ export class AuthResolver {
     @Mutation(() => String)
     async SocialLogin(
         @Args('email') email: string, //
-        @Args('phone') phone: string,
         @Context() context: IContext,
     ) {
         // 1. 로그인 @@
@@ -65,14 +64,10 @@ export class AuthResolver {
         // 2. 일치하는 유저가 없으면?! 에러 던지기!!!
         if (!socialUser) throw new UnprocessableEntityException('이메일이 틀렸습니다.');
 
-        // 3. 일치하는 유저가 있지만,   전화번호가 틀렸다면?! 에러 던지기!!!
-
-        if (phone !== socialUser.phone) throw new UnprocessableEntityException('전화번호가 틀렸습니다.');
-
-        // 4. refreshToken(=JWT)을 만들어서 프론트엔드(쿠키)에 보내주기
+        // 3. refreshToken(=JWT)을 만들어서 프론트엔드(쿠키)에 보내주기
         this.authService.setSocialRefreshToken({ socialUser, res: context.res });
 
-        // 5. 일치하는 유저가 있으면?! accessToken(=JWT)을 만들어서 브라우저에 전달하기
+        // 4. 일치하는 유저가 있으면?! accessToken(=JWT)을 만들어서 브라우저에 전달하기
         return this.authService.getSocialAccessToken({ socialUser });
     }
 

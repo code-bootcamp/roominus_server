@@ -68,14 +68,14 @@ export class AuthService {
             { email: socialUser.email, phone: socialUser.phone },
             { secret: process.env.REFRESH_TOKEN_KEY, expiresIn: '1h' },
         );
-        res.setHeader('Set-Cookie', `refreshToken=${socialrefreshToken}; path=/;`);
+        // res.setHeader('Set-Cookie', `refreshToken=${socialrefreshToken}; path=/;`);
 
         // 배포환경
-        // res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
-        // res.setHeader(
-        //     'Set-Cookie',
-        //     `refreshToken=${socialrefreshToken}; path=/; domain=.wawoong.shop; SameSite=None; Secure; httpOnly;`,
-        // );
+        res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+        res.setHeader(
+            'Set-Cookie',
+            `refreshToken=${socialrefreshToken}; path=/; domain=.wawoong.shop; SameSite=None; Secure; httpOnly;`,
+        );
     }
 
     async saveToken({ accessToken, refreshToken }) {

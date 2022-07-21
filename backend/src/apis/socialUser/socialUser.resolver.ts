@@ -17,7 +17,8 @@ export class SocialUserResolver {
     @Mutation(() => SocialUser)
     async createSocialUser(
         @Args('email') email: string, //
+        @Args('phone') phone: string, //
     ) {
-        return await this.socialuserService.create({ email });
+        return await this.socialuserService.create({ email, phone });
     }
 }
