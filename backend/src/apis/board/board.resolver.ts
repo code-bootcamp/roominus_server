@@ -22,7 +22,9 @@ export class BoardResolver {
     }
 
     @Query(() => Board)
-    fetchBoard(@Args('id') id: string) {
+    fetchBoard(
+        @Args('id') id: string, //
+    ) {
         return this.boardService.findOne({ id });
     }
 
@@ -77,5 +79,14 @@ export class BoardResolver {
         @Args('boardId') boardId: string, //
     ) {
         return this.boardService.delete({ userInfo, boardId });
+    }
+
+    @UseGuards(GqlAuthAccessGuard)
+    @Mutation(() => Boolean)
+    createLikeBoard(
+        @Args('boardId') boardId: string, //
+        @CurrentUser('userInfo') userInfo: ICurrentUser,
+    ) {
+        return this.boardService.createLike({ boardId, userInfo });
     }
 }

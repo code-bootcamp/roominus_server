@@ -185,7 +185,10 @@ export class ThemeService {
             });
 
             const theme = await this.themeRepository.findOne({ id: themeId });
-            await this.themeRepository.update({ id: themeId }, { like: theme.like - 1 });
+            await this.themeRepository.update(
+                { id: themeId }, //
+                { like: theme.like - 1 },
+            );
 
             return false;
         }
@@ -200,21 +203,4 @@ export class ThemeService {
 
         return true;
     }
-
-    // async deleteLike({ themeId, userInfo }) {
-    //     const hasLike = await this.likeRepository.findOne({
-    //         where: { themeId: themeId, userId: userInfo.id },
-    //     });
-    //     if (!hasLike) return false;
-
-    //     await this.likeRepository.delete({
-    //         themeId: themeId,
-    //         userId: userInfo.id,
-    //     });
-
-    //     const theme = await this.themeRepository.findOne({ id: themeId });
-    //     await this.themeRepository.update({ id: themeId }, { like: theme.like - 1 });
-
-    //     return true;
-    // }
 }
