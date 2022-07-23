@@ -23,13 +23,19 @@ export class BoardService {
         private readonly boardReviewRepository: Repository<Boardreview>,
     ) {}
 
-    async findAll() {
+    async findAll({ page }) {
         const aaa = await this.boardRepository.find({
             relations: ['boardTags', 'user'],
             order: { createdAt: 'DESC' },
+            skip: (page - 1) * 8,
+            take: 8,
         });
 
         return aaa;
+    }
+
+    async findAllCount() {
+        return await this.boardRepository.count();
     }
 
     async findOne({ id }) {
