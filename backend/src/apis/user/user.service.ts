@@ -64,7 +64,7 @@ export class UserService {
                 relations: ['cafe', 'board'],
             });
         } else {
-            throw new ConflictException('삭제 실패하였습니다.');
+            throw new ConflictException('업데이트 실패하였습니다.');
         }
     }
 
