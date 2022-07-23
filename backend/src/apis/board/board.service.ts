@@ -7,12 +7,17 @@ import { BoardTag } from '../boardTag/entities/boardTag.entity';
 import { BoardLike } from './entities/boardLike.entity';
 import { User } from '../user/entities/user.entity';
 import { Board } from './entities/board.entity';
+import { SocialUser } from '../socialUser/entities/socialUser.entity';
 
 @Injectable()
 export class BoardService {
     constructor(
         @InjectRepository(User)
         private readonly userRepository: Repository<User>,
+
+        @InjectRepository(SocialUser)
+        private readonly socialuserRepository: Repository<SocialUser>,
+
         @InjectRepository(Board)
         private readonly boardRepository: Repository<Board>,
         @InjectRepository(BoardTag)
@@ -121,13 +126,22 @@ export class BoardService {
     async update({ userInfo, boardId, updateBoardInput }) {
         const hasBoard = await this.boardRepository.findOne({
             where: { id: boardId },
+            relations: ['user', 'boardTags'],
         });
-        if (hasBoard.user.id !== userInfo.id) throw new UnprocessableEntityException('작성자가 아닙니다!');
 
+        console.log('---------------------');
+        console.log(hasBoard);
+        console.log('---------------------');
+
+        if (hasBoard.user.id !== userInfo.id) throw new UnprocessableEntityException('작성자가 아닙니다!');
         const result = await this.boardRepository.update(
             { id: boardId }, //
             { ...updateBoardInput },
         );
+        console.log('---------------------');
+        console.log(result);
+        console.log('---------------------');
+
         if (result.affected) {
             return await this.boardRepository.findOne({
                 where: { id: boardId },

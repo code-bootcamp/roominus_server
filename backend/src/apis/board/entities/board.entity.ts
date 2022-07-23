@@ -21,7 +21,7 @@ import { BoardLike } from './boardLike.entity';
 @ObjectType()
 export class Board {
     @PrimaryGeneratedColumn('uuid')
-    @Field(() => String)
+    @Field(() => String, { nullable: true })
     id: string;
 
     @Column()

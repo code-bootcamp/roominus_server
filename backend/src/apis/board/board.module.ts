@@ -12,9 +12,10 @@ import { BoardTag } from '../boardTag/entities/boardTag.entity';
 import { BoardLike } from './entities/boardLike.entity';
 import { User } from '../user/entities/user.entity';
 import { Board } from './entities/board.entity';
+import { SocialUser } from '../socialUser/entities/socialUser.entity';
 
 @Module({
-    imports: [TypeOrmModule.forFeature([Board, BoardTag, User, Boardreview, Boardsecondreview, BoardLike])],
+    imports: [TypeOrmModule.forFeature([Board, BoardTag, User, SocialUser, Boardreview, Boardsecondreview, BoardLike])],
     providers: [
         BoardResolver, //
         BoardService,
