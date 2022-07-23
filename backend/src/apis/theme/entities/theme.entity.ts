@@ -66,7 +66,7 @@ export class Theme {
     @DeleteDateColumn()
     deletedAt: Date;
 
-    @ManyToOne(() => Cafe)
+    @ManyToOne(() => Cafe, { eager: true })
     @Field(() => Cafe, { nullable: true })
     cafe: Cafe;
 
