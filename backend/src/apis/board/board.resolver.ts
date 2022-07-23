@@ -17,8 +17,15 @@ export class BoardResolver {
     ) {}
 
     @Query(() => [Board])
-    fetchBoards() {
-        return this.boardService.findAll();
+    fetchBoards(
+        @Args('page', { defaultValue: 1 }) page: number, //
+    ) {
+        return this.boardService.findAll({ page });
+    }
+
+    @Query(() => Int)
+    fetchBoardsCount() {
+        return this.boardService.findAllCount();
     }
 
     @Query(() => Board)
