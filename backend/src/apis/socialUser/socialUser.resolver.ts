@@ -20,7 +20,8 @@ export class SocialUserResolver {
     async createSocialUser(
         @Args('email') email: string, //
         @Args('phone') phone: string, //
+        @Args('name') name: string, //
     ) {
-        return await this.socialuserService.create({ email, phone });
+        return await this.socialuserService.create({ email, phone, name });
     }
 }
