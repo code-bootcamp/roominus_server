@@ -9,6 +9,7 @@ import { CreateBoardInput } from './dto/createBoard.input';
 import { UpdateBoardInput } from './dto/updateBoard.input';
 
 import { Board } from './entities/board.entity';
+import { BoardLike } from './entities/boardLike.entity';
 
 @Resolver()
 export class BoardResolver {
@@ -58,6 +59,23 @@ export class BoardResolver {
         @CurrentUser('userInfo') userInfo: ICurrentUser, //
     ) {
         return this.boardService.findUserCount({ userInfo });
+    }
+
+    @UseGuards(GqlAuthAccessGuard)
+    @Query(() => [BoardLike])
+    fetchUserLikeBoards(
+        @Args('page', { defaultValue: 1 }) page: number,
+        @CurrentUser('userInfo') userInfo: ICurrentUser, //
+    ) {
+        return this.boardService.findUserLikeList({ userInfo, page });
+    }
+
+    @UseGuards(GqlAuthAccessGuard)
+    @Query(() => Int)
+    fetchUserLikeBoardsCount(
+        @CurrentUser('userInfo') userInfo: ICurrentUser, //
+    ) {
+        return this.boardService.findUserLikeListCount({ userInfo });
     }
 
     @UseGuards(GqlAuthAccessGuard)

@@ -93,6 +93,26 @@ export class BoardService {
         });
     }
 
+    async findUserLikeList({ page, userInfo }) {
+        const result = await this.boardLikeRepository.find({
+            where: { userId: userInfo.id },
+            relations: ['board'],
+            take: 8,
+            skip: (page - 1) * 8,
+            order: { createdAt: 'DESC' },
+        });
+
+        if (result.length == 0) throw new UnprocessableEntityException('찜한 글이 없습니다!!');
+
+        return result;
+    }
+
+    async findUserLikeListCount({ userInfo }) {
+        return await this.boardLikeRepository.count({
+            userId: userInfo.id,
+        });
+    }
+
     async create({ userInfo, createBoardInput }) {
         const { boardTags, ...items } = createBoardInput;
         const findUser = await this.userRepository.findOne({

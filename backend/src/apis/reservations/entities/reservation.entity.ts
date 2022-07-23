@@ -42,7 +42,7 @@ export class Reservation {
 
     // 예약할 카페
     @ManyToOne(() => Cafe)
-    @Field(() => Cafe)
+    @Field(() => Cafe, { nullable: true })
     cafe: Cafe;
 
     // 예약자
