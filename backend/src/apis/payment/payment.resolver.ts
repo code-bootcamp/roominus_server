@@ -17,7 +17,7 @@ export class PaymentResolver {
     @UseGuards(GqlAuthAccessGuard)
     @Query(() => [Payment])
     fetchPayments(
-        @Args('page') page: number,
+        @Args('page', { defaultValue: 1 }) page: number,
         @CurrentUser('userInfo') userInfo: ICurrentUser, //
     ) {
         return this.paymentService.find({ userInfo, page });
