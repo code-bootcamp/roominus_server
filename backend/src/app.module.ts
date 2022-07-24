@@ -46,7 +46,7 @@ import { AppResolver } from './app.resolver';
             autoSchemaFile: 'src/commons/graphql/schema.gql',
             context: ({ req, res }) => ({ req, res }),
             cors: {
-                origin: 'http://localhost:3000',
+                origin: ['http://localhost:3000', 'https://roominus.site'],
                 credential: 'include',
                 exposedHeaders: ['Authorization', 'Set-Cookie', 'Cookie'],
             },
