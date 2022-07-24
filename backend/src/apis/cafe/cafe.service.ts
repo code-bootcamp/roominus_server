@@ -42,7 +42,7 @@ export class CafeService {
     }
 
     async findAllCount() {
-        return await this.cafeImgRepository.count();
+        return await this.cafeRepository.count();
     }
 
     async findOne({ cafeId }) {
