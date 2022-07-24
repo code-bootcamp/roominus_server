@@ -51,6 +51,11 @@ export class BoardService {
 
         if (!result) throw new UnprocessableEntityException('찾으시는 글이 없습니다!!');
 
+        await this.boardRepository.update(
+            { id: result.id }, //
+            { view: result.view + 1 },
+        );
+
         return result;
     }
 
@@ -149,18 +154,11 @@ export class BoardService {
             relations: ['user', 'boardTags'],
         });
 
-        console.log('---------------------');
-        console.log(hasBoard);
-        console.log('---------------------');
-
         if (hasBoard.user.id !== userInfo.id) throw new UnprocessableEntityException('작성자가 아닙니다!');
         const result = await this.boardRepository.update(
             { id: boardId }, //
             { ...updateBoardInput },
         );
-        console.log('---------------------');
-        console.log(result);
-        console.log('---------------------');
 
         if (result.affected) {
             return await this.boardRepository.findOne({
