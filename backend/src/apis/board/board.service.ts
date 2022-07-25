@@ -139,7 +139,7 @@ export class BoardService {
 
         const boardResult = await this.boardRepository.save({
             ...items,
-            user: findUser,
+            user: userInfo.id,
             boardTags: boardTagresult,
         });
         return await this.boardRepository.findOne({
@@ -149,24 +149,42 @@ export class BoardService {
     }
 
     async update({ userInfo, boardId, updateBoardInput }) {
+        const { boardTags, ...newBoard } = updateBoardInput;
+
         const hasBoard = await this.boardRepository.findOne({
             where: { id: boardId },
             relations: ['user', 'boardTags'],
         });
-
         if (hasBoard.user.id !== userInfo.id) throw new UnprocessableEntityException('작성자가 아닙니다!');
-        const result = await this.boardRepository.update(
-            { id: boardId }, //
-            { ...updateBoardInput },
-        );
 
-        if (result.affected) {
-            return await this.boardRepository.findOne({
-                where: { id: boardId },
-                relations: ['boardreview', 'boardTags', 'user'],
+        const boardTagresult = [];
+        for (let i = 0; i < boardTags.length; i++) {
+            const tagtitle = boardTags[i].replace('#', '');
+            const prevTag = await this.boardTagRepository.findOne({ title: tagtitle });
+
+            if (prevTag) {
+                boardTagresult.push(prevTag);
+            } else {
+                const newTag = await this.boardTagRepository.save({ title: tagtitle });
+                boardTagresult.push(newTag);
+            }
+        }
+
+        try {
+            const updated = await this.boardRepository.save({
+                id: boardId, //
+                boardTags: boardTagresult,
+                ...newBoard,
             });
-        } else {
-            throw new ConflictException('수정을 실패했습니다.');
+
+            if (updated) {
+                return await this.boardRepository.findOne({
+                    where: { id: boardId },
+                    relations: ['boardreview', 'boardTags', 'user'],
+                });
+            }
+        } catch (error) {
+            throw new ConflictException(error, '수정을 실패했습니다.');
         }
     }
 

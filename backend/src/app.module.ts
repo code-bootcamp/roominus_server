@@ -65,7 +65,7 @@ import { AppResolver } from './app.resolver';
             database: process.env.MYSQL_DATABASE,
             entities: [__dirname + '/apis/**/*.entity.*'],
             synchronize: true,
-            logging: true,
+            logging: ['error'],
         }),
         CacheModule.register<RedisClientOptions>({
             store: redisStore,

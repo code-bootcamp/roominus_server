@@ -60,7 +60,11 @@ export class Board {
     boardreview: Boardreview[];
 
     @JoinTable()
-    @ManyToMany(() => BoardTag, boardTags => boardTags.boards)
+    @ManyToMany(() => BoardTag, boardTags => boardTags.boards, {
+        cascade: true,
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
+    })
     @Field(() => [BoardTag], { nullable: true })
     boardTags: BoardTag[];
 
