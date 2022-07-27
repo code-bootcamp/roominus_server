@@ -5,10 +5,13 @@ export class CreateUserInput {
     @Field(() => Boolean, { nullable: true })
     isserviceprovider: boolean;
 
+    @Field(() => Boolean, { nullable: true })
+    issocialuser: boolean;
+
     @Field(() => String)
     email: string;
 
-    @Field(() => String)
+    @Field(() => String, { nullable: true })
     password: string;
 
     @Field(() => String)

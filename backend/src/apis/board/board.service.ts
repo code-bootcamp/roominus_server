@@ -1,4 +1,4 @@
-import { ConflictException, Injectable, UnprocessableEntityException } from '@nestjs/common';
+import { ConflictException, ConsoleLogger, Injectable, UnprocessableEntityException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
@@ -7,17 +7,13 @@ import { BoardTag } from '../boardTag/entities/boardTag.entity';
 import { BoardLike } from './entities/boardLike.entity';
 import { User } from '../user/entities/user.entity';
 import { Board } from './entities/board.entity';
-import { SocialUser } from '../socialUser/entities/socialUser.entity';
+import { Console } from 'console';
 
 @Injectable()
 export class BoardService {
     constructor(
         @InjectRepository(User)
         private readonly userRepository: Repository<User>,
-
-        @InjectRepository(SocialUser)
-        private readonly socialuserRepository: Repository<SocialUser>,
-
         @InjectRepository(Board)
         private readonly boardRepository: Repository<Board>,
         @InjectRepository(BoardTag)
@@ -123,7 +119,6 @@ export class BoardService {
         const findUser = await this.userRepository.findOne({
             where: { id: userInfo.id },
         });
-
         const boardTagresult = [];
         for (let i = 0; i < boardTags.length; i++) {
             const tagtitle = boardTags[i].replace('#', '');
@@ -157,24 +152,16 @@ export class BoardService {
         });
         if (hasBoard.user.id !== userInfo.id) throw new UnprocessableEntityException('작성자가 아닙니다!');
 
-        const boardTagresult = [];
-        for (let i = 0; i < boardTags.length; i++) {
-            const tagtitle = boardTags[i].replace('#', '');
-            const prevTag = await this.boardTagRepository.findOne({ title: tagtitle });
+        if (hasBoard.user.id !== userInfo.id) throw new UnprocessableEntityException('작성자가 아닙니다!');
+        const result = await this.boardRepository.update(
+            { id: boardId }, //
+            { ...updateBoardInput },
+        );
 
-            if (prevTag) {
-                boardTagresult.push(prevTag);
-            } else {
-                const newTag = await this.boardTagRepository.save({ title: tagtitle });
-                boardTagresult.push(newTag);
-            }
-        }
-
-        try {
-            const updated = await this.boardRepository.save({
-                id: boardId, //
-                boardTags: boardTagresult,
-                ...newBoard,
+        if (result.affected) {
+            return await this.boardRepository.findOne({
+                where: { id: boardId },
+                relations: ['boardreview', 'boardTags', 'user'],
             });
 
             if (updated) {
@@ -193,13 +180,19 @@ export class BoardService {
             where: { id: boardId },
             relations: ['user'],
         });
-        if (hasBoard.user.id !== userInfo.id) throw new UnprocessableEntityException('작성자가 아닙니다!');
+        if (hasBoard.user.id !== userInfo.id) {
+            // throw new UnprocessableEntityException('작성자가 아닙니다!');
 
-        const check = await this.boardRepository.softDelete({ id: boardId });
-        if (check.affected) {
-            return true;
-        } else {
-            throw new ConflictException('삭제 실패하였습니다.');
+            const check = await this.boardRepository.softDelete({ id: boardId });
+            if (check.affected) {
+                return true;
+            } else {
+                const socialCheck = await this.boardRepository.findOne({
+                    where: { id: boardId },
+                    relations: ['socialUser'],
+                });
+                if (socialCheck.user.id! == userInfo.id) throw new ConflictException('삭제 실패하였습니다.');
+            }
         }
     }
 
