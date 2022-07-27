@@ -7,7 +7,6 @@ import { BoardTag } from '../boardTag/entities/boardTag.entity';
 import { BoardLike } from './entities/boardLike.entity';
 import { User } from '../user/entities/user.entity';
 import { Board } from './entities/board.entity';
-import { Console } from 'console';
 
 @Injectable()
 export class BoardService {
@@ -116,9 +115,7 @@ export class BoardService {
 
     async create({ userInfo, createBoardInput }) {
         const { boardTags, ...items } = createBoardInput;
-        const findUser = await this.userRepository.findOne({
-            where: { id: userInfo.id },
-        });
+
         const boardTagresult = [];
         for (let i = 0; i < boardTags.length; i++) {
             const tagtitle = boardTags[i].replace('#', '');
@@ -198,7 +195,7 @@ export class BoardService {
                     where: { id: boardId },
                     relations: ['socialUser'],
                 });
-                if (socialCheck.user.id! == userInfo.id) throw new ConflictException('삭제 실패하였습니다.');
+                if (socialCheck.user.id !== userInfo.id) throw new ConflictException('삭제 실패하였습니다.');
             }
         }
     }

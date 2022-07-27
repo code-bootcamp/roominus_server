@@ -14,16 +14,9 @@ services:
         ports:
             - 3000:3000
 
-    # my-database:
-    #     platform: linux/x86_64
-    #     image: mysql:latest
-    #     environment:
-    #         MYSQL_DATABASE: 'roominus'
-    #         MYSQL_ROOT_PASSWORD: 'root'
-    #     ports:
-    #         - 3306:3306
-
-    # my-redis:
-    #     image: redis:latest
-    #     ports:
-    #         - 6379:6379
+    logstash:
+        platform: linux/x86_64
+        image: asia.gcr.io/codecamp-main-project/roominus-logstash:1.0
+        build:
+            context: .
+            dockerfile: Dockerfile.logstash

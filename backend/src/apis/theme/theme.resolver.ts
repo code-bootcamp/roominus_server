@@ -10,15 +10,27 @@ import { ThemeService } from './theme.service';
 
 import { Like } from '../user/entities/like.entity';
 import { Theme } from './entities/theme.entity';
+import { ElasticsearchService } from '@nestjs/elasticsearch';
 
 @Resolver()
 export class ThemeResolver {
     constructor(
         private readonly themeService: ThemeService, //
+        private readonly elasticsearchService: ElasticsearchService,
     ) {}
 
     @Query(() => [Theme])
-    fetchThemesAll() {
+    async fetchThemesAll() {
+        const searchResult = await this.elasticsearchService.search({
+            index: 'roominus',
+            body: {
+                query: {
+                    match_all: {},
+                },
+            },
+        });
+        console.log(JSON.stringify(searchResult, null, ' '));
+
         return this.themeService.findAll();
     }
 

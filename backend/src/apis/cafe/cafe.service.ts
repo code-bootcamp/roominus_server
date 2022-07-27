@@ -68,7 +68,7 @@ export class CafeService {
             if (hasUser) {
                 userArr.push(hasUser);
             } else {
-                throw new ConflictException('존재하는 않는 사용자입니다!!');
+                throw new ConflictException('존재하지 않는 사용자입니다!!');
             }
         }
 
