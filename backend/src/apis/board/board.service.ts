@@ -24,13 +24,19 @@ export class BoardService {
         private readonly boardReviewRepository: Repository<Boardreview>,
     ) {}
 
-    async findAll() {
+    async findAll({ page }) {
         const aaa = await this.boardRepository.find({
             relations: ['boardTags', 'user'],
             order: { createdAt: 'DESC' },
+            skip: (page - 1) * 8,
+            take: 8,
         });
 
         return aaa;
+    }
+
+    async findAllCount() {
+        return await this.boardRepository.count();
     }
 
     async findOne({ id }) {
@@ -40,6 +46,11 @@ export class BoardService {
         });
 
         if (!result) throw new UnprocessableEntityException('찾으시는 글이 없습니다!!');
+
+        await this.boardRepository.update(
+            { id: result.id }, //
+            { view: result.view + 1 },
+        );
 
         return result;
     }
@@ -83,6 +94,26 @@ export class BoardService {
         });
     }
 
+    async findUserLikeList({ page, userInfo }) {
+        const result = await this.boardLikeRepository.find({
+            where: { userId: userInfo.id },
+            relations: ['board'],
+            take: 8,
+            skip: (page - 1) * 8,
+            order: { createdAt: 'DESC' },
+        });
+
+        if (result.length == 0) throw new UnprocessableEntityException('찜한 글이 없습니다!!');
+
+        return result;
+    }
+
+    async findUserLikeListCount({ userInfo }) {
+        return await this.boardLikeRepository.count({
+            userId: userInfo.id,
+        });
+    }
+
     async create({ userInfo, createBoardInput }) {
         const { boardTags, ...items } = createBoardInput;
         const findUser = await this.userRepository.findOne({
@@ -103,7 +134,7 @@ export class BoardService {
 
         const boardResult = await this.boardRepository.save({
             ...items,
-            user: findUser,
+            user: userInfo.id,
             boardTags: boardTagresult,
         });
         return await this.boardRepository.findOne({
@@ -113,10 +144,13 @@ export class BoardService {
     }
 
     async update({ userInfo, boardId, updateBoardInput }) {
+        const { boardTags, ...newBoard } = updateBoardInput;
+
         const hasBoard = await this.boardRepository.findOne({
             where: { id: boardId },
             relations: ['user', 'boardTags'],
         });
+        if (hasBoard.user.id !== userInfo.id) throw new UnprocessableEntityException('작성자가 아닙니다!');
 
         if (hasBoard.user.id !== userInfo.id) throw new UnprocessableEntityException('작성자가 아닙니다!');
         const result = await this.boardRepository.update(
@@ -129,8 +163,15 @@ export class BoardService {
                 where: { id: boardId },
                 relations: ['boardreview', 'boardTags', 'user'],
             });
-        } else {
-            throw new ConflictException('수정을 실패했습니다.');
+
+            if (updated) {
+                return await this.boardRepository.findOne({
+                    where: { id: boardId },
+                    relations: ['boardreview', 'boardTags', 'user'],
+                });
+            }
+        } catch (error) {
+            throw new ConflictException(error, '수정을 실패했습니다.');
         }
     }
 

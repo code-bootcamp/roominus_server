@@ -36,7 +36,7 @@ export class ReservationResolver {
     @UseGuards(GqlAuthAccessGuard)
     @Query(() => [Reservation])
     fetchReservationsUser(
-        @Args('page') page: number,
+        @Args('page', { defaultValue: 1 }) page: number,
         @CurrentUser('userInfo') userInfo: ICurrentUser, //
     ) {
         return this.reservationService.findwithUser({ page, userInfo });

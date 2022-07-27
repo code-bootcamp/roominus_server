@@ -87,8 +87,8 @@ export class ThemeService {
         const result = await this.likeRepository.find({
             where: { userId: userInfo.id },
             relations: ['theme'],
-            take: 10,
-            skip: (page - 1) * 10,
+            take: 8,
+            skip: (page - 1) * 8,
             order: { createdAt: 'DESC' },
         });
 

@@ -44,28 +44,31 @@ import { AppResolver } from './app.resolver';
             autoSchemaFile: 'src/commons/graphql/schema.gql',
             context: ({ req, res }) => ({ req, res }),
             cors: {
-                origin: 'http://localhost:3000',
-                credential: 'include',
+                origin: [
+                    'http://localhost:3000', //
+                    'https://roominus.site',
+                ],
+                credential: true,
                 exposedHeaders: ['Authorization', 'Set-Cookie', 'Cookie'],
             },
         }),
         ///////MySQL
         TypeOrmModule.forRoot({
             type: 'mysql',
-            // host: process.env.MYSQL_HOST, // 배포
-            host: 'localhost', // local
+            host: process.env.MYSQL_HOST, // 배포
+            // host: 'localhost', // local
             port: 3306,
             username: process.env.MYSQL_USER,
             password: process.env.MYSQL_PASS,
             database: process.env.MYSQL_DATABASE,
             entities: [__dirname + '/apis/**/*.entity.*'],
             synchronize: true,
-            logging: true,
+            logging: ['error'],
         }),
         CacheModule.register<RedisClientOptions>({
             store: redisStore,
-            // url: 'redis://172.19.209.3:6379',
-            url: 'redis://localhost:6379',
+            url: 'redis://172.19.209.3:6379',
+            // url: 'redis://localhost:6379',
             isGlobal: true,
         }),
     ],
