@@ -27,8 +27,12 @@ export class User {
     @Field(() => Boolean, { nullable: true })
     isserviceprovider: boolean;
 
-    @Column()
-    @Field(() => String)
+    @Column({ default: false })
+    @Field(() => Boolean, { nullable: true })
+    issocialuser: boolean;
+
+    @Column({ default: null })
+    @Field(() => String, { nullable: true })
     password: string;
 
     @Column()

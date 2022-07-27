@@ -29,6 +29,15 @@ export class UserResolver {
         return await this.userService.create({ createUserInput, hashedPassword });
     }
 
+    @Mutation(() => User)
+    async createSocialUser(
+        @Args('email') email: string, //
+        @Args('phone') phone: string, //
+        @Args('name') name: string, //
+    ) {
+        return await this.userService.createSocialUser({ email, phone, name });
+    }
+
     @Query(() => User)
     fetchUser(@Args('phone') phone: string) {
         return this.userService.findEmail({ phone });
@@ -51,6 +60,14 @@ export class UserResolver {
         const hashedPassword = await bcrypt.hash(updateUserInput.password, 10.2);
 
         return await this.userService.update({ userId, hashedPassword, updateUserInput });
+    }
+
+    @Mutation(() => User)
+    async updateSocialUser(
+        @Args('userId') userId: string, //
+        @Args('updateUserInput') updateUserInput: UpdateUserInput,
+    ) {
+        return await this.userService.updateSocialUser({ userId, updateUserInput });
     }
 
     @Mutation(() => Boolean)

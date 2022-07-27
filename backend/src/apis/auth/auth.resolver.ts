@@ -4,7 +4,6 @@ import { Cache } from 'cache-manager';
 import * as jwt from 'jsonwebtoken';
 import * as bcrypt from 'bcrypt';
 
-import { SocialUserService } from '../socialUser/socialUser.service';
 import { AuthService } from './auth.service';
 
 import { GqlAuthAccessGuard, GqlAuthRefreshGuard } from 'src/commons/auth/gql-auth.guard';
@@ -12,7 +11,6 @@ import { CurrentUser, ICurrentUser } from 'src/commons/auth/gql-user.param';
 import { UserService } from '../user/user.service';
 
 import { User } from '../user/entities/user.entity';
-import { SocialUser } from '../socialUser/entities/socialUser.entity';
 
 interface IContext {
     req: Request;
@@ -26,7 +24,6 @@ export class AuthResolver {
         private readonly authService: AuthService, //
         @Inject(CACHE_MANAGER)
         private readonly cacheManager: Cache, //
-        private readonly socialuserService: SocialUserService,
     ) {}
 
     @Mutation(() => String)
@@ -58,16 +55,16 @@ export class AuthResolver {
         @Context() context: IContext,
     ) {
         // 1. 로그인 @@
-        const socialUser = await this.socialuserService.findsocialUserEmail({ email });
+        const socialUser = await this.userService.findOne({ email });
         // console.log(socialUser);
         // 2. 일치하는 유저가 없으면?! 에러 던지기!!!
         if (!socialUser) throw new UnprocessableEntityException('이메일이 틀렸습니다.');
 
         // 3. refreshToken(=JWT)을 만들어서 프론트엔드(쿠키)에 보내주기
-        this.authService.setSocialRefreshToken({ socialUser, res: context.res });
+        this.authService.setRefreshToken({ user: socialUser, res: context.res });
 
         // 4. 일치하는 유저가 있으면?! accessToken(=JWT)을 만들어서 브라우저에 전달하기
-        return this.authService.getSocialAccessToken({ socialUser });
+        return this.authService.getAccessToken({ user: socialUser });
     }
 
     @UseGuards(GqlAuthAccessGuard)
@@ -77,36 +74,6 @@ export class AuthResolver {
         @CurrentUser('userInfo') userInfo: ICurrentUser,
     ) {
         return await this.userService.findOne({ email: userInfo.email });
-    }
-    @UseGuards(GqlAuthAccessGuard)
-    @Query(() => SocialUser)
-    async fetchSocialUserLoggedIn(
-        // @Context() context: any, //
-        @CurrentUser('userInfo') userInfo: ICurrentUser,
-    ) {
-        return await this.socialuserService.findsocialUserEmail({ email: userInfo.email });
-        // const headersAuthoriztion = context.req.headers.authorization;
-        // const headersCookie = context.req.headers.cookie;
-
-        // if (!headersAuthoriztion) throw new UnprocessableEntityException('엑세스 토큰이 없습니다!!');
-        // if (!headersCookie) throw new UnprocessableEntityException('리프레쉬 토큰이 없습니다!!');
-
-        // const accessToken = context.req.headers.authorization.replace('Bearer ', '');
-        // ///const accessToken = context.req.headers.authorization.split(' ')[1];
-        // const refreshToken = context.req.headers.cookie.replace('refreshToken=', '');
-        // // const refreshToken = context.req.headers.cookie.split('=')[1];
-
-        // const aaa = jwt.verify(accessToken, 'myAccessKey');
-        // const isValidation = this.authService.validationToken({
-        //     accessToken,
-        //     refreshToken,
-        // });
-
-        // if (isValidation === true) {
-        //     return await this.socialuserService.findOne({ email: aaa['email'] });
-        // } else {
-        //     return '오류';
-        // }
     }
 
     @UseGuards(GqlAuthAccessGuard)
