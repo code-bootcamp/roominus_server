@@ -152,16 +152,24 @@ export class BoardService {
         });
         if (hasBoard.user.id !== userInfo.id) throw new UnprocessableEntityException('작성자가 아닙니다!');
 
-        if (hasBoard.user.id !== userInfo.id) throw new UnprocessableEntityException('작성자가 아닙니다!');
-        const result = await this.boardRepository.update(
-            { id: boardId }, //
-            { ...updateBoardInput },
-        );
+        const boardTagresult = [];
+        for (let i = 0; i < boardTags.length; i++) {
+            const tagtitle = boardTags[i].replace('#', '');
+            const prevTag = await this.boardTagRepository.findOne({ title: tagtitle });
 
-        if (result.affected) {
-            return await this.boardRepository.findOne({
-                where: { id: boardId },
-                relations: ['boardreview', 'boardTags', 'user'],
+            if (prevTag) {
+                boardTagresult.push(prevTag);
+            } else {
+                const newTag = await this.boardTagRepository.save({ title: tagtitle });
+                boardTagresult.push(newTag);
+            }
+        }
+
+        try {
+            const updated = await this.boardRepository.save({
+                id: boardId, //
+                boardTags: boardTagresult,
+                ...newBoard,
             });
 
             if (updated) {
@@ -174,7 +182,6 @@ export class BoardService {
             throw new ConflictException(error, '수정을 실패했습니다.');
         }
     }
-
     async delete({ userInfo, boardId }) {
         const hasBoard = await this.boardRepository.findOne({
             where: { id: boardId },
