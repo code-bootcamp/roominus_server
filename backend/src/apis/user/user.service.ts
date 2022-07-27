@@ -53,12 +53,34 @@ export class UserService {
         return result;
     }
 
+    async createSocialUser({ email, phone, name }) {
+        const checkSocialUser = await this.userRepository.findOne({ email, phone });
+        if (checkSocialUser) throw new ConflictException('이미 등록된 유저입니다.');
+
+        return await this.userRepository.save({ email, phone, name });
+    }
+
     async update({ userId, hashedPassword, updateUserInput }) {
         const { password, ...items } = updateUserInput;
         const result = await this.userRepository.update(
             { id: userId }, //
             { password: hashedPassword, ...items },
         );
+        if (result.affected) {
+            return await this.userRepository.findOne({
+                relations: ['cafe', 'board'],
+            });
+        } else {
+            throw new ConflictException('업데이트 실패하였습니다.');
+        }
+    }
+
+    async updateSocialUser({ userId, updateUserInput }) {
+        const result = await this.userRepository.update(
+            { id: userId }, //
+            { ...updateUserInput },
+        );
+
         if (result.affected) {
             return await this.userRepository.findOne({
                 relations: ['cafe', 'board'],

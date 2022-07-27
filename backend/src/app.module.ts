@@ -10,7 +10,6 @@ import { BoardsecondreviewModule } from './apis/boardsecondreview/boardsecondrev
 import { ReservationModule } from './apis/reservations/reservation.module';
 import { BoardreviewModule } from './apis/boardsreview/boardreview.module';
 import { ThemeReviewModule } from './apis/themeReview/themeReview.module';
-import { SocialUserModule } from './apis/socialUser/socialUser.module';
 import { ThemeMenuModule } from './apis/themeMenu/themeMenu.module';
 import { IamportModule } from './apis/iamport/iamport.module';
 import { ThemeModule } from './apis/theme/theme.module';
@@ -26,7 +25,6 @@ import { AppResolver } from './app.resolver';
 
 @Module({
     imports: [
-        SocialUserModule,
         PhoneModule,
         BoardsecondreviewModule,
         BoardreviewModule,

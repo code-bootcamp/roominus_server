@@ -4,7 +4,6 @@ import * as jwt from 'jsonwebtoken';
 import { Cache } from 'cache-manager';
 
 import { UserService } from '../user/user.service';
-import { SocialUserService } from '../socialUser/socialUser.service';
 
 interface IlogoutToken {
     email: string;
@@ -23,7 +22,14 @@ export class AuthService {
 
     setRefreshToken({ user, res }) {
         const refreshToken = this.jwtService.sign(
-            { email: user.email, id: user.id, isserviceprovider: user.isserviceprovider },
+            {
+                email: user.email,
+                id: user.id,
+                isserviceprovider: user.isserviceprovider,
+                issocialuser: user.issocialuser,
+                phone: user.phone,
+                name: user.name,
+            },
             { secret: process.env.REFRESH_TOKEN_KEY, expiresIn: '24h' },
         );
 
@@ -50,30 +56,15 @@ export class AuthService {
 
     getAccessToken({ user }) {
         return this.jwtService.sign(
-            { email: user.email, id: user.id, isserviceprovider: user.isserviceprovider },
+            {
+                email: user.email,
+                id: user.id,
+                isserviceprovider: user.isserviceprovider,
+                issocialuser: user.issocialuser,
+                phone: user.phone,
+                name: user.name,
+            },
             { secret: process.env.ACCESS_TOKEN_KEY, expiresIn: '1h' },
-        );
-    }
-
-    getSocialAccessToken({ socialUser }) {
-        return this.jwtService.sign(
-            { email: socialUser.email, phone: socialUser.phone },
-            { secret: process.env.ACCESS_TOKEN_KEY, expiresIn: '1h' },
-        );
-    }
-
-    setSocialRefreshToken({ socialUser, res }) {
-        const socialrefreshToken = this.jwtService.sign(
-            { email: socialUser.email, phone: socialUser.phone },
-            { secret: process.env.REFRESH_TOKEN_KEY, expiresIn: '1h' },
-        );
-        // res.setHeader('Set-Cookie', `refreshToken=${socialrefreshToken}; path=/;`);
-
-        // 배포환경
-        res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
-        res.setHeader(
-            'Set-Cookie',
-            `refreshToken=${socialrefreshToken}; path=/; domain=.wawoong.shop; SameSite=None; Secure; httpOnly;`,
         );
     }
 
