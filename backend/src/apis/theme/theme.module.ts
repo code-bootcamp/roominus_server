@@ -14,17 +14,17 @@ import { Theme } from './entities/theme.entity';
 @Module({
     imports: [
         TypeOrmModule.forFeature([Theme, ThemeImg, Cafe, Genre, Like]),
-        ElasticsearchModule.register({
-            node: 'https://search-roominus-elastic-ox2lc66yg5ewdkjr2l3vmkptje.us-west-2.es.amazonaws.com:443',
-            auth: {
-                username: 'woong',
-                password: '!Sw20132627',
-            },
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-            },
-        }),
+        // ElasticsearchModule.register({
+        //     node: 'https://search-roominus-elastic-ox2lc66yg5ewdkjr2l3vmkptje.us-west-2.es.amazonaws.com:443',
+        //     auth: {
+        //         username: '',
+        //         password: '',
+        //     },
+        //     headers: {
+        //         Accept: 'application/json',
+        //         'Content-Type': 'application/json',
+        //     },
+        // }),
     ],
     providers: [ThemeResolver, ThemeService],
 })

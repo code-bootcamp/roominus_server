@@ -1,73 +1,30 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# **Roominus**
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+> 방탈출 카페를 영화처럼 쉽게 예약하고 즐길 순 없을까? 예약의 과정을 최대한 간소화하고 방탈출 카페를 즐기는 것에 집중할 수 있도록 만들기 위해서 Ruminus가 탄생했습니다.
+>
+> 방탈출 카페는 쉽게 말해서 방탈출 게임의 오프라인 버전입니다. 추리/스릴러 위주였던 기존 방탈출 게임에 비해 방탈출 카페에선 누구나 즐길 수 있는 다양한 테마들을 선보이고 있습니다. 이용자 또한 마치 또 다른 세상 속에 들어가 ‘주인공이 된 나’로서 방탈출 카페를 즐기고 있습니다. 하지만 주인공이 되는 방법은 쉽지 않습니다. 원하는 테마를 정하고, 그 테마가 있는 홈페이지에 들어가서, 테마 예약이 열리는 시간을 확인 후, 예약할 때마다 정보를 입력해야 합니다. 방탈출 카페입장에서도 단순히 이름과 번호만을 받는 예약방식으로 노쇼(No-Show)에 취약합니다.
+>
+> 이용자들에겐 매장과 테마별로 쉽게 정보를 파악할 수 있고, 그 정보를 바탕으로 쉽게 예약할 수 있는 통합 예약 페이지를 제공합니다.
+>
+> 방탈출 카페 운영자들에겐 좀 더 확실한 예약 서비스를 제공합니다.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+### **스택**
 
-## Description
+|           |         |
+| :-------- | :------ |
+| `NestJS`  | 8.0     |
+| `MySQL`   | 2.3.3   |
+| `GraphQL` | 10.0.13 |
+| `Redis`   | 3.1.1   |
+| `TypeORM` | 0.2.45  |
+| `GCP`     |         |
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+<구상도 이미지>
 
-## Installation
+### **API 문서**
 
-```bash
-$ npm install
-```
+-   [API 문서](https://docs.google.com/spreadsheets/d/1QyY-q39eMwyrCITdwuoT3bvbpypDfJg215up55r1THM/edit#gid=267028980)
 
-## Running the app
+### **ERD**
 
-```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
-```
-
-## Test
-
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
-```
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).
+-   [ERD](https://www.erdcloud.com/d/upCrFp6bx5ro3b8LQ)
