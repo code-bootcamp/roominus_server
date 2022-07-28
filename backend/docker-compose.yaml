@@ -1,0 +1,22 @@
+version: '3.7'
+
+services:
+    roominus-server:
+        platform: linux/x86_64
+        image: asia.gcr.io/codecamp-main-project/roominus:1.121
+        build:
+            context: .
+            dockerfile: Dockerfile
+        volumes:
+            - ./src:/Roominus/src
+        env_file:
+            - ./.env
+        ports:
+            - 3000:3000
+
+    logstash:
+        platform: linux/x86_64
+        image: asia.gcr.io/codecamp-main-project/roominus-logstash:1.5
+        build:
+            context: .
+            dockerfile: Dockerfile.logstash

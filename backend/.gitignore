@@ -36,4 +36,5 @@ lerna-debug.log*
 
 .env*
 
-codecamp-main-project-47de57a4f8db.json
+src/commons/graphql/schema.gql
+
