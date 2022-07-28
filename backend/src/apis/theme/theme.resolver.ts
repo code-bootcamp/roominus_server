@@ -20,16 +20,20 @@ export class ThemeResolver {
     ) {}
 
     @Query(() => [Theme])
-    async fetchThemesAll() {
-        const searchResult = await this.elasticsearchService.search({
-            index: 'roominus',
-            body: {
-                query: {
-                    match_all: {},
-                },
-            },
-        });
-        console.log(JSON.stringify(searchResult, null, ' '));
+    fetchThemesAll() {
+        // const searchResult = await this.elasticsearchService.search({
+        //     index: 'roominus',
+        //     body: {
+        //         query: {
+        //             bool: {
+
+        //             }
+        //             match_all: {},
+        //         },
+        //     },
+        //     size: 100,
+        // });
+        // console.log(JSON.stringify(searchResult, null, ' '));
 
         return this.themeService.findAll();
     }
@@ -76,6 +80,26 @@ export class ThemeResolver {
         @CurrentUser('userInfo') userInfo: ICurrentUser, //
     ) {
         return this.themeService.findUserLikeListCount({ userInfo });
+    }
+
+    @Query(() => [Theme])
+    async searchThemes(
+        @Args('title', { nullable: true }) title: string, //
+    ) {
+        const result = await this.elasticsearchService.search({
+            index: 'roominus', // 검색 대상(Collection)
+            size: 100,
+            body: {
+                query: {
+                    //검색 조건
+                    bool: {
+                        should: [{ prefix: { title } }],
+                    },
+                },
+            },
+        });
+
+        console.log(JSON.stringify(result, null, ' '));
     }
 
     @UseGuards(GqlAuthAccessGuard)
