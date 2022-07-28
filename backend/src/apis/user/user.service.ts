@@ -55,9 +55,11 @@ export class UserService {
 
     async createSocialUser({ email, phone, name }) {
         const checkSocialUser = await this.userRepository.findOne({ email, phone });
+        const maskingname = name.replace(name[name.length - 2], '*');
+
         if (checkSocialUser) throw new ConflictException('이미 등록된 유저입니다.');
 
-        return await this.userRepository.save({ email, phone, name });
+        return await this.userRepository.save({ email, phone, name: maskingname });
     }
 
     async update({ userId, hashedPassword, updateUserInput }) {
