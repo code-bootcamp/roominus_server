@@ -184,20 +184,13 @@ export class BoardService {
             where: { id: boardId },
             relations: ['user'],
         });
-        if (hasBoard.user.id !== userInfo.id) {
-            // throw new UnprocessableEntityException('작성자가 아닙니다!');
 
-            const check = await this.boardRepository.softDelete({ id: boardId });
-            if (check.affected) {
-                return true;
-            } else {
-                const socialCheck = await this.boardRepository.findOne({
-                    where: { id: boardId },
-                    relations: ['socialUser'],
-                });
-                if (socialCheck.user.id !== userInfo.id) throw new ConflictException('삭제 실패하였습니다.');
-            }
+        if (hasBoard.user.id !== userInfo.id) {
+            throw new UnprocessableEntityException('작성자가 아닙니다!');
         }
+
+        const result = await this.boardRepository.softDelete({ id: boardId });
+        return result.affected ? true : false;
     }
 
     async createLike({ boardId, userInfo }) {
