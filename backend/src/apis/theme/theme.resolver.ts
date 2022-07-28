@@ -10,13 +10,12 @@ import { ThemeService } from './theme.service';
 
 import { Like } from '../user/entities/like.entity';
 import { Theme } from './entities/theme.entity';
-import { ElasticsearchService } from '@nestjs/elasticsearch';
+// import { ElasticsearchService } from '@nestjs/elasticsearch';
 
 @Resolver()
 export class ThemeResolver {
     constructor(
-        private readonly themeService: ThemeService, //
-        private readonly elasticsearchService: ElasticsearchService,
+        private readonly themeService: ThemeService, // // private readonly elasticsearchService: ElasticsearchService,
     ) {}
 
     @Query(() => [Theme])
@@ -82,25 +81,25 @@ export class ThemeResolver {
         return this.themeService.findUserLikeListCount({ userInfo });
     }
 
-    @Query(() => [Theme])
-    async searchThemes(
-        @Args('title', { nullable: true }) title: string, //
-    ) {
-        const result = await this.elasticsearchService.search({
-            index: 'roominus', // 검색 대상(Collection)
-            size: 100,
-            body: {
-                query: {
-                    //검색 조건
-                    bool: {
-                        should: [{ prefix: { title } }],
-                    },
-                },
-            },
-        });
+    // @Query(() => [Theme])
+    // async searchThemes(
+    //     @Args('title', { nullable: true }) title: string, //
+    // ) {
+    //     const result = await this.elasticsearchService.search({
+    //         index: 'roominus', // 검색 대상(Collection)
+    //         size: 100,
+    //         body: {
+    //             query: {
+    //                 //검색 조건
+    //                 bool: {
+    //                     should: [{ prefix: { title } }],
+    //                 },
+    //             },
+    //         },
+    //     });
 
-        console.log(JSON.stringify(result, null, ' '));
-    }
+    //     console.log(JSON.stringify(result, null, ' '));
+    // }
 
     @UseGuards(GqlAuthAccessGuard)
     @Mutation(() => Theme)
