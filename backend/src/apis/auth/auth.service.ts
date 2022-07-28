@@ -36,8 +36,14 @@ export class AuthService {
         // res.setHeader('Set-Cookie', `refreshToken=${refreshToken}; path=/;`);
 
         // // 배포환경
-        res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
-        // res.setHeader('Access-Control-Allow-Origin', ['http://localhost:3000', 'https://roominus.site']);
+        const whiteList = ['http://localhost:3000', 'https://roominus.site'];
+        let origin = false;
+        if (whiteList.includes(res.headers.origin)) {
+            origin = true;
+        }
+        res.setHeader('Access-Control-Allow-Origin', origin);
+        res.setHeader('Access-Control-Allow-Credentials', 'true');
+        res.setHeader('Access-Control-Allow-Methods', 'POST, GET');
         res.setHeader(
             'Set-Cookie',
             `refreshToken=${refreshToken}; path=/; domain=.wawoong.shop; SameSite=None; Secure; httpOnly;`,
