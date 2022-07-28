@@ -37,6 +37,7 @@ export class AuthService {
 
         // // 배포환경
         res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+        // res.setHeader('Access-Control-Allow-Origin', ['http://localhost:3000', 'https://roominus.site']);
         res.setHeader(
             'Set-Cookie',
             `refreshToken=${refreshToken}; path=/; domain=.wawoong.shop; SameSite=None; Secure; httpOnly;`,
