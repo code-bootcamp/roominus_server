@@ -19,7 +19,9 @@
 | `TypeORM` | 0.2.45  |
 | `GCP`     |         |
 
-<구상도 이미지>
+### **구상도**
+
+![roominus](https://user-images.githubusercontent.com/48616771/181586325-b8531271-8bc7-4b34-8790-53713839207f.png)
 
 ### **API 문서**
 
