@@ -20,7 +20,7 @@ export class AuthService {
         private readonly cacheMananger: Cache,
     ) {}
 
-    setRefreshToken({ user, res }) {
+    setRefreshToken({ user, res, req }) {
         const refreshToken = this.jwtService.sign(
             {
                 email: user.email,
@@ -35,13 +35,12 @@ export class AuthService {
 
         // res.setHeader('Set-Cookie', `refreshToken=${refreshToken}; path=/;`);
 
-        // // 배포환경
+        // 배포환경
         const whiteList = ['http://localhost:3000', 'https://roominus.site'];
-        let origin = false;
-        if (whiteList.includes(res.headers.origin)) {
-            origin = true;
+        const origin = req.headers.origin;
+        if (whiteList.includes(origin)) {
+            res.setHeader('Access-Control-Allow-Origin', origin);
         }
-        res.setHeader('Access-Control-Allow-Origin', origin);
         res.setHeader('Access-Control-Allow-Credentials', 'true');
         res.setHeader('Access-Control-Allow-Methods', 'POST, GET');
         res.setHeader(

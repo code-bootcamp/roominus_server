@@ -43,7 +43,7 @@ export class AuthResolver {
         if (!isAuth) throw new UnprocessableEntityException('암호가 틀렸습니다.');
 
         // 4. refreshToken(=JWT)을 만들어서 프론트엔드(쿠키)에 보내주기
-        this.authService.setRefreshToken({ user, res: context.res });
+        this.authService.setRefreshToken({ user, res: context.res, req: context.req });
 
         // 5. 일치하는 유저가 있으면?! accessToken(=JWT)을 만들어서 브라우저에 전달하기
         return this.authService.getAccessToken({ user });
@@ -61,7 +61,7 @@ export class AuthResolver {
         if (!socialUser) throw new UnprocessableEntityException('이메일이 틀렸습니다.');
 
         // 3. refreshToken(=JWT)을 만들어서 프론트엔드(쿠키)에 보내주기
-        this.authService.setRefreshToken({ user: socialUser, res: context.res });
+        this.authService.setRefreshToken({ user: socialUser, res: context.res, req: context.req });
 
         // 4. 일치하는 유저가 있으면?! accessToken(=JWT)을 만들어서 브라우저에 전달하기
         return this.authService.getAccessToken({ user: socialUser });
