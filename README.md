@@ -30,3 +30,6 @@
 ### **ERD**
 
 -   [ERD](https://www.erdcloud.com/d/upCrFp6bx5ro3b8LQ)
+![roominus_ERD](https://user-images.githubusercontent.com/48616771/181717368-0d9636c9-d606-46ae-a4bd-1a286c50fa23.png)
+
+
