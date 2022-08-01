@@ -67,7 +67,7 @@ import { AppResolver } from './app.resolver';
         }),
         CacheModule.register<RedisClientOptions>({
             store: redisStore,
-            url: 'redis://172.19.209.3:6379',
+            url: 'redis://10.117.193.3:6379',
             // url: 'redis://localhost:6379',
             isGlobal: true,
         }),
