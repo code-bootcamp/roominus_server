@@ -1,4 +1,4 @@
-![header](https://capsule-render.vercel.app/api?type=waving&color=8:7C21E1, 89:4A00E0&height=300&section=header&text=roominus&fontSize=90&animation=fadeIn)
+![header](https://capsule-render.vercel.app/api?type=waving&color=auto&height=200&section=header&text=roominus&fontSize=90&animation=fadeIn)
 
 > 💡 방탈출 카페를 영화처럼 쉽게 예약하고 즐길 순 없을까? 예약의 과정을 최대한 간소화하고 방탈출 카페를 즐기는 것에 집중할 수 있도록 만들기 위해서 room:in us가 탄생했습니다.
 >
