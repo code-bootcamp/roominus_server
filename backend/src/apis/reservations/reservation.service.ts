@@ -125,12 +125,19 @@ export class ReservationService {
                 user: hasUser.id,
                 theme_menu: hasThemeMenu.id,
             });
+            console.log('newReservationInput');
+            console.log(newReservationInput);
+            console.log('-----------------');
+
             const newReservation = await queryRunner.manager.save(newReservationInput);
 
             const resultReservation = await queryRunner.manager.findOne(Reservation, {
                 where: { id: newReservation['id'] },
                 relations: ['cafe', 'user', 'theme_menu'],
             });
+            console.log('resultReservation');
+            console.log(resultReservation);
+            console.log('-----------------');
 
             //결제 등록
             const payment = this.paymentRepository.create({
@@ -141,7 +148,15 @@ export class ReservationService {
                 user: userId,
                 reservation: resultReservation.id,
             });
+            console.log('payment');
+            console.log(payment);
+            console.log('-----------------');
+
             const resultPayment = await queryRunner.manager.save(payment);
+
+            console.log('resultPayment');
+            console.log(resultPayment);
+            console.log('-----------------');
 
             // 사용자 포인트 추가
             const user = await queryRunner.manager.findOne(
@@ -149,6 +164,11 @@ export class ReservationService {
                 { id: userId },
                 { lock: { mode: 'pessimistic_write' } },
             );
+
+            console.log('user');
+            console.log(user);
+            console.log('-----------------');
+
             await queryRunner.manager.update(
                 User,
                 { id: user.id },

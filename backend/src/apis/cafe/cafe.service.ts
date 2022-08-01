@@ -91,19 +91,19 @@ export class CafeService {
     }
 
     async update({ cafeId, updateCafeInput }) {
-        const { users, mainImg, subImgs, ...cafe } = updateCafeInput;
+        const { mainImg, subImgs, ...cafe } = updateCafeInput;
 
         const hasCafe = await this.cafeRepository.findOne({ id: cafeId });
         if (!hasCafe) throw new UnprocessableEntityException('찾으시는 카페가 없습니다!!');
 
-        const result = await this.cafeRepository.update(
-            { id: cafeId }, //
-            {
-                ...cafe, //
-                mainImg: mainImg,
-                users,
-            },
-        );
+        const result = await this.cafeRepository.save({
+            id: cafeId,
+            ...cafe, //
+            mainImg: mainImg,
+        });
+        console.log('------------------');
+        console.log(result);
+        console.log('------------------');
 
         if (subImgs && subImgs.length) {
             for (let i = 0; i < subImgs.length; i++) {
@@ -114,7 +114,7 @@ export class CafeService {
             }
         }
 
-        if (result.affected) {
+        if (result) {
             return await this.cafeRepository.findOne({
                 where: { id: cafeId },
                 relations: ['users'],
