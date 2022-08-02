@@ -1,14 +1,6 @@
 
 # 🌙 room:in us
 
-
-
-<div align="center">
-![logo](https://user-images.githubusercontent.com/104378330/182293447-7affc26d-b91f-4042-8dea-9afb21573128.png)
-
-</div>
-
-
 #### 1. 서비스 소개
 
 > 
