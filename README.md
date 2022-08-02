@@ -1,9 +1,10 @@
+
 # 🌙 room:in us
 
 
 
 <div align="center">
-![로고](https://user-images.githubusercontent.com/104378330/182285673-8c51ac23-b74a-45db-a8c1-7074b93f4406.jpeg)
+![logo](https://user-images.githubusercontent.com/104378330/182293447-7affc26d-b91f-4042-8dea-9afb21573128.png)
 
 </div>
 
@@ -21,7 +22,24 @@
 > ⛄️ 방탈출 카페 운영자들에겐 좀 더 확실한 예약 서비스를 제공합니다.
 
 #### 2. 팀원 소개
+___
+![fronted](https://user-images.githubusercontent.com/104378330/182298195-37e90f9d-bd2c-4de0-a2c5-09bbf6d13644.png)
+![backed](https://user-images.githubusercontent.com/104378330/182298394-de643761-2ff3-4d69-9682-e8fa1628400d.png)
 
+
+##### Backend 오세웅
+- Works : `Git` `Cafe APIs` `Reservation APIs` `Theme APIs` `Payment API`
+- Contact :
+    - Email: osw991804@gmail.com
+    - Github: [https://github.com/osw0124](https://github.com/osw0124)
+    - Blog: [https://namu445.tistory.com/](https://namu445.tistory.com/)
+    
+##### Backend 정민준
+- Works :  `General/Social Login APIs` `General/Social SignUp APIs` `Verification APIs` `Community APIs` `Board APIs`**
+- Contact :
+    - Email: wcf941109@gmail.com
+    - Github: [https://github.com/wcf941109](https://github.com/wcf941109)
+    - Blog: [https://velog.io/@wcf941109](https://velog.io/@wcf941109)
 
 
 #### 3. 스택 소개
@@ -49,4 +67,4 @@
 -   [ERD](https://www.erdcloud.com/d/upCrFp6bx5ro3b8LQ)
 ![roominus_ERD](https://user-images.githubusercontent.com/48616771/181717368-0d9636c9-d606-46ae-a4bd-1a286c50fa23.png)
 
-#### 5. 서비스 시연
+
