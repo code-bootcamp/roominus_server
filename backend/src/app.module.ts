@@ -64,6 +64,7 @@ import { AppResolver } from './app.resolver';
             entities: [__dirname + '/apis/**/*.entity.*'],
             synchronize: true,
             logging: ['error'],
+            // logging: true,
         }),
         CacheModule.register<RedisClientOptions>({
             store: redisStore,

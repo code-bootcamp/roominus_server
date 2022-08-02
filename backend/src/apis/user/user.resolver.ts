@@ -38,6 +38,11 @@ export class UserResolver {
         return await this.userService.createSocialUser({ email, phone, name });
     }
 
+    @Query(() => [User])
+    async fetchUserAll(@Args('page', { defaultValue: 1 }) page: number) {
+        return await this.userService.findAll({ page });
+    }
+
     @Query(() => User)
     fetchUser(@Args('phone') phone: string) {
         return this.userService.findEmail({ phone });
