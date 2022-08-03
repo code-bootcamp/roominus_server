@@ -19,8 +19,13 @@ export class UserService {
         private readonly boardRepository: Repository<Board>,
     ) {}
 
-    async findAll() {
-        return await this.userRepository.find();
+    async findAll(page) {
+        return await this.userRepository.find({
+            relations: ['cafe', 'board', 'likeThemes', 'likeBoards'],
+            skip: (page - 1) * 10,
+            take: 10,
+            order: { createdAt: 'ASC' },
+        });
     }
 
     async findEmail({ phone }) {
