@@ -43,6 +43,11 @@ export class UserResolver {
         return this.userService.findEmail({ phone });
     }
 
+    @Query(() => [User])
+    async fetchUserAll(@Args('page', { defaultValue: 1 }) page: number) {
+        return await this.userService.findAll(page);
+    }
+
     // @UseGuards(GqlAuthAccessGuard)
     @Query(() => User)
     fetchFindPassword(
