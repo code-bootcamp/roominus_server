@@ -28,7 +28,7 @@ ___
     - Blog: [https://namu445.tistory.com/](https://namu445.tistory.com/)
     
 ##### Backend 정민준
-- Works :  `General/Social Login APIs` `General/Social SignUp APIs` `Verification APIs` `Community APIs` `Board APIs`
+- Works :  `General/Social Login APIs` `General/Social SignUp APIs` `Verification APIs` `Community APIs` 
 - Contact :
     - Email: wcf941109@gmail.com
     - Github: [https://github.com/wcf941109](https://github.com/wcf941109)
