@@ -69,7 +69,7 @@
 
 ## 5. 폴더 구조
 
-📦backend
+``` 📦backend
  ┣ 📂dist
  ┃ ┣ 📂apis
  ┃ ┃ ┣ 📂auth
@@ -534,3 +534,23 @@
  ┣ 📜tsconfig.json
  ┣ 📜yarn-error.log
  ┗ 📜yarn.lock
+ ```
+ 
+##  6. .env
+
+MYSQL_HOST
+MYSQL_USER
+MYSQL_PASS
+MYSQL_DATABASE
+
+ACCESS_TOKEN_KEY
+REFRESH_TOKEN_KEY
+
+COOLSMS_CLIENT_API_ID
+COOLSMS_CLIENT_API_SECRET
+COOLSMS_CLIENT_SENDER
+
+IMP_KEY
+IMP_API_KEY
+IMP_API_SECRET
+```
