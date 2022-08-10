@@ -65,3 +65,472 @@
 #### **ERD**
 -   [ERD](https://www.erdcloud.com/d/upCrFp6bx5ro3b8LQ)
 ![roominus_ERD](https://user-images.githubusercontent.com/48616771/181717368-0d9636c9-d606-46ae-a4bd-1a286c50fa23.png)
+
+
+## 5. 폴더 구조
+
+📦backend
+ ┣ 📂dist
+ ┃ ┣ 📂apis
+ ┃ ┃ ┣ 📂auth
+ ┃ ┃ ┃ ┣ 📜auth.controller.d.ts
+ ┃ ┃ ┃ ┣ 📜auth.controller.js
+ ┃ ┃ ┃ ┣ 📜auth.controller.js.map
+ ┃ ┃ ┃ ┣ 📜auth.module.d.ts
+ ┃ ┃ ┃ ┣ 📜auth.module.js
+ ┃ ┃ ┃ ┣ 📜auth.module.js.map
+ ┃ ┃ ┃ ┣ 📜auth.resolver.d.ts
+ ┃ ┃ ┃ ┣ 📜auth.resolver.js
+ ┃ ┃ ┃ ┣ 📜auth.resolver.js.map
+ ┃ ┃ ┃ ┣ 📜auth.service.d.ts
+ ┃ ┃ ┃ ┣ 📜auth.service.js
+ ┃ ┃ ┃ ┗ 📜auth.service.js.map
+ ┃ ┃ ┣ 📂board
+ ┃ ┃ ┃ ┣ 📂dto
+ ┃ ┃ ┃ ┃ ┣ 📜createBoard.input.d.ts
+ ┃ ┃ ┃ ┃ ┣ 📜createBoard.input.js
+ ┃ ┃ ┃ ┃ ┣ 📜createBoard.input.js.map
+ ┃ ┃ ┃ ┃ ┣ 📜updateBoard.input.d.ts
+ ┃ ┃ ┃ ┃ ┣ 📜updateBoard.input.js
+ ┃ ┃ ┃ ┃ ┗ 📜updateBoard.input.js.map
+ ┃ ┃ ┃ ┣ 📂entities
+ ┃ ┃ ┃ ┃ ┣ 📜board.entity.d.ts
+ ┃ ┃ ┃ ┃ ┣ 📜board.entity.js
+ ┃ ┃ ┃ ┃ ┣ 📜board.entity.js.map
+ ┃ ┃ ┃ ┃ ┣ 📜boardLike.entity.d.ts
+ ┃ ┃ ┃ ┃ ┣ 📜boardLike.entity.js
+ ┃ ┃ ┃ ┃ ┗ 📜boardLike.entity.js.map
+ ┃ ┃ ┃ ┣ 📜board.module.d.ts
+ ┃ ┃ ┃ ┣ 📜board.module.js
+ ┃ ┃ ┃ ┣ 📜board.module.js.map
+ ┃ ┃ ┃ ┣ 📜board.resolver.d.ts
+ ┃ ┃ ┃ ┣ 📜board.resolver.js
+ ┃ ┃ ┃ ┣ 📜board.resolver.js.map
+ ┃ ┃ ┃ ┣ 📜board.service.d.ts
+ ┃ ┃ ┃ ┣ 📜board.service.js
+ ┃ ┃ ┃ ┗ 📜board.service.js.map
+ ┃ ┃ ┣ 📂boardTag
+ ┃ ┃ ┃ ┗ 📂entities
+ ┃ ┃ ┃ ┃ ┣ 📜boardTag.entity.d.ts
+ ┃ ┃ ┃ ┃ ┣ 📜boardTag.entity.js
+ ┃ ┃ ┃ ┃ ┗ 📜boardTag.entity.js.map
+ ┃ ┃ ┣ 📂boardsecondreview
+ ┃ ┃ ┃ ┣ 📂dto
+ ┃ ┃ ┃ ┃ ┣ 📜createBoardsecondreview.input.d.ts
+ ┃ ┃ ┃ ┃ ┣ 📜createBoardsecondreview.input.js
+ ┃ ┃ ┃ ┃ ┣ 📜createBoardsecondreview.input.js.map
+ ┃ ┃ ┃ ┃ ┣ 📜updateBoardsecondreview.input.d.ts
+ ┃ ┃ ┃ ┃ ┣ 📜updateBoardsecondreview.input.js
+ ┃ ┃ ┃ ┃ ┗ 📜updateBoardsecondreview.input.js.map
+ ┃ ┃ ┃ ┣ 📂entities
+ ┃ ┃ ┃ ┃ ┣ 📜boardsecondreview.entity.d.ts
+ ┃ ┃ ┃ ┃ ┣ 📜boardsecondreview.entity.js
+ ┃ ┃ ┃ ┃ ┗ 📜boardsecondreview.entity.js.map
+ ┃ ┃ ┃ ┣ 📜boardsecondreview.module.d.ts
+ ┃ ┃ ┃ ┣ 📜boardsecondreview.module.js
+ ┃ ┃ ┃ ┣ 📜boardsecondreview.module.js.map
+ ┃ ┃ ┃ ┣ 📜boardsecondreview.resolver.d.ts
+ ┃ ┃ ┃ ┣ 📜boardsecondreview.resolver.js
+ ┃ ┃ ┃ ┣ 📜boardsecondreview.resolver.js.map
+ ┃ ┃ ┃ ┣ 📜boardsecondreview.service.d.ts
+ ┃ ┃ ┃ ┣ 📜boardsecondreview.service.js
+ ┃ ┃ ┃ ┗ 📜boardsecondreview.service.js.map
+ ┃ ┃ ┣ 📂boardsreview
+ ┃ ┃ ┃ ┣ 📂dto
+ ┃ ┃ ┃ ┃ ┣ 📜createBoardreview.input.d.ts
+ ┃ ┃ ┃ ┃ ┣ 📜createBoardreview.input.js
+ ┃ ┃ ┃ ┃ ┣ 📜createBoardreview.input.js.map
+ ┃ ┃ ┃ ┃ ┣ 📜updateBoardreview.input.d.ts
+ ┃ ┃ ┃ ┃ ┣ 📜updateBoardreview.input.js
+ ┃ ┃ ┃ ┃ ┗ 📜updateBoardreview.input.js.map
+ ┃ ┃ ┃ ┣ 📂entities
+ ┃ ┃ ┃ ┃ ┣ 📜boardreview.entity.d.ts
+ ┃ ┃ ┃ ┃ ┣ 📜boardreview.entity.js
+ ┃ ┃ ┃ ┃ ┗ 📜boardreview.entity.js.map
+ ┃ ┃ ┃ ┣ 📜boardreview.module.d.ts
+ ┃ ┃ ┃ ┣ 📜boardreview.module.js
+ ┃ ┃ ┃ ┣ 📜boardreview.module.js.map
+ ┃ ┃ ┃ ┣ 📜boardreview.resolver.d.ts
+ ┃ ┃ ┃ ┣ 📜boardreview.resolver.js
+ ┃ ┃ ┃ ┣ 📜boardreview.resolver.js.map
+ ┃ ┃ ┃ ┣ 📜boardreview.service.d.ts
+ ┃ ┃ ┃ ┣ 📜boardreview.service.js
+ ┃ ┃ ┃ ┗ 📜boardreview.service.js.map
+ ┃ ┃ ┣ 📂cafe
+ ┃ ┃ ┃ ┣ 📂dto
+ ┃ ┃ ┃ ┃ ┣ 📜createCafe.input.d.ts
+ ┃ ┃ ┃ ┃ ┣ 📜createCafe.input.js
+ ┃ ┃ ┃ ┃ ┣ 📜createCafe.input.js.map
+ ┃ ┃ ┃ ┃ ┣ 📜updateCafe.input.d.ts
+ ┃ ┃ ┃ ┃ ┣ 📜updateCafe.input.js
+ ┃ ┃ ┃ ┃ ┗ 📜updateCafe.input.js.map
+ ┃ ┃ ┃ ┣ 📂entities
+ ┃ ┃ ┃ ┃ ┣ 📜cafe.entity.d.ts
+ ┃ ┃ ┃ ┃ ┣ 📜cafe.entity.js
+ ┃ ┃ ┃ ┃ ┣ 📜cafe.entity.js.map
+ ┃ ┃ ┃ ┃ ┣ 📜cafeImg.entity.d.ts
+ ┃ ┃ ┃ ┃ ┣ 📜cafeImg.entity.js
+ ┃ ┃ ┃ ┃ ┗ 📜cafeImg.entity.js.map
+ ┃ ┃ ┃ ┣ 📜cafe.module.d.ts
+ ┃ ┃ ┃ ┣ 📜cafe.module.js
+ ┃ ┃ ┃ ┣ 📜cafe.module.js.map
+ ┃ ┃ ┃ ┣ 📜cafe.resolver.d.ts
+ ┃ ┃ ┃ ┣ 📜cafe.resolver.js
+ ┃ ┃ ┃ ┣ 📜cafe.resolver.js.map
+ ┃ ┃ ┃ ┣ 📜cafe.service.d.ts
+ ┃ ┃ ┃ ┣ 📜cafe.service.js
+ ┃ ┃ ┃ ┗ 📜cafe.service.js.map
+ ┃ ┃ ┣ 📂genre
+ ┃ ┃ ┃ ┣ 📂entities
+ ┃ ┃ ┃ ┃ ┣ 📜genre.entity.d.ts
+ ┃ ┃ ┃ ┃ ┣ 📜genre.entity.js
+ ┃ ┃ ┃ ┃ ┗ 📜genre.entity.js.map
+ ┃ ┃ ┃ ┣ 📜genre.module.d.ts
+ ┃ ┃ ┃ ┣ 📜genre.module.js
+ ┃ ┃ ┃ ┣ 📜genre.module.js.map
+ ┃ ┃ ┃ ┣ 📜genre.resolver.d.ts
+ ┃ ┃ ┃ ┣ 📜genre.resolver.js
+ ┃ ┃ ┃ ┣ 📜genre.resolver.js.map
+ ┃ ┃ ┃ ┣ 📜genre.service.d.ts
+ ┃ ┃ ┃ ┣ 📜genre.service.js
+ ┃ ┃ ┃ ┗ 📜genre.service.js.map
+ ┃ ┃ ┣ 📂iamport
+ ┃ ┃ ┃ ┣ 📜iamport.module.d.ts
+ ┃ ┃ ┃ ┣ 📜iamport.module.js
+ ┃ ┃ ┃ ┣ 📜iamport.module.js.map
+ ┃ ┃ ┃ ┣ 📜iamport.service.d.ts
+ ┃ ┃ ┃ ┣ 📜iamport.service.js
+ ┃ ┃ ┃ ┗ 📜iamport.service.js.map
+ ┃ ┃ ┣ 📂payment
+ ┃ ┃ ┃ ┣ 📂dto
+ ┃ ┃ ┃ ┃ ┣ 📜createPayment.input.d.ts
+ ┃ ┃ ┃ ┃ ┣ 📜createPayment.input.js
+ ┃ ┃ ┃ ┃ ┗ 📜createPayment.input.js.map
+ ┃ ┃ ┃ ┣ 📂entities
+ ┃ ┃ ┃ ┃ ┣ 📜payment.entity.d.ts
+ ┃ ┃ ┃ ┃ ┣ 📜payment.entity.js
+ ┃ ┃ ┃ ┃ ┗ 📜payment.entity.js.map
+ ┃ ┃ ┃ ┣ 📜payment.module.d.ts
+ ┃ ┃ ┃ ┣ 📜payment.module.js
+ ┃ ┃ ┃ ┣ 📜payment.module.js.map
+ ┃ ┃ ┃ ┣ 📜payment.resolver.d.ts
+ ┃ ┃ ┃ ┣ 📜payment.resolver.js
+ ┃ ┃ ┃ ┣ 📜payment.resolver.js.map
+ ┃ ┃ ┃ ┣ 📜payment.service.d.ts
+ ┃ ┃ ┃ ┣ 📜payment.service.js
+ ┃ ┃ ┃ ┗ 📜payment.service.js.map
+ ┃ ┃ ┣ 📂phone
+ ┃ ┃ ┃ ┣ 📜phone.module.d.ts
+ ┃ ┃ ┃ ┣ 📜phone.module.js
+ ┃ ┃ ┃ ┣ 📜phone.module.js.map
+ ┃ ┃ ┃ ┣ 📜phone.resolver.d.ts
+ ┃ ┃ ┃ ┣ 📜phone.resolver.js
+ ┃ ┃ ┃ ┣ 📜phone.resolver.js.map
+ ┃ ┃ ┃ ┣ 📜phone.service.d.ts
+ ┃ ┃ ┃ ┣ 📜phone.service.js
+ ┃ ┃ ┃ ┗ 📜phone.service.js.map
+ ┃ ┃ ┣ 📂reservations
+ ┃ ┃ ┃ ┣ 📂dto
+ ┃ ┃ ┃ ┃ ┣ 📜createReservation.input.d.ts
+ ┃ ┃ ┃ ┃ ┣ 📜createReservation.input.js
+ ┃ ┃ ┃ ┃ ┗ 📜createReservation.input.js.map
+ ┃ ┃ ┃ ┣ 📂entities
+ ┃ ┃ ┃ ┃ ┣ 📜reservation.entity.d.ts
+ ┃ ┃ ┃ ┃ ┣ 📜reservation.entity.js
+ ┃ ┃ ┃ ┃ ┗ 📜reservation.entity.js.map
+ ┃ ┃ ┃ ┣ 📜reservation.module.d.ts
+ ┃ ┃ ┃ ┣ 📜reservation.module.js
+ ┃ ┃ ┃ ┣ 📜reservation.module.js.map
+ ┃ ┃ ┃ ┣ 📜reservation.resolver.d.ts
+ ┃ ┃ ┃ ┣ 📜reservation.resolver.js
+ ┃ ┃ ┃ ┣ 📜reservation.resolver.js.map
+ ┃ ┃ ┃ ┣ 📜reservation.service.d.ts
+ ┃ ┃ ┃ ┣ 📜reservation.service.js
+ ┃ ┃ ┃ ┗ 📜reservation.service.js.map
+ ┃ ┃ ┣ 📂socialUser
+ ┃ ┃ ┃ ┣ 📂dto
+ ┃ ┃ ┃ ┃ ┣ 📜createsocialUser.input.d.ts
+ ┃ ┃ ┃ ┃ ┣ 📜createsocialUser.input.js
+ ┃ ┃ ┃ ┃ ┣ 📜createsocialUser.input.js.map
+ ┃ ┃ ┃ ┃ ┣ 📜upadtesocialUser.input.d.ts
+ ┃ ┃ ┃ ┃ ┣ 📜upadtesocialUser.input.js
+ ┃ ┃ ┃ ┃ ┗ 📜upadtesocialUser.input.js.map
+ ┃ ┃ ┃ ┣ 📂entities
+ ┃ ┃ ┃ ┃ ┣ 📜socialUser.entity.d.ts
+ ┃ ┃ ┃ ┃ ┣ 📜socialUser.entity.js
+ ┃ ┃ ┃ ┃ ┗ 📜socialUser.entity.js.map
+ ┃ ┃ ┃ ┣ 📜socialUser.module.d.ts
+ ┃ ┃ ┃ ┣ 📜socialUser.module.js
+ ┃ ┃ ┃ ┣ 📜socialUser.module.js.map
+ ┃ ┃ ┃ ┣ 📜socialUser.resolver.d.ts
+ ┃ ┃ ┃ ┣ 📜socialUser.resolver.js
+ ┃ ┃ ┃ ┣ 📜socialUser.resolver.js.map
+ ┃ ┃ ┃ ┣ 📜socialUser.service.d.ts
+ ┃ ┃ ┃ ┣ 📜socialUser.service.js
+ ┃ ┃ ┃ ┗ 📜socialUser.service.js.map
+ ┃ ┃ ┣ 📂theme
+ ┃ ┃ ┃ ┣ 📂dto
+ ┃ ┃ ┃ ┃ ┣ 📜createTheme.input.d.ts
+ ┃ ┃ ┃ ┃ ┣ 📜createTheme.input.js
+ ┃ ┃ ┃ ┃ ┣ 📜createTheme.input.js.map
+ ┃ ┃ ┃ ┃ ┣ 📜updateTheme.input.d.ts
+ ┃ ┃ ┃ ┃ ┣ 📜updateTheme.input.js
+ ┃ ┃ ┃ ┃ ┗ 📜updateTheme.input.js.map
+ ┃ ┃ ┃ ┣ 📂entities
+ ┃ ┃ ┃ ┃ ┣ 📜theme.entity.d.ts
+ ┃ ┃ ┃ ┃ ┣ 📜theme.entity.js
+ ┃ ┃ ┃ ┃ ┣ 📜theme.entity.js.map
+ ┃ ┃ ┃ ┃ ┣ 📜themeImg.entity.d.ts
+ ┃ ┃ ┃ ┃ ┣ 📜themeImg.entity.js
+ ┃ ┃ ┃ ┃ ┗ 📜themeImg.entity.js.map
+ ┃ ┃ ┃ ┣ 📜theme.module.d.ts
+ ┃ ┃ ┃ ┣ 📜theme.module.js
+ ┃ ┃ ┃ ┣ 📜theme.module.js.map
+ ┃ ┃ ┃ ┣ 📜theme.resolver.d.ts
+ ┃ ┃ ┃ ┣ 📜theme.resolver.js
+ ┃ ┃ ┃ ┣ 📜theme.resolver.js.map
+ ┃ ┃ ┃ ┣ 📜theme.service.d.ts
+ ┃ ┃ ┃ ┣ 📜theme.service.js
+ ┃ ┃ ┃ ┗ 📜theme.service.js.map
+ ┃ ┃ ┣ 📂themeMenu
+ ┃ ┃ ┃ ┣ 📂dto
+ ┃ ┃ ┃ ┃ ┣ 📜createThemeMenu.Input.d.ts
+ ┃ ┃ ┃ ┃ ┣ 📜createThemeMenu.Input.js
+ ┃ ┃ ┃ ┃ ┗ 📜createThemeMenu.Input.js.map
+ ┃ ┃ ┃ ┣ 📂entities
+ ┃ ┃ ┃ ┃ ┣ 📜themeMenu.entity.d.ts
+ ┃ ┃ ┃ ┃ ┣ 📜themeMenu.entity.js
+ ┃ ┃ ┃ ┃ ┗ 📜themeMenu.entity.js.map
+ ┃ ┃ ┃ ┣ 📜themeMenu.module.d.ts
+ ┃ ┃ ┃ ┣ 📜themeMenu.module.js
+ ┃ ┃ ┃ ┣ 📜themeMenu.module.js.map
+ ┃ ┃ ┃ ┣ 📜themeMenu.resolver.d.ts
+ ┃ ┃ ┃ ┣ 📜themeMenu.resolver.js
+ ┃ ┃ ┃ ┣ 📜themeMenu.resolver.js.map
+ ┃ ┃ ┃ ┣ 📜themeMenu.service.d.ts
+ ┃ ┃ ┃ ┣ 📜themeMenu.service.js
+ ┃ ┃ ┃ ┗ 📜themeMenu.service.js.map
+ ┃ ┃ ┣ 📂themeReview
+ ┃ ┃ ┃ ┣ 📂dto
+ ┃ ┃ ┃ ┃ ┣ 📜createThemeReview.input.d.ts
+ ┃ ┃ ┃ ┃ ┣ 📜createThemeReview.input.js
+ ┃ ┃ ┃ ┃ ┣ 📜createThemeReview.input.js.map
+ ┃ ┃ ┃ ┃ ┣ 📜updateThemeReview.input.d.ts
+ ┃ ┃ ┃ ┃ ┣ 📜updateThemeReview.input.js
+ ┃ ┃ ┃ ┃ ┗ 📜updateThemeReview.input.js.map
+ ┃ ┃ ┃ ┣ 📂entities
+ ┃ ┃ ┃ ┃ ┣ 📜themeReview.entity.d.ts
+ ┃ ┃ ┃ ┃ ┣ 📜themeReview.entity.js
+ ┃ ┃ ┃ ┃ ┗ 📜themeReview.entity.js.map
+ ┃ ┃ ┃ ┣ 📜themeReview.module.d.ts
+ ┃ ┃ ┃ ┣ 📜themeReview.module.js
+ ┃ ┃ ┃ ┣ 📜themeReview.module.js.map
+ ┃ ┃ ┃ ┣ 📜themeReview.resolver.d.ts
+ ┃ ┃ ┃ ┣ 📜themeReview.resolver.js
+ ┃ ┃ ┃ ┣ 📜themeReview.resolver.js.map
+ ┃ ┃ ┃ ┣ 📜themewReview.service.d.ts
+ ┃ ┃ ┃ ┣ 📜themewReview.service.js
+ ┃ ┃ ┃ ┗ 📜themewReview.service.js.map
+ ┃ ┃ ┗ 📂user
+ ┃ ┃ ┃ ┣ 📂dto
+ ┃ ┃ ┃ ┃ ┣ 📜createUser.input.d.ts
+ ┃ ┃ ┃ ┃ ┣ 📜createUser.input.js
+ ┃ ┃ ┃ ┃ ┣ 📜createUser.input.js.map
+ ┃ ┃ ┃ ┃ ┣ 📜updateUser.input.d.ts
+ ┃ ┃ ┃ ┃ ┣ 📜updateUser.input.js
+ ┃ ┃ ┃ ┃ ┗ 📜updateUser.input.js.map
+ ┃ ┃ ┃ ┣ 📂entities
+ ┃ ┃ ┃ ┃ ┣ 📜like.entity.d.ts
+ ┃ ┃ ┃ ┃ ┣ 📜like.entity.js
+ ┃ ┃ ┃ ┃ ┣ 📜like.entity.js.map
+ ┃ ┃ ┃ ┃ ┣ 📜user.entity.d.ts
+ ┃ ┃ ┃ ┃ ┣ 📜user.entity.js
+ ┃ ┃ ┃ ┃ ┗ 📜user.entity.js.map
+ ┃ ┃ ┃ ┣ 📜user.module.d.ts
+ ┃ ┃ ┃ ┣ 📜user.module.js
+ ┃ ┃ ┃ ┣ 📜user.module.js.map
+ ┃ ┃ ┃ ┣ 📜user.resolver.d.ts
+ ┃ ┃ ┃ ┣ 📜user.resolver.js
+ ┃ ┃ ┃ ┣ 📜user.resolver.js.map
+ ┃ ┃ ┃ ┣ 📜user.service.d.ts
+ ┃ ┃ ┃ ┣ 📜user.service.js
+ ┃ ┃ ┃ ┗ 📜user.service.js.map
+ ┃ ┣ 📂commons
+ ┃ ┃ ┗ 📂auth
+ ┃ ┃ ┃ ┣ 📜gql-auth.guard.d.ts
+ ┃ ┃ ┃ ┣ 📜gql-auth.guard.js
+ ┃ ┃ ┃ ┣ 📜gql-auth.guard.js.map
+ ┃ ┃ ┃ ┣ 📜gql-user.param.d.ts
+ ┃ ┃ ┃ ┣ 📜gql-user.param.js
+ ┃ ┃ ┃ ┣ 📜gql-user.param.js.map
+ ┃ ┃ ┃ ┣ 📜jwt-access.strategy.d.ts
+ ┃ ┃ ┃ ┣ 📜jwt-access.strategy.js
+ ┃ ┃ ┃ ┣ 📜jwt-access.strategy.js.map
+ ┃ ┃ ┃ ┣ 📜jwt-refresh.strategy.d.ts
+ ┃ ┃ ┃ ┣ 📜jwt-refresh.strategy.js
+ ┃ ┃ ┃ ┗ 📜jwt-refresh.strategy.js.map
+ ┃ ┣ 📜app.controller.d.ts
+ ┃ ┣ 📜app.controller.js
+ ┃ ┣ 📜app.controller.js.map
+ ┃ ┣ 📜app.module.d.ts
+ ┃ ┣ 📜app.module.js
+ ┃ ┣ 📜app.module.js.map
+ ┃ ┣ 📜app.resolver.d.ts
+ ┃ ┣ 📜app.resolver.js
+ ┃ ┣ 📜app.resolver.js.map
+ ┃ ┣ 📜main.d.ts
+ ┃ ┣ 📜main.js
+ ┃ ┣ 📜main.js.map
+ ┃ ┗ 📜tsconfig.build.tsbuildinfo
+ ┣ 📂elk
+ ┃ ┗ 📂logstash
+ ┃ ┃ ┣ 📜logstash.conf
+ ┃ ┃ ┗ 📜mysql-connector-java-8.0.28.jar
+ ┣ 📂src
+ ┃ ┣ 📂apis
+ ┃ ┃ ┣ 📂auth
+ ┃ ┃ ┃ ┣ 📜auth.controller.ts
+ ┃ ┃ ┃ ┣ 📜auth.module.ts
+ ┃ ┃ ┃ ┣ 📜auth.resolver.ts
+ ┃ ┃ ┃ ┗ 📜auth.service.ts
+ ┃ ┃ ┣ 📂board
+ ┃ ┃ ┃ ┣ 📂dto
+ ┃ ┃ ┃ ┃ ┣ 📜createBoard.input.ts
+ ┃ ┃ ┃ ┃ ┗ 📜updateBoard.input.ts
+ ┃ ┃ ┃ ┣ 📂entities
+ ┃ ┃ ┃ ┃ ┣ 📜board.entity.ts
+ ┃ ┃ ┃ ┃ ┗ 📜boardLike.entity.ts
+ ┃ ┃ ┃ ┣ 📜board.module.ts
+ ┃ ┃ ┃ ┣ 📜board.resolver.ts
+ ┃ ┃ ┃ ┗ 📜board.service.ts
+ ┃ ┃ ┣ 📂boardTag
+ ┃ ┃ ┃ ┗ 📂entities
+ ┃ ┃ ┃ ┃ ┗ 📜boardTag.entity.ts
+ ┃ ┃ ┣ 📂boardsecondreview
+ ┃ ┃ ┃ ┣ 📂dto
+ ┃ ┃ ┃ ┃ ┣ 📜createBoardsecondreview.input.ts
+ ┃ ┃ ┃ ┃ ┗ 📜updateBoardsecondreview.input.ts
+ ┃ ┃ ┃ ┣ 📂entities
+ ┃ ┃ ┃ ┃ ┗ 📜boardsecondreview.entity.ts
+ ┃ ┃ ┃ ┣ 📜boardsecondreview.module.ts
+ ┃ ┃ ┃ ┣ 📜boardsecondreview.resolver.ts
+ ┃ ┃ ┃ ┗ 📜boardsecondreview.service.ts
+ ┃ ┃ ┣ 📂boardsreview
+ ┃ ┃ ┃ ┣ 📂dto
+ ┃ ┃ ┃ ┃ ┣ 📜createBoardreview.input.ts
+ ┃ ┃ ┃ ┃ ┗ 📜updateBoardreview.input.ts
+ ┃ ┃ ┃ ┣ 📂entities
+ ┃ ┃ ┃ ┃ ┗ 📜boardreview.entity.ts
+ ┃ ┃ ┃ ┣ 📜boardreview.module.ts
+ ┃ ┃ ┃ ┣ 📜boardreview.resolver.ts
+ ┃ ┃ ┃ ┗ 📜boardreview.service.ts
+ ┃ ┃ ┣ 📂cafe
+ ┃ ┃ ┃ ┣ 📂dto
+ ┃ ┃ ┃ ┃ ┣ 📜createCafe.input.ts
+ ┃ ┃ ┃ ┃ ┗ 📜updateCafe.input.ts
+ ┃ ┃ ┃ ┣ 📂entities
+ ┃ ┃ ┃ ┃ ┣ 📜cafe.entity.ts
+ ┃ ┃ ┃ ┃ ┗ 📜cafeImg.entity.ts
+ ┃ ┃ ┃ ┣ 📜cafe.module.ts
+ ┃ ┃ ┃ ┣ 📜cafe.resolver.ts
+ ┃ ┃ ┃ ┗ 📜cafe.service.ts
+ ┃ ┃ ┣ 📂genre
+ ┃ ┃ ┃ ┣ 📂entities
+ ┃ ┃ ┃ ┃ ┗ 📜genre.entity.ts
+ ┃ ┃ ┃ ┣ 📜genre.module.ts
+ ┃ ┃ ┃ ┣ 📜genre.resolver.ts
+ ┃ ┃ ┃ ┗ 📜genre.service.ts
+ ┃ ┃ ┣ 📂iamport
+ ┃ ┃ ┃ ┣ 📜iamport.module.ts
+ ┃ ┃ ┃ ┗ 📜iamport.service.ts
+ ┃ ┃ ┣ 📂payment
+ ┃ ┃ ┃ ┣ 📂dto
+ ┃ ┃ ┃ ┃ ┗ 📜createPayment.input.ts
+ ┃ ┃ ┃ ┣ 📂entities
+ ┃ ┃ ┃ ┃ ┗ 📜payment.entity.ts
+ ┃ ┃ ┃ ┣ 📜payment.module.ts
+ ┃ ┃ ┃ ┣ 📜payment.resolver.ts
+ ┃ ┃ ┃ ┗ 📜payment.service.ts
+ ┃ ┃ ┣ 📂phone
+ ┃ ┃ ┃ ┣ 📜phone.module.ts
+ ┃ ┃ ┃ ┣ 📜phone.resolver.ts
+ ┃ ┃ ┃ ┗ 📜phone.service.ts
+ ┃ ┃ ┣ 📂reservations
+ ┃ ┃ ┃ ┣ 📂dto
+ ┃ ┃ ┃ ┃ ┗ 📜createReservation.input.ts
+ ┃ ┃ ┃ ┣ 📂entities
+ ┃ ┃ ┃ ┃ ┗ 📜reservation.entity.ts
+ ┃ ┃ ┃ ┣ 📜reservation.module.ts
+ ┃ ┃ ┃ ┣ 📜reservation.resolver.ts
+ ┃ ┃ ┃ ┗ 📜reservation.service.ts
+ ┃ ┃ ┣ 📂theme
+ ┃ ┃ ┃ ┣ 📂dto
+ ┃ ┃ ┃ ┃ ┣ 📜createTheme.input.ts
+ ┃ ┃ ┃ ┃ ┗ 📜updateTheme.input.ts
+ ┃ ┃ ┃ ┣ 📂entities
+ ┃ ┃ ┃ ┃ ┣ 📜theme.entity.ts
+ ┃ ┃ ┃ ┃ ┗ 📜themeImg.entity.ts
+ ┃ ┃ ┃ ┣ 📜theme.module.ts
+ ┃ ┃ ┃ ┣ 📜theme.resolver.ts
+ ┃ ┃ ┃ ┗ 📜theme.service.ts
+ ┃ ┃ ┣ 📂themeMenu
+ ┃ ┃ ┃ ┣ 📂dto
+ ┃ ┃ ┃ ┃ ┗ 📜createThemeMenu.Input.ts
+ ┃ ┃ ┃ ┣ 📂entities
+ ┃ ┃ ┃ ┃ ┗ 📜themeMenu.entity.ts
+ ┃ ┃ ┃ ┣ 📜themeMenu.module.ts
+ ┃ ┃ ┃ ┣ 📜themeMenu.resolver.ts
+ ┃ ┃ ┃ ┗ 📜themeMenu.service.ts
+ ┃ ┃ ┣ 📂themeReview
+ ┃ ┃ ┃ ┣ 📂dto
+ ┃ ┃ ┃ ┃ ┣ 📜createThemeReview.input.ts
+ ┃ ┃ ┃ ┃ ┗ 📜updateThemeReview.input.ts
+ ┃ ┃ ┃ ┣ 📂entities
+ ┃ ┃ ┃ ┃ ┗ 📜themeReview.entity.ts
+ ┃ ┃ ┃ ┣ 📜themeReview.module.ts
+ ┃ ┃ ┃ ┣ 📜themeReview.resolver.ts
+ ┃ ┃ ┃ ┗ 📜themewReview.service.ts
+ ┃ ┃ ┣ 📂user
+ ┃ ┃ ┃ ┣ 📂dto
+ ┃ ┃ ┃ ┃ ┣ 📜createUser.input.ts
+ ┃ ┃ ┃ ┃ ┗ 📜updateUser.input.ts
+ ┃ ┃ ┃ ┣ 📂entities
+ ┃ ┃ ┃ ┃ ┣ 📜like.entity.ts
+ ┃ ┃ ┃ ┃ ┗ 📜user.entity.ts
+ ┃ ┃ ┃ ┣ 📜user.module.ts
+ ┃ ┃ ┃ ┣ 📜user.resolver.ts
+ ┃ ┃ ┃ ┗ 📜user.service.ts
+ ┃ ┃ ┗ 📜.DS_Store
+ ┃ ┣ 📂commons
+ ┃ ┃ ┣ 📂auth
+ ┃ ┃ ┃ ┣ 📜gql-auth.guard.ts
+ ┃ ┃ ┃ ┣ 📜gql-user.param.ts
+ ┃ ┃ ┃ ┣ 📜jwt-access.strategy.ts
+ ┃ ┃ ┃ ┗ 📜jwt-refresh.strategy.ts
+ ┃ ┃ ┗ 📂graphql
+ ┃ ┃ ┃ ┗ 📜schema.gql
+ ┃ ┣ 📜.DS_Store
+ ┃ ┣ 📜app.controller.ts
+ ┃ ┣ 📜app.module.ts
+ ┃ ┣ 📜app.resolver.ts
+ ┃ ┗ 📜main.ts
+ ┣ 📂test
+ ┃ ┣ 📜app.e2e-spec.ts
+ ┃ ┗ 📜jest-e2e.json
+ ┣ 📜.DS_Store
+ ┣ 📜.dockerignore
+ ┣ 📜.env
+ ┣ 📜.eslintrc.js
+ ┣ 📜.gitignore
+ ┣ 📜.prettierrc
+ ┣ 📜Dockerfile
+ ┣ 📜Dockerfile.logstash
+ ┣ 📜README.md
+ ┣ 📜docker-compose.yaml
+ ┣ 📜nest-cli.json
+ ┣ 📜package-lock.json
+ ┣ 📜package.json
+ ┣ 📜tsconfig.build.json
+ ┣ 📜tsconfig.json
+ ┣ 📜yarn-error.log
+ ┗ 📜yarn.lock
