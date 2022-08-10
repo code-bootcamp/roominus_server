@@ -538,6 +538,7 @@
  
 ##  6. .env
 
+```
 MYSQL_HOST
 MYSQL_USER
 MYSQL_PASS
